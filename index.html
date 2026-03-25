@@ -3,112 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CFC São Gotardo | Início</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Autoescola São Gotardo | Referência em Habilitação</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header style="padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--bg-accent);">
-        <div>
-            <h2 style="font-size: 1.2rem;">Olá, <span id="displayNome" style="color: var(--primary);">Aluno</span>!</h2>
-            <p style="font-size: 0.8rem; color: var(--text-dim);">Bem-vindo à sua plataforma.</p>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo Autoescola" class="nav-logo">
+            <span class="gradient-text" style="font-weight: 800;">SÃO GOTARDO</span>
         </div>
-        <nav style="display: flex; gap: 20px; align-items: center;">
-            <a href="cursos.html" style="color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.9rem;">
-                <i class="fas fa-graduation-cap"></i> Meus Cursos
-            </a>
-            <button onclick="logout()" style="background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid var(--danger); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600;">
-                Sair
-            </button>
-        </nav>
+        <ul class="nav-links">
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#simulador">Orçamentos</a></li>
+            <li><a href="login.html" class="btn-send" style="padding: 10px 25px; width: auto;">Área do Aluno</a></li>
+        </ul>
+    </nav>
+
+    <header style="padding: 160px 5% 100px; text-align: center; background: radial-gradient(circle at center, var(--bg-accent), var(--bg));">
+        <span class="badge-aluno" style="margin-bottom: 20px;">AUTOESCOLA SÃO GOTARDO</span>
+        <h1 class="gradient-text" style="font-size: 3.5rem; max-width: 900px; margin: 0 auto 25px; line-height: 1.1;">Sua CNH com quem entende de aprovação.</h1>
+        <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px;">Qualidade no atendimento, instrutores dedicados e a melhor infraestrutura da região.</p>
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+            <a href="#simulador" class="btn-send" style="width: auto; padding: 15px 40px;">Simular Valores</a>
+            <a href="https://wa.me/5534998047604" target="_blank" class="btn-send" style="width: auto; padding: 15px 40px; background: transparent; border: 1px solid var(--primary);">Falar com Consultor</a>
+        </div>
     </header>
 
-    <main style="padding: 40px 5%; max-width: 1200px; margin: 0 auto;">
-        
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;">
-            
-            <section class="auth-card" style="max-width: 100%;">
-                <h3 style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-calculator" style="color: var(--primary);"></i> 
-                    Simulador de Valores
-                </h3>
-
-                <div class="form-group">
-                    <label>Tipo de Processo</label>
-                    <select id="tipoProcesso" style="width: 100%; padding: 12px; background: var(--bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; cursor: pointer;">
-                        <option value="primeira">🚀 Primeira Habilitação</option>
-                        <option value="adicao">➕ Adição de Categoria</option>
-                        <option value="mudanca">🔄 Mudança de Categoria (D)</option>
-                    </select>
-                </div>
-
-                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-dim);">Escolha a Categoria</label>
-                <div class="radio-group">
-                    <label>
-                        <input type="radio" name="cat" value="A" checked>
-                        <div class="radio-card">
-                            <i class="fas fa-motorcycle"></i>
-                            <span>Cat. A</span>
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" name="cat" value="B">
-                        <div class="radio-card">
-                            <i class="fas fa-car"></i>
-                            <span>Cat. B</span>
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" name="cat" value="AB">
-                        <div class="radio-card">
-                            <i class="fas fa-truck-pickup"></i>
-                            <span>Cat. AB</span>
-                        </div>
-                    </label>
-                    <label>
-                        <input type="radio" name="cat" value="D">
-                        <div class="radio-card">
-                            <i class="fas fa-bus"></i>
-                            <span>Cat. D</span>
-                        </div>
-                    </label>
-                </div>
-
-                <div style="margin-top: 30px; padding: 20px; background: var(--bg); border-radius: 15px; text-align: center; border: 1px dashed var(--primary);">
-                    <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 5px;">Investimento Total</p>
-                    <h1 id="valorTotal" style="color: var(--primary); font-size: 3rem; font-weight: 800;">R$ 0,00</h1>
-                    <button onclick="finalizarNoWhats()" class="btn-send" style="margin-top: 15px; background: #25d366; border: none;">
-                        <i class="fab fa-whatsapp"></i> Garantir meu Desconto
-                    </button>
-                </div>
-            </section>
-
-            <section style="display: flex; flex-direction: column; gap: 20px;">
-                <div class="auth-card" style="max-width: 100%; cursor: pointer;" onclick="window.location.href='cursos.html'">
-                    <h4 style="margin-bottom: 10px;">📚 Meu Progresso</h4>
-                    <div style="background: var(--bg); height: 12px; border-radius: 6px; overflow: hidden; margin: 15px 0;">
-                        <div id="barraProgressoFill" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.5s;"></div>
-                    </div>
-                    <p style="font-size: 0.85rem; color: var(--text-dim);">Você concluiu <span id="porcentagemTexto" style="color: var(--text); font-weight: bold;">0%</span> das aulas de Legislação.</p>
-                </div>
-
-                <div style="padding: 20px; border-radius: 20px; background: linear-gradient(135deg, var(--primary), #6366f1); color: white;">
-                    <h4 style="margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Dica do CFC</h4>
-                    <p style="font-size: 0.9rem; opacity: 0.9;">Lembre-se de assistir às aulas de Legislação antes de agendar sua prova teórica!</p>
-                </div>
-            </section>
-
+    <section id="servicos" style="padding: 100px 5%;">
+        <div style="text-align: center; margin-bottom: 60px;">
+            <p style="color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 2px;">Categorias</p>
+            <h2 style="font-size: 2.5rem;">O que você deseja tirar?</h2>
         </div>
-    </main>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-id-card" style="font-size: 2rem; color: var(--primary);"></i>
+                <h3 style="margin-top: 20px;">1ª Habilitação</h3>
+                <p style="color: var(--text-dim); margin: 15px 0;">Todo o suporte para você conquistar sua primeira PPD nas categorias A, B ou AB.</p>
+                <ul style="list-style: none; color: var(--text-dim); font-size: 0.9rem;">
+                    <li><i class="fas fa-check" style="color: var(--success);"></i> Curso Teórico Online</li>
+                    <li><i class="fas fa-check" style="color: var(--success);"></i> Aulas Práticas Modernas</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-plus-circle" style="font-size: 2rem; color: var(--primary);"></i>
+                <h3 style="margin-top: 20px;">Adição / Mudança</h3>
+                <p style="color: var(--text-dim); margin: 15px 0;">Adicione moto ou carro à sua CNH, ou suba de categoria para profissional (D).</p>
+                <ul style="list-style: none; color: var(--text-dim); font-size: 0.9rem;">
+                    <li><i class="fas fa-check" style="color: var(--success);"></i> Processo Agilizado</li>
+                    <li><i class="fas fa-check" style="color: var(--success);"></i> Instrutores Especialistas</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="simulador" style="padding: 100px 5%; background: rgba(0,0,0,0.2);">
+        <div class="auth-card" style="max-width: 800px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 35px;">
+                <h2 style="font-size: 2rem;">Simulador de Orçamento</h2>
+                <p style="color: var(--text-dim);">Escolha as opções para ver uma estimativa de valores.</p>
+            </div>
+            
+            <div class="form-group">
+                <label>Tipo de Processo</label>
+                <select id="tipoProcesso">
+                    <option value="primeira">🚀 Primeira Habilitação</option>
+                    <option value="adicao">➕ Adição de Categoria</option>
+                    <option value="mudanca">🔄 Mudança de Categoria (D)</option>
+                </select>
+            </div>
+
+            <label style="display: block; margin-bottom: 10px; font-size: 0.85rem; color: var(--text-dim);">Escolha a Categoria</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="cat" value="A" checked>
+                    <div class="radio-card">
+                        <i class="fas fa-motorcycle"></i>
+                        <span>Cat. A</span>
+                    </div>
+                </label>
+                <label>
+                    <input type="radio" name="cat" value="B">
+                    <div class="radio-card">
+                        <i class="fas fa-car"></i>
+                        <span>Cat. B</span>
+                    </div>
+                </label>
+                <label>
+                    <input type="radio" name="cat" value="AB">
+                    <div class="radio-card">
+                        <i class="fas fa-truck-pickup"></i>
+                        <span>Cat. AB</span>
+                    </div>
+                </label>
+                <label>
+                    <input type="radio" name="cat" value="D">
+                    <div class="radio-card">
+                        <i class="fas fa-bus"></i>
+                        <span>Cat. D</span>
+                    </div>
+                </label>
+            </div>
+
+            <div style="margin-top: 40px; padding: 30px; background: var(--bg); border-radius: 20px; text-align: center; border: 1px dashed var(--primary);">
+                <p style="color: var(--text-dim); margin-bottom: 5px;">Investimento Estimado</p>
+                <h1 id="valorTotal" style="color: var(--primary); font-size: 3.5rem; font-weight: 800;">R$ 0,00</h1>
+                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px;">*Inclui taxas do Detran e exames clínicos*</p>
+                <button onclick="finalizarNoWhats()" class="btn-send" style="background: #25d366; border: none;">
+                    <i class="fab fa-whatsapp"></i> Garantir este valor no WhatsApp
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 60px 5% 20px; background: #0a0f1e; border-top: 1px solid rgba(255,255,255,0.05);">
+        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+            <div>
+                <h4 style="margin-bottom: 20px; color: var(--primary);">SÃO GOTARDO</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">Excelência na formação de condutores com as melhores taxas de aprovação da região.</p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 20px;">Endereço</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">
+                    Praça São Geraldo, 01<br>
+                    São Gotardo - MG
+                </p>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 20px;">Contato</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">
+                    WhatsApp: (34) 99804-7604<br>
+                    Email: contato@cfcsaogotardo.com.br
+                </p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 50px; font-size: 0.8rem; color: var(--text-dim);">&copy; 2026 Autoescola São Gotardo. Todos os direitos reservados.</p>
+    </footer>
 
     <script src="script.js"></script>
-    <script>
-        // Pequena verificação de segurança: se não houver login, volta para o login.html
-        if (localStorage.getItem('usuario_logado') !== 'true') {
-            window.location.replace('login.html');
-        }
-    </script>
 </body>
 </html>
