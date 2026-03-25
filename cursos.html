@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Aulas | São Gotardo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Logo.jpg" alt="Logo" class="nav-logo">
+            <span>SÃO GOTARDO</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">← Voltar</a></li>
+        </ul>
+    </nav>
+
+    <div class="estudo-wrapper">
+        <main class="video-main-container">
+            <div class="video-wrapper">
+                <iframe id="mainVideoPlayer" style="width:100%; height:100%; border:none; display:none;" allow="autoplay"></iframe>
+                <div id="videoPlaceholder" style="height:100%; display:flex; align-items:center; justify-content:center; color: var(--text-dim);">
+                    Selecione uma aula na lista ao lado
+                </div>
+            </div>
+            <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h2 id="lessonTitle">Bem-vindo</h2>
+                    <p style="color: var(--text-dim);">Módulo de Legislação</p>
+                </div>
+                <button id="btnConcluir" onclick="concluirAulaAtiva()" class="btn-send" style="display:none; background: #22c55e;">Concluir Aula ✅</button>
+            </div>
+        </main>
+
+        <aside class="sidebar-aulas">
+            <h3 style="margin-bottom: 20px;">Lista de Aulas</h3>
+            <div id="lista-aulas"></div>
+        </aside>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function renderizarSidebar() {
+            const container = document.getElementById('lista-aulas');
+            const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
+            container.innerHTML = '';
+
+            CURSO_LEGISLACAO.forEach(aula => {
+                const jaFeita = concluidas.includes(aula.id);
+                const item = document.createElement('div');
+                item.className = `btn-aula ${localStorage.getItem('aula_atual_id') === aula.id ? 'active' : ''}`;
+                item.innerHTML = `<span>${jaFeita ? '✅' : '▶'}</span> <strong>${aula.title}</strong>`;
+                
+                item.onclick = () => {
+                    localStorage.setItem('aula_atual_id', aula.id);
+                    document.getElementById('videoPlaceholder').style.display = 'none';
+                    const player = document.getElementById('mainVideoPlayer');
+                    player.style.display = 'block';
+                    player.src = aula.url;
+                    document.getElementById('lessonTitle').innerText = aula.title;
+                    document.getElementById('btnConcluir').style.display = 'block';
+                    renderizarSidebar();
+                };
+                container.appendChild(item);
+            });
+        }
+        window.onload = renderizarSidebar;
+    </script>
+</body>
+</html>

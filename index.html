@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFC São Gotardo | Início</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header style="padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; background: var(--bg-accent);">
+        <div>
+            <h2 style="font-size: 1.2rem;">Olá, <span id="displayNome" style="color: var(--primary);">Aluno</span>!</h2>
+            <p style="font-size: 0.8rem; color: var(--text-dim);">Bem-vindo à sua plataforma.</p>
+        </div>
+        <nav style="display: flex; gap: 20px; align-items: center;">
+            <a href="cursos.html" style="color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                <i class="fas fa-graduation-cap"></i> Meus Cursos
+            </a>
+            <button onclick="logout()" style="background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid var(--danger); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                Sair
+            </button>
+        </nav>
+    </header>
+
+    <main style="padding: 40px 5%; max-width: 1200px; margin: 0 auto;">
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;">
+            
+            <section class="auth-card" style="max-width: 100%;">
+                <h3 style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-calculator" style="color: var(--primary);"></i> 
+                    Simulador de Valores
+                </h3>
+
+                <div class="form-group">
+                    <label>Tipo de Processo</label>
+                    <select id="tipoProcesso" style="width: 100%; padding: 12px; background: var(--bg); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; cursor: pointer;">
+                        <option value="primeira">🚀 Primeira Habilitação</option>
+                        <option value="adicao">➕ Adição de Categoria</option>
+                        <option value="mudanca">🔄 Mudança de Categoria (D)</option>
+                    </select>
+                </div>
+
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-dim);">Escolha a Categoria</label>
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="cat" value="A" checked>
+                        <div class="radio-card">
+                            <i class="fas fa-motorcycle"></i>
+                            <span>Cat. A</span>
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="cat" value="B">
+                        <div class="radio-card">
+                            <i class="fas fa-car"></i>
+                            <span>Cat. B</span>
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="cat" value="AB">
+                        <div class="radio-card">
+                            <i class="fas fa-truck-pickup"></i>
+                            <span>Cat. AB</span>
+                        </div>
+                    </label>
+                    <label>
+                        <input type="radio" name="cat" value="D">
+                        <div class="radio-card">
+                            <i class="fas fa-bus"></i>
+                            <span>Cat. D</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: var(--bg); border-radius: 15px; text-align: center; border: 1px dashed var(--primary);">
+                    <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 5px;">Investimento Total</p>
+                    <h1 id="valorTotal" style="color: var(--primary); font-size: 3rem; font-weight: 800;">R$ 0,00</h1>
+                    <button onclick="finalizarNoWhats()" class="btn-send" style="margin-top: 15px; background: #25d366; border: none;">
+                        <i class="fab fa-whatsapp"></i> Garantir meu Desconto
+                    </button>
+                </div>
+            </section>
+
+            <section style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="auth-card" style="max-width: 100%; cursor: pointer;" onclick="window.location.href='cursos.html'">
+                    <h4 style="margin-bottom: 10px;">📚 Meu Progresso</h4>
+                    <div style="background: var(--bg); height: 12px; border-radius: 6px; overflow: hidden; margin: 15px 0;">
+                        <div id="barraProgressoFill" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.5s;"></div>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-dim);">Você concluiu <span id="porcentagemTexto" style="color: var(--text); font-weight: bold;">0%</span> das aulas de Legislação.</p>
+                </div>
+
+                <div style="padding: 20px; border-radius: 20px; background: linear-gradient(135deg, var(--primary), #6366f1); color: white;">
+                    <h4 style="margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Dica do CFC</h4>
+                    <p style="font-size: 0.9rem; opacity: 0.9;">Lembre-se de assistir às aulas de Legislação antes de agendar sua prova teórica!</p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Pequena verificação de segurança: se não houver login, volta para o login.html
+        if (localStorage.getItem('usuario_logado') !== 'true') {
+            window.location.replace('login.html');
+        }
+    </script>
+</body>
+</html>
