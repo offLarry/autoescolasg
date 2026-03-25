@@ -2,210 +2,46 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autoescola São Gotardo | Referência em Habilitação</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Autoescola São Gotardo</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Estilos de reforço para garantir o layout da Home */
-        .section-title { text-align: center; margin-bottom: 50px; }
-        .section-title h2 { font-size: 2.5rem; color: var(--text); }
-        .section-title p { color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 0 5%;
-            max-width: 1200px;
-            margin: 0 auto 80px;
-        }
-
-        .step-container {
-            background: rgba(30, 41, 59, 0.4);
-            padding: 60px 5%;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-info {
-            background: #0a0f1e;
-            padding: 60px 5% 20px;
-            margin-top: 80px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-
     <nav class="navbar">
-        <div class="logo">
-            <img src="logo.png" alt="Logo Autoescola São Gotardo" class="nav-logo">
-            <span></span>
-        </div>
+        <div style="font-weight:800; color:var(--primary)">CFC SÃO GOTARDO</div>
         <ul class="nav-links">
-            <li><a href="#servicos">Serviços</a></li>
-            <li><a href="#simulador">Orçamentos</a></li>
-            <li><a href="login.html" class="btn-nav" style="background: var(--primary); border-radius: 8px; padding: 10px 25px; color: white; text-decoration: none;">Área do Aluno</a></li>
+            <li><a href="#simulador">Preços</a></li>
+            <li><a href="login.html" style="background:var(--primary); padding:8px 15px; border-radius:8px;">Área do Aluno</a></li>
         </ul>
     </nav>
 
-    <header style="padding: 160px 5% 100px; text-align: center; background: radial-gradient(circle at center, var(--bg-accent), var(--bg));">
-        <span class="badge-aluno" style="margin-bottom: 20px;">AUTOESCOLA SÃO GOTARDO</span>
-        <h1 class="gradient-text" style="font-size: 4rem; max-width: 900px; margin: 0 auto 25px; line-height: 1;">Sua CNH com quem entende de aprovação.</h1>
-        <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px;">Qualidade no atendimento, instrutores dedicados e a melhor infraestrutura de São Gotardo.</p>
-        <div style="display: flex; justify-content: center; gap: 20px;">
-            <a href="#servicos" class="btn-send" style="width: auto; padding: 15px 40px; text-decoration: none;">Ver Serviços</a>
-            <a href="https://wa.me/5534998047604" target="_blank" class="btn-send" style="width: auto; padding: 15px 40px; background: transparent; border: 1px solid var(--primary); text-decoration: none;">Falar com Consultor</a>
-        </div>
-    </header>
-
-    <section class="step-container">
-        <div class="section-title">
-            <p>Como funciona</p>
-            <h2>Inicie suas aulas conosco</h2>
-        </div>
-        <div class="steps-grid">
-            <div class="step-item">
-                <div class="step-number">1</div>
-                <h4>Matrícula</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Apresente seus documentos e realize sua inscrição.</p>
-            </div>
-            <div class="step-item">
-                <div class="step-number">2</div>
-                <h4>Exames</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Agende os exames médico e psicotécnico.</p>
-            </div>
-            <div class="step-item">
-                <div class="step-number">3</div>
-                <h4>Teórico</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Realize o curso teorico e faça a prova de legislação.</p>
-            </div>
-            <div class="step-item">
-                <div class="step-number">4</div>
-                <h4>Prático</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Conclua as aulas práticas e conquiste sua CNH.</p>
-            </div>
-        </div>
+    <section style="padding: 80px 5%; text-align: center;">
+        <h1 style="font-size: 3rem; margin-bottom: 20px;">Sua CNH começa aqui.</h1>
+        <p style="color:var(--text-dim)">Simule o valor da sua habilitação abaixo:</p>
     </section>
 
-    <section id="servicos" style="padding: 100px 0;">
-        <div class="section-title">
-            <p>Categorias</p>
-            <h2>O que você deseja tirar?</h2>
-        </div>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3 style="color: var(--primary);">1ª Habilitação (A/B)</h3>
-                <ul style="margin: 20px 0; color: var(--text-dim); list-style: none; line-height: 2;">
-                    <li>✔ Curso Teórico</li>
-                    <li>✔ Aulas Práticas</li>
-                    <li>✔ Todo suporte ao aluno</li>
-                </ul>
-                <button class="btn-send" style="font-size: 0.8rem;">Saber Mais</button>
-            </div>
-
-            <div class="service-card">
-                <h3 style="color: var(--primary);">Inclusão de Categoria</h3>
-                <p style="margin: 20px 0; color: var(--text-dim);">Já possui CNH e quer adicionar Moto ou Carro? Nós facilitamos o processo para você.</p>
-                <button class="btn-send" style="font-size: 0.8rem;">Saber Mais</button>
-            </div>
-
-            <div class="service-card">
-                <h3 style="color: var(--primary);">Mudança de categoria</h3>
-                <p style="margin: 20px 0; color: var(--text-dim);">Já possui CNH e quer mudar para Ônibus ou Caminhão? Nós facilitamos o processo.</p>
-                <button class="btn-send" style="font-size: 0.8rem;">Saber Mais</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="simulador" style="padding: 80px 5%; background: rgba(0,0,0,0.2);">
-        <div class="auth-card" style="max-width: 850px; margin: 0 auto; padding: 40px;">
-            <h2 style="text-align: center; margin-bottom: 30px;">Simulador de Orçamento</h2>
-            
-            <div style="margin-bottom: 30px;">
-                <label style="display: block; margin-bottom: 10px; color: var(--text-dim);">Selecione o tipo de processo:</label>
-                <select id="tipoProcesso" class="form-group" style="width:100%; padding:15px; background:var(--bg); border:1px solid rgba(255,255,255,0.1); color:white; border-radius:10px;">
+    <section id="simulador" style="padding: 20px 5%;">
+        <div class="auth-card" style="margin: 0 auto; max-width: 600px;">
+            <div class="form-group">
+                <label>O que você precisa?</label>
+                <select id="tipoProcesso" style="width:100%; padding:10px; border-radius:8px; background:var(--bg); color:white;">
                     <option value="primeira">Primeira Habilitação</option>
                     <option value="adicao">Adição de Categoria</option>
-                    <option value="mudanca">Mudança de Categoria</option>
                 </select>
             </div>
-
-            <label style="display: block; margin-bottom: 10px; color: var(--text-dim);">Escolha a Categoria:</label>
             <div class="radio-group">
-                <label style="flex: 1;">
-                    <input type="radio" name="cat" value="A" checked>
-                    <div class="radio-card">
-                        <i class="fas fa-motorcycle"></i>
-                        <span>Cat. A</span>
-                    </div>
-                </label>
-
-                <label style="flex: 1;">
-                    <input type="radio" name="cat" value="B">
-                    <div class="radio-card">
-                        <i class="fas fa-car"></i>
-                        <span>Cat. B</span>
-                    </div>
-                </label>
-
-                <label style="flex: 1;">
-                    <input type="radio" name="cat" value="AB">
-                    <div class="radio-card">
-                        <i class="fas fa-truck-pickup"></i>
-                        <span>Cat. AB</span>
-                    </div>
-                </label>
-
-                <label style="flex: 1;">
-                    <input type="radio" name="cat" value="D">
-                    <div class="radio-card">
-                        <i class="fas fa-bus"></i>
-                        <span>Cat. D</span>
-                    </div>
-                </label>
+                <label><input type="radio" name="cat" value="A" checked><div class="radio-card">Moto (A)</div></label>
+                <label><input type="radio" name="cat" value="B"><div class="radio-card">Carro (B)</div></label>
+                <label><input type="radio" name="cat" value="AB"><div class="radio-card">Carro + Moto</div></label>
             </div>
-
-            <div style="text-align: center; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px;">
-                <p style="color: var(--text-dim); margin-bottom: 0;">Investimento Estimado:</p>
-                <h3 id="valorTotal" style="font-size: 3.5rem; color: var(--primary); margin: 5px 0 15px; font-weight: 800;">R$ 0,00</h3>
-                <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 25px;">*taxas de Detran e exames médicos inclusos*</p>
-                <button onclick="finalizarNoWhats()" class="btn-send" style="width: auto; padding: 18px 60px; background: #25d366; font-size: 1rem;">
-                    <i class="fab fa-whatsapp" style="margin-right: 10px;"></i> Pedir Desconto no WhatsApp
+            <div style="text-align: center; margin-top: 20px;">
+                <h2 id="valorTotal" style="color:var(--primary); font-size: 2.5rem;">R$ 0,00</h2>
+                <button onclick="finalizarNoWhats()" class="btn-send" style="background:#25d366; margin-top:15px;">
+                    <i class="fab fa-whatsapp"></i> Chamar no WhatsApp
                 </button>
             </div>
         </div>
     </section>
-
-    <footer class="footer-info">
-        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
-            <div>
-                <h4 style="margin-bottom: 20px;">AUTOESCOLA SÃO GOTARDO</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem;">Formando condutores com excelência e responsabilidade desde 2000.</p>
-            </div>
-            <div>
-                <h4 style="margin-bottom: 20px;">Localização</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem;">Praça São Geraldo, 01 - São Geraldo<br>São Gotardo / MG</p>
-            </div>
-            <div>
-                <h4 style="margin-bottom: 20px;">Links Úteis</h4>
-                <a href="https://detran.mg.gov.br/habilitacao" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">Transito MG (DETRAN)</a>
-            </div>
-        </div>
-        <div style="border-top: 1px solid rgba(255,255,255,0.05); margin-top: 50px; padding-top: 20px; text-align: center; color: var(--text-dim); font-size: 0.8rem;">
-            &copy; 2026 Autoescola São Gotardo. Todos os direitos reservados.
-        </div>
-    </footer>
-
     <script src="script.js"></script>
 </body>
 </html>
