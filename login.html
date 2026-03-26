@@ -68,7 +68,12 @@
             <p id="authMessage" style="text-align: center; margin-top: 15px; font-size: 0.9rem; min-height: 20px;"></p>
         </div>
     </div>
-
+    <script>
+        // Se o usuário já estiver logado, pula a tela de login
+        if (localStorage.getItem('usuario_logado') === 'true') {
+            window.location.replace('index.html');
+        }
+    </script>
     <script src="login.js"></script>
 </body>
 </html>
