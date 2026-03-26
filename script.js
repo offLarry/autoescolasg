@@ -134,7 +134,7 @@ verificarAcesso();
 
     // Se não estiver logado, vai para o login
     if (!logado && !paginaAtual.includes('login.html') && !paginaAtual.includes('cursoshome.html')) {
-        window.location.replace('login.html');
+        window.location.replace('index.html');
     }
 
     // Se tentar entrar em cursos.html sem permissão "SIM"
