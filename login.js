@@ -74,7 +74,7 @@ async function handleAuth(e, tipo) {
                 msg.innerText = "✅ Login realizado! Entrando...";
                 msg.style.color = "#4ade80";
             }
-            setTimeout(() => window.location.replace('index.html'), 800);
+            setTimeout(() => window.location.replace('cursoshome.html'), 800);
 
         } else if (result === "erro_email_existente") {
             msg.innerText = "❌ Este e-mail já está cadastrado.";
