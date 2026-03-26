@@ -18,11 +18,11 @@
         </ul>
     </nav>
 
-    <main style="padding: 120px 5% 40px; max-width: 1200px; margin: 0 auto;">
+   <main style="padding: 120px 5% 40px; max-width: 1200px; margin: 0 auto;">
         <h1 class="gradient-text" style="font-size: 2.5rem;">Olá, <span id="displayNome">Aluno</span>!</h1>
         <p style="color: var(--text-dim); margin-bottom: 40px;">Continue seus estudos de onde parou.</p>
 
-        <div class="course-card" style="max-width: 400px;">
+        <div id="cursoLiberado" class="course-card hidden" style="max-width: 400px;">
             <div style="height: 180px; background: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=400') center/cover;"></div>
             <div style="padding: 25px;">
                 <h3 style="margin-bottom: 15px;">Legislação Completa</h3>
@@ -38,7 +38,35 @@
                 <button class="btn-send" style="width: 100%;" onclick="window.location.href='cursos.html'">Acessar Aulas</button>
             </div>
         </div>
+
+        <div id="cursoBloqueado" class="course-card hidden" style="max-width: 400px; border: 1px solid rgba(239, 68, 68, 0.3);">
+            <div style="height: 180px; background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=400') center/cover; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-lock" style="font-size: 3rem; color: var(--danger);"></i>
+            </div>
+            <div style="padding: 25px; text-align: center;">
+                <h3 style="margin-bottom: 10px; color: var(--text-dim);">Curso de Legislação</h3>
+                <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px;">O seu acesso ainda não foi liberado pela administração.</p>
+                <button class="btn-send" style="width: 100%; background: var(--bg-accent); cursor: not-allowed;" disabled>Aguardando Liberação</button>
+            </div>
+        </div>
     </main>
+
     <script src="script.js"></script>
+    <script>
+        // Lógica de Bloqueio/Liberação
+        document.addEventListener('DOMContentLoaded', () => {
+            const permissao = localStorage.getItem('permissao_curso');
+            const areaLiberada = document.getElementById('cursoLiberado');
+            const areaBloqueada = document.getElementById('cursoBloqueado');
+
+            if (permissao === "SIM") {
+                areaLiberada.classList.remove('hidden');
+                areaBloqueada.classList.add('hidden');
+            } else {
+                areaLiberada.classList.add('hidden');
+                areaBloqueada.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
