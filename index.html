@@ -205,22 +205,6 @@
             &copy; 2026 Autoescola São Gotardo. Todos os direitos reservados.
         </div>
     </footer>
-        document.addEventListener('DOMContentLoaded', () => {
-            const permissao = localStorage.getItem('permissao_curso');
-            const cardCurso = document.getElementById('cardCursoLegislacao'); // ID do card do curso
-            const avisoBloqueio = document.getElementById('avisoBloqueio'); // ID de um aviso opcional
-        
-            if (permissao === "SIM") {
-                cardCurso.style.display = "block"; 
-                if(avisoBloqueio) avisoBloqueio.style.display = "none";
-            } else {
-                cardCurso.style.display = "none";
-                if(avisoBloqueio) {
-                    avisoBloqueio.innerHTML = "<h3>Seu acesso está sendo processado</h3><p>Aguarde a liberação pela administração.</p>";
-                    avisoBloqueio.style.display = "block";
-                }
-            }
-        });
     <script src="script.js"></script>
 </body>
 </html>
