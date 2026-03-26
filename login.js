@@ -70,13 +70,27 @@ async function handleAuth(e, tipo) {
 
         } else if (result.startsWith("autorizado")) {
             const partes = result.split("|");
-            const nomeUsuario = partes[1];
-            const permissao = partes[2]; // Aqui virá "SIM" ou "NÃO" da planilha
+            const nome = partes[1];
+            const liberado = partes[2];
+            const progressoVindoDoSheets = partes[3]; // Ex: "25%"
         
             localStorage.setItem('usuario_logado', 'true');
-            localStorage.setItem('user_name', nomeUsuario);
-            localStorage.setItem('permissao_curso', permissao); // Salva o status atual
-        
+            localStorage.setItem('user_name', nome);
+            localStorage.setItem('permissao_curso', liberado);
+            
+            // Converte a porcentagem (ex: "25%") em IDs de aula para o sistema entender
+            // Se o progresso for 25% de 4 aulas, vamos simular que ele concluiu a aula 1
+            if (progressoVindoDoSheets !== "0%") {
+                const numAulas = 4; // Total de aulas que você tem
+                const valorNumerico = parseInt(progressoVindoDoSheets);
+                const quantConcluida = Math.round((valorNumerico / 100) * numAulas);
+                
+                let aulasIds = [];
+                for(let i=1; i <= quantConcluida; i++) {
+                    aulasIds.push(`leg_${i}`); // Gera ids leg_1, leg_2, etc
+                }
+                localStorage.setItem('aulas_concluidas', JSON.stringify(aulasIds));
+            }
             if (msg) {
                 msg.innerText = "✅ Login realizado! Entrando...";
                 msg.style.color = "#4ade80";
