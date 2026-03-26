@@ -1,219 +1,344 @@
-/* --- 1. VARIÁVEIS E BASE --- */
+/* =========================================
+   1. VARIÁVEIS E BASE
+   ========================================= */
 :root {
-    --primary: #a855f7;        /* Roxo Neon Principal */
+    --primary: #a855f7;
     --primary-hover: #9333ea;
-    --bg: #0f172a;             /* Fundo Escuro */
-    --bg-accent: #1e293b;      /* Cards e Seções */
-    --text: #ffffff;
+    --bg: #0f172a;
+    --bg-accent: #1e1b4b;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text: #f8fafc;
     --text-dim: #94a3b8;
-    --success: #22c55e;
-    --danger: #ef4444;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-    scroll-behavior: smooth;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-    background-color: var(--bg);
+body { 
+    font-family: 'Inter', sans-serif; 
+    background: radial-gradient(circle at top left, var(--bg-accent), var(--bg)); 
     color: var(--text);
-    line-height: 1.6;
     min-height: 100vh;
+    line-height: 1.6;
 }
 
-/* --- 2. NAVEGAÇÃO E HEADER --- */
+/* =========================================
+   2. NAVBAR (Global)
+   ========================================= */
 .navbar {
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 5%;
-    background: rgba(15, 23, 42, 0.9);
+    padding: 0 5%;
+    height: 80px;
+    background: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(10px);
-    position: sticky;
+    position: fixed;
+    width: 100%;
     top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    left: 0;
+    z-index: 10000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.nav-logo { height: 40px; border-radius: 8px; }
+.nav-logo { height: 40px; width: auto; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--primary); text-decoration: none; }
+.nav-links { display: flex; list-style: none; gap: 25px; align-items: center; }
+.nav-links a { color: white; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
+.nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-    align-items: center;
-}
-
-.nav-links a {
-    color: var(--text);
-    text-decoration: none;
-    font-weight: 500;
-    transition: var(--transition);
-}
-
-.nav-links a:hover { color: var(--primary); }
-
-/* --- 3. AUTENTICAÇÃO (LOGIN / CADASTRO) --- */
+/* =========================================
+   3. ESTILOS DE AUTENTICAÇÃO (Login/Register)
+   ========================================= */
+/* Correção do Layout de Login */
 .auth-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    min-height: 100vh; /* Garante que ocupe a tela toda */
     padding: 20px;
+    margin: 0
     background: radial-gradient(circle at center, var(--bg-accent), var(--bg));
 }
 
+/* ESTILO DO TEXTO/LOGO CENTRALIZADO */
+.auth-card .logo {
+    display: block;          /* Ocupa a linha toda */
+    text-align: center;      /* Centraliza o texto */
+    margin-bottom: 30px;     /* Espaço até as abas */
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.auth-container {
+    width: 100%;
+     justify-content: center;
+    max-width: 400px;
+    /* Removido o margin-top fixo para o flex centrar sozinho */
+}
+
+/* Correção do Vídeo Achatado */
+.video-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Força a proporção de cinema */
+    background: #000;
+    justify-content: center;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    position: relative;
+}
+
 .auth-card {
-    background: var(--bg-accent);
-    padding: 35px;
+    background: var(--card-bg);
+    padding: 40px;
     border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    justify-content: center;
     width: 100%;
     max-width: 400px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
 .auth-tabs {
     display: flex;
-    background: var(--bg);
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+    background: rgba(0,0,0,0.2);
     padding: 5px;
     border-radius: 12px;
-    margin-bottom: 25px;
 }
 
 .tab {
     flex: 1;
-    text-align: center;
     padding: 10px;
+    text-align: center;
     cursor: pointer;
     border-radius: 8px;
-    color: var(--text-dim);
+    transition: 0.3s;
     font-weight: 600;
 }
 
 .tab.active { background: var(--primary); color: white; }
 
-/* --- 4. FORMULÁRIOS --- */
-.form-group { margin-bottom: 20px; position: relative; }
-.form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-dim); }
-
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-dim); }
 .form-group input, .form-group select {
     width: 100%;
     padding: 12px 16px;
-    background: var(--bg);
+    background: rgba(15, 23, 42, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    border-radius: 10px;
     color: white;
-    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+    font-size: 1.2rem;
 }
+.form-group input:focus { border-color: var(--primary); }
 
 .btn-eye {
     position: absolute;
-    right: 12px;
-    top: 38px;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%); /* Centralização vertical perfeita */
     background: none;
     border: none;
+    padding: 8px;
     color: var(--text-dim);
     cursor: pointer;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    transition: color 0.3s;
 }
 
-/* --- 5. COMPONENTES DE CURSOS --- */
-.estudo-wrapper {
+.btn-eye:hover {
+    color: var(--primary);
+}
+
+/* Garante que o input tenha espaço para o ícone */
+.form-group input {
+    padding-right: 40px !important;
+}
+
+/* Garante que o texto da senha não fique embaixo do ícone */
+#loginPassword {
+    padding-right: 45px;
+}
+
+/* =========================================
+   4. ESTILOS DA HOMEPAGE (Cards e Seções)
+   ========================================= */
+.section-title { text-align: center; margin: 80px 0 50px; }
+.section-title h2 { font-size: 2.5rem; margin-bottom: 10px; }
+.section-title p { color: var(--primary); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+
+.services-grid {
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
-    padding: 40px 5%;
-    max-width: 1400px;
+    padding: 0 5%;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-.video-main-container {
-    background: var(--bg-accent);
-    padding: 20px;
-    border-radius: 24px;
+.service-card {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.service-card:hover { transform: translateY(-15px); border-color: var(--primary); }
+
+.step-container {
+    background: rgba(30, 41, 59, 0.4);
+    padding: 80px 5%;
+    margin-top: 80px;
+}
+
+.step-item { text-align: center; }
+.step-number {
+    width: 60px; height: 60px; background: var(--primary);
+    border-radius: 50%; display: flex; align-items: center;
+    justify-content: center; margin: 0 auto 20px; font-weight: 800; font-size: 1.5rem;
+}
+
+/* --- SIMULADOR: BOTÕES TIPO CARD (SEM BOLINHA) --- */
+.radio-group {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+/* 1. Esconde a bolinha do rádio completamente */
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+/* 2. Estilo do "Quadrado" (Não selecionado) */
+.radio-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    background: rgba(15, 23, 42, 0.5); /* Fundo escuro padrão */
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.radio-card i { font-size: 2rem; margin-bottom: 8px; }
+.radio-card span { font-weight: 700; color: var(--text-dim); }
+
+/* 3. Estilo do "Quadrado" SELECIONADO */
+/* Quando o input anterior for marcado, o card brilha */
+input[type="radio"]:checked + .radio-card {
+    background: rgba(168, 85, 247, 0.2) !important; /* Roxo suave no fundo */
+    border-color: var(--primary) !important; /* Borda roxa acesa */
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    transform: translateY(-3px); /* Leve subida */
+}
+
+/* Ajusta a cor do texto/ícone quando selecionado */
+input[type="radio"]:checked + .radio-card span { color: #fff; }
+input[type="radio"]:checked + .radio-card i { filter: drop-shadow(0 0 5px var(--primary)); }
+
+/* =========================================
+   5. LAYOUT DE ESTUDOS (Corrigido)
+   ========================================= */
+.estudo-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 25px;
+    padding: 110px 4% 40px;
+    height: 100vh;
+}
+
+/* Ajuste do Player de Vídeo */
 .video-wrapper {
     width: 100%;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 9; /* Mantém a proporção correta */
     background: #000;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    position: relative;
+}
+
+#mainVideoPlayer {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-main-container {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar-aulas {
-    background: var(--bg-accent);
-    padding: 20px;
+    background: var(--card-bg);
     border-radius: 24px;
-    max-height: 80vh;
+    padding: 25px;
     overflow-y: auto;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .btn-aula {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px;
-    background: var(--bg);
-    border-radius: 12px;
-    margin-bottom: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 18px;
+    border-radius: 15px;
+    margin-bottom: 12px;
     cursor: pointer;
-    border: 1px solid transparent;
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
-.btn-aula.active { border-color: var(--primary); background: rgba(168, 85, 247, 0.1); }
-
-/* --- 6. SIMULADOR E BOTÕES --- */
-.radio-group { display: flex; gap: 10px; margin: 15px 0; }
-.radio-group input[type="radio"] { display: none; }
-
-.radio-card {
-    flex: 1;
-    background: var(--bg);
-    padding: 15px;
-    border-radius: 16px;
-    text-align: center;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: var(--transition);
-}
-
-input[type="radio"]:checked + .radio-card {
+.btn-aula.active {
+    background: rgba(168, 85, 247, 0.15);
     border-color: var(--primary);
-    background: rgba(168, 85, 247, 0.1);
 }
 
+/* =========================================
+   6. UTILITÁRIOS
+   ========================================= */
 .btn-send {
-    width: 100%;
-    padding: 14px;
     background: var(--primary);
     color: white;
     border: none;
+    padding: 15px 30px;
     border-radius: 12px;
     font-weight: 700;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+    transition: 0.3s;
+    width: 100%;
 }
 
-/* --- 7. UTILITÁRIOS E RESPONSIVIDADE --- */
+.btn-send:hover { background: var(--primary-hover); transform: scale(1.02); }
+
 .gradient-text {
-    background: linear-gradient(to right, #fff, var(--primary));
+    background: linear-gradient(90deg, #fff, var(--primary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .hidden { display: none; }
 
-@media (max-width: 992px) {
-    .estudo-wrapper { grid-template-columns: 1fr; }
-    .radio-group { display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width: 1024px) {
+    .estudo-wrapper { grid-template-columns: 1fr; height: auto; }
+    .sidebar-aulas { height: 500px; }
 }

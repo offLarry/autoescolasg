@@ -2,30 +2,40 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Área do Aluno | São Gotardo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Aluno | São Gotardo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <script>if(!localStorage.getItem('usuario_logado')) window.location.replace('login.html');</script>
-
     <nav class="navbar">
-        <div>Olá, <span id="displayNome" style="color:var(--primary)">Aluno</span></div>
-        <button onclick="logout()" style="background:none; border:none; color:var(--danger); cursor:pointer;">Sair</button>
+        <div class="logo">
+            <img src="logo.png" alt="Logo Autoescola São Gotardo" class="nav-logo">
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Meus Cursos</a></li>
+            <li><a href="javascript:void(0)" onclick="logout()">Sair</a></li>
+        </ul>
     </nav>
 
-    <main style="padding: 40px 5%;">
-        <div class="auth-card" style="max-width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div>
-                <h3>Seu Progresso Teórico</h3>
-                <div style="background:var(--bg); height:20px; border-radius:10px; margin:15px 0;">
-                    <div id="barraProgressoFill" style="width:0%; height:100%; background:var(--primary); border-radius:10px; transition:0.5s;"></div>
+    <main style="padding: 120px 5% 40px; max-width: 1200px; margin: 0 auto;">
+        <h1 class="gradient-text" style="font-size: 2.5rem;">Olá, <span id="displayNome">Aluno</span>!</h1>
+        <p style="color: var(--text-dim); margin-bottom: 40px;">Continue seus estudos de onde parou.</p>
+
+        <div class="course-card" style="max-width: 400px;">
+            <div style="height: 180px; background: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=400') center/cover;"></div>
+            <div style="padding: 25px;">
+                <h3 style="margin-bottom: 15px;">Legislação Completa</h3>
+                <div style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px;">
+                        <span>Seu Progresso</span>
+                        <span id="porcentagemTexto">0%</span>
+                    </div>
+                    <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                        <div id="barraProgressoFill" style="height: 100%; background: var(--primary); width: 0%; transition: 0.5s;"></div>
+                    </div>
                 </div>
-                <p>Você concluiu <span id="porcentagemTexto">0%</span> das aulas.</p>
-                <a href="cursos.html" class="btn-send" style="display:inline-block; margin-top:15px; text-decoration:none; text-align:center;">Ir para as Aulas</a>
-            </div>
-            <div style="background:rgba(255,255,255,0.05); padding:20px; border-radius:15px;">
-                <h4>Avisos Importantes</h4>
-                <p style="font-size:0.9rem; color:var(--text-dim)">Não esqueça de levar seu documento original no dia do exame psicotécnico.</p>
+                <button class="btn-send" style="width: 100%;" onclick="window.location.href='cursos.html'">Acessar Aulas</button>
             </div>
         </div>
     </main>

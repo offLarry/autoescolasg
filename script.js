@@ -1,14 +1,14 @@
-// --- 1. CONFIGURAÇÕES E DADOS ---
+// --- 1. CONFIGURAÇÕES DE DADOS ---
 const CURSO_LEGISLACAO = [
-    { id: 'leg_1', title: '01. Introdução à Legislação' },
-    { id: 'leg_2', title: '02. Normas de Circulação' },
-    { id: 'leg_3', title: '03. Sinalização Vertical' },
-    { id: 'leg_4', title: '04. Sinalização Horizontal' }
+    { id: 'leg_1', title: '01. Introdução à Legislação', url: 'https://www.dropbox.com/scl/fi/q670pw9onlsoup0uwu9uh/01-Legisla-o-EDIT.mp4?rlkey=fgkfqvnpv2cbeb8ue2garx9j5&st=9eftivl1&raw=1' },
+    { id: 'leg_2', title: '02. Normas de Circulação', url: 'https://www.dropbox.com/scl/fi/q2d25lqww46i62osqopdw/02-LEGISLA-O.mp4?rlkey=2lfmybi5ro6pa386s8vt98lbp&st=8tjdt68b&raw=1' },
+    { id: 'leg_3', title: '03. Sinalização Vertical', url: 'https://www.dropbox.com/scl/fi/q670pw9onlsoup0uwu9uh/01-Legisla-o-EDIT.mp4?rlkey=fgkfqvnpv2cbeb8ue2garx9j5&st=9eftivl1&raw=1' },
+    { id: 'leg_4', title: '04. Sinalização Horizontal', url: 'https://www.dropbox.com/scl/fi/q2d25lqww46i62osqopdw/02-LEGISLA-O.mp4?rlkey=2lfmybi5ro6pa386s8vt98lbp&st=8tjdt68b&raw=1' }
 ];
 
-// --- 2. LÓGICA DO SIMULADOR DE ORÇAMENTO ---
+// --- 2. LÓGICA DO SIMULADOR ---
 function calcularOrcamento() {
-    // Tabela de preços atualizada
+    // Preços atualizados
     const tabela = {
         primeira: { A: 1550, B: 2100, AB: 3250, D: 0 },
         adicao:   { A: 1100, B: 1550, AB: 2400, D: 1750 },
@@ -16,102 +16,81 @@ function calcularOrcamento() {
     };
 
     const selectProcesso = document.getElementById('tipoProcesso');
-    const radioSelecionado = document.querySelector('input[name="cat"]:checked');
-    const displayValor = document.getElementById('valorTotal');
-
-    if (!selectProcesso || !radioSelecionado || !displayValor) return;
+    if (!selectProcesso) return;
 
     const tipo = selectProcesso.value;
+    const radioSelecionado = document.querySelector('input[name="cat"]:checked');
+    
+    const display = document.getElementById('valorTotal');
+    if (!display || !radioSelecionado) return;
+
     const cat = radioSelecionado.value;
     const valor = tabela[tipo][cat] || 0;
-
-    // Atualiza o ecrã com animação simples de texto
+    
     if (valor === 0) {
-        displayValor.innerText = "Consulte-nos";
-        displayValor.style.fontSize = "2.2rem";
+        display.innerText = "Consulte-nos";
+        display.style.fontSize = "2.5rem";
     } else {
-        displayValor.innerText = `R$ ${valor.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-        displayValor.style.fontSize = "3rem";
+        display.innerText = `R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        display.style.fontSize = "3.5rem";
     }
 }
 
-// Envia os dados escolhidos para o WhatsApp
 function finalizarNoWhats() {
-    const tipoTexto = document.getElementById('tipoProcesso').options[document.getElementById('tipoProcesso').selectedIndex].text;
+    const tipoTxt = document.getElementById('tipoProcesso').options[document.getElementById('tipoProcesso').selectedIndex].text;
     const cat = document.querySelector('input[name="cat"]:checked')?.value || "";
     const valor = document.getElementById('valorTotal').innerText;
     
-    const telefone = "5534998047604";
-    const mensagem = `Olá! Usei o simulador no site e quero informações sobre:%0A✅ *${tipoTexto}*%0A🚗 *Categoria ${cat}*%0A💰 *Valor Estimado: ${valor}*`;
+    const msg = `Olá! Usei o simulador do site e quero saber mais sobre: %0A✅ *${tipoTxt}* %0A🚗 *Categoria ${cat}* %0A💰 *Valor Estimado: ${valor}*`;
+    window.open(`https://wa.me/5534998047604?text=${msg}`, '_blank');
+}
+
+// --- 3. PROGRESSO E USUÁRIO ---
+function atualizarProgressoVisual() {
+    const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
+    const porcentagem = Math.round((concluidas.length / CURSO_LEGISLACAO.length) * 100);
+
+    const txt = document.getElementById('porcentagemTexto');
+    const bar = document.getElementById('barraProgressoFill');
     
-    window.open(`https://wa.me/${telefone}?text=${mensagem}`, '_blank');
+    if (txt) txt.innerText = `${porcentagem}%`;
+    if (bar) bar.style.width = `${porcentagem}%`;
 }
 
-// --- 3. GESTÃO DE PROGRESSO E UTILIZADOR ---
-function carregarDadosUtilizador() {
-    const nome = localStorage.getItem('user_name') || 'Aluno';
-    const elNome = document.getElementById('displayNome');
-    if (elNome) elNome.innerText = nome;
-    
-    atualizarBarraProgresso();
-}
+function concluirAulaAtiva() {
+    const idAtual = localStorage.getItem('aula_atual_id');
+    if (!idAtual) return;
 
-function atualizarBarraProgresso() {
-    const aulasConcluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
-    const totalAulas = CURSO_LEGISLACAO.length;
-    const percentagem = Math.round((aulasConcluidas.length / totalAulas) * 100);
-
-    const barra = document.getElementById('barraProgressoFill');
-    const texto = document.getElementById('porcentagemTexto');
-
-    if (barra) barra.style.width = `${percentagem}%`;
-    if (texto) texto.innerText = `${percentagem}%`;
-}
-
-// Função para ser usada na página de cursos (botão concluir)
-function concluirAula(idAula) {
     let concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
-    
-    if (!concluidas.includes(idAula)) {
-        concluidas.push(idAula);
+    if (!concluidas.includes(idAtual)) {
+        concluidas.push(idAtual);
         localStorage.setItem('aulas_concluidas', JSON.stringify(concluidas));
-        alert("Aula concluída! Parabéns pelo progresso. ✅");
-        atualizarBarraProgresso();
+        alert("Aula marcada como concluída! ✅");
+        location.reload(); 
     }
 }
 
-// Logout do sistema
 function logout() {
-    localStorage.removeItem('usuario_logado');
-    localStorage.removeItem('user_name');
-    window.location.replace('login.html');
+    localStorage.clear();
+    window.location.href = 'login.html';
 }
 
 // --- 4. INICIALIZAÇÃO ---
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Verifica se está logado (proteção simples)
+window.addEventListener('DOMContentLoaded', () => {
+    // Nome do Aluno
+    const nomeAluno = localStorage.getItem('user_name') || 'Aluno';
+    const elNome = document.getElementById('displayNome');
+    if (elNome) elNome.innerText = nomeAluno;
 
+    atualizarProgressoVisual();
 
-    // 2. Carrega nome e progresso
-    carregarDadosUtilizador();
-
-    // 3. Configura ouvintes do Simulador
-    const selectProcesso = document.getElementById('tipoProcesso');
-    const radiosCategoria = document.querySelectorAll('input[name="cat"]');
-
-    if (selectProcesso) {
-        selectProcesso.addEventListener('change', calcularOrcamento);
-    }
-
-    radiosCategoria.forEach(radio => {
-        radio.addEventListener('change', () => {
-            // Pequeno feedback visual ao clicar no card
-            calcularOrcamento();
-        });
-    });
-
-    // 4. Corre o cálculo inicial
+    // Eventos do Simulador
     if (document.getElementById('valorTotal')) {
-        calcularOrcamento();
+        document.getElementById('tipoProcesso').addEventListener('change', calcularOrcamento);
+        document.querySelectorAll('input[name="cat"]').forEach(input => {
+            input.addEventListener('change', calcularOrcamento);
+        });
+        calcularOrcamento(); // Roda ao abrir a página
     }
 });
+
