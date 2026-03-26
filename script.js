@@ -125,3 +125,21 @@ function verificarAcesso() {
 
 // Executa assim que o script carrega
 verificarAcesso();
+
+// Proteção de Rota
+(function verificarAcessoGeral() {
+    const logado = localStorage.getItem('usuario_logado');
+    const permissao = localStorage.getItem('permissao_curso');
+    const paginaAtual = window.location.pathname;
+
+    // Se não estiver logado, vai para o login
+    if (!logado && !paginaAtual.includes('login.html') && !paginaAtual.includes('homepage.html')) {
+        window.location.replace('login.html');
+    }
+
+    // Se tentar entrar em cursos.html sem permissão "SIM"
+    if (paginaAtual.includes('cursos.html') && permissao !== "SIM") {
+        alert("Acesso negado. Este curso não está liberado para você.");
+        window.location.replace('index.html');
+    }
+})();
