@@ -132,10 +132,6 @@ verificarAcesso();
     const permissao = localStorage.getItem('permissao_curso');
     const paginaAtual = window.location.pathname;
 
-    // Se não estiver logado, vai para o login
-    if (!logado && !paginaAtual.includes('login.html') && !paginaAtual.includes('cursos.html')) {
-        window.location.replace('login.html');
-    }
 
     // Se tentar entrar em cursos.html sem permissão "SIM"
     if (paginaAtual.includes('cursos.html') && permissao !== "SIM") {
