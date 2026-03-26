@@ -57,58 +57,52 @@ async function handleAuth(e, tipo) {
     const msg = document.getElementById('authMessage');
     
     if (msg) {
-        msg.innerText = "Aguarde um momento...";
+        msg.innerText = "Verificando dados...";
         msg.style.color = "var(--primary)";
     }
 
-    const dados = {
-        acao: tipo,
-        email: tipo === 'login' ? document.getElementById('loginEmail').value : document.getElementById('regEmail').value,
-        senha: tipo === 'login' ? document.getElementById('loginPassword').value : document.getElementById('regPassword').value,
-        nome: tipo === 'registro' ? document.getElementById('regNome').value : ""
-    };
-    try {
-        const query = new URLSearchParams(dados).toString();
-        const response = await fetch(`${SHEET_API_URL}?${query}`);
-        const result = await response.text();
-        // Verifica se o retorno indica sucesso
-        if (result.includes("sucesso") || result.startsWith("autorizado")) {
-            const partes = result.split("|");
-            const nome = partes[1];
-            const cursoLiberado = partes[2]; // Pega o "SIM" ou "NÃO" vindo do Sheets
-        
-            localStorage.setItem('usuario_logado', 'true');
-            localStorage.setItem('user_name', nome);
-            localStorage.setItem('permissao_curso', cursoLiberado); // Salva a permissão
-        
-            window.location.replace('index.html');
-            
-            // Extrai o nome do utilizador se vier da API, senão usa o do input
-            let nomeFinal = dados.nome || "Aluno";
-            if (result.startsWith("autorizado")) {
-                nomeFinal = result.split("|")[1] || "Aluno";
-            }
+    // Coleta os dados dos inputs
+    const email = tipo === 'login' ? document.getElementById('loginEmail').value : document.getElementById('regEmail').value;
+    const senha = tipo === 'login' ? document.getElementById('loginPassword').value : document.getElementById('regPassword').value;
+    const nome = tipo === 'registro' ? document.getElementById('regNome').value : "";
 
-            localStorage.setItem('user_name', nomeFinal);
+    // Monta a URL de forma segura
+    const urlFinal = `${SHEET_API_URL}?acao=${tipo}&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}&nome=${encodeURIComponent(nome)}`;
+
+    try {
+        // O modo 'cors' é essencial para o Google Apps Script
+        const response = await fetch(urlFinal, { method: 'GET' });
+        const result = await response.text();
+
+        if (result.startsWith("autorizado") || result.includes("sucesso")) {
+            const partes = result.split("|");
+            
+            // Salva os dados no navegador
+            localStorage.setItem('usuario_logado', 'true');
+            localStorage.setItem('user_name', partes[1] || nome || "Aluno");
+            localStorage.setItem('permissao_curso', partes[2] || "NÃO");
 
             if (msg) {
-                msg.innerText = "✅ Acesso permitido! Redirecionando...";
+                msg.innerText = "✅ Acesso permitido! Entrando...";
                 msg.style.color = "#4ade80";
             }
 
+            // Redireciona após um breve delay
             setTimeout(() => {
-                window.location.replace('cursoshome.html');
+                window.location.replace('index.html');
             }, 800);
+
+        } else if (result === "erro_email_existente") {
+            msg.innerText = "❌ Este e-mail já está cadastrado.";
+            msg.style.color = "#f59e0b";
         } else {
-            if (msg) {
-                msg.innerText = "❌ Erro: E-mail ou senha inválidos.";
-                msg.style.color = "#ef4444";
-            }
+            msg.innerText = "❌ E-mail ou senha incorretos.";
+            msg.style.color = "#ef4444";
         }
     } catch (error) {
-        console.error("Erro na requisição:", error);
+        console.error("Erro detalhado:", error);
         if (msg) {
-            msg.innerText = "⚠️ Erro de conexão com o servidor.";
+            msg.innerText = "⚠️ Erro de rede. Verifique sua conexão ou o link da API.";
             msg.style.color = "#f59e0b";
         }
     }
