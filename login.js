@@ -49,11 +49,15 @@ async function handleAuth(e, tipo) {
     const nome = tipo === 'registro' ? document.getElementById('regNome').value : "";
 
     // CONSTRUÇÃO DA URL (O segredo para não dar erro de CORS)
-    const urlFinal = `${SHEET_API_URL}?acao=${tipo}&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}&nome=${encodeURIComponent(nome)}`;
-
+// Dentro da sua handleAuth, altere a linha do fetch:
+    const urlFinal = `${SHEET_API_URL}?acao=${tipo}&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}&nome=${encodeURIComponent(nome)}&t=${new Date().getTime()}`; // Adicionamos um timestamp &t=...
+    
     try {
-        // IMPORTANTE: Requisição simples (GET) sem headers para o Google não bloquear
-        const response = await fetch(urlFinal, { method: 'GET' });
+        const response = await fetch(urlFinal, {
+            method: 'GET',
+            mode: 'cors', // Adicione explicitamente
+            redirect: 'follow' // Instrua o navegador a seguir o redirecionamento do Google
+        });
         const result = await response.text();
 
         if (result.includes("sucesso_registro")) {
