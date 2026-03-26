@@ -149,32 +149,49 @@ window.addEventListener('DOMContentLoaded', () => {
 async function sincronizarComNuvem() {
     const email = localStorage.getItem('user_email');
     const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
-    const porcentagem = Math.round((concluidas.length / 4) * 100) + "%"; // 4 é o total de aulas
-
-    if (!email) return;
-
-    const url = `${SHEET_API_URL}?acao=atualizarProgresso&email=${encodeURIComponent(email)}&progresso=${encodeURIComponent(porcentagem)}`;
     
+    // Calcula a % baseada na sua lista de aulas CURSO_LEGISLACAO
+    const totalAulas = CURSO_LEGISLACAO.length;
+    const porcentagem = Math.round((concluidas.length / totalAulas) * 100) + "%";
+
+    if (!email) {
+        console.error("Erro: E-mail do usuário não encontrado. Faça login novamente.");
+        return;
+    }
+
+    // Monta a URL para o Google Sheets
+    const url = `${SHEET_API_URL}?acao=atualizarProgresso&email=${encodeURIComponent(email)}&progresso=${encodeURIComponent(porcentagem)}&t=${new Date().getTime()}`;
+
     try {
-        await fetch(url);
-        console.log("Progresso salvo no Google Sheets!");
-    } catch (e) { console.error("Erro ao sincronizar"); }
+        const response = await fetch(url);
+        const texto = await response.text();
+        console.log("Resposta da Database:", texto);
+        return true; // Sucesso
+    } catch (error) {
+        console.error("Erro ao conectar com a planilha:", error);
+        return false;
+    }
 }
 
-// Chame a sincronização dentro da sua função de concluir aula
-function concluirAulaAtiva() {
+async function concluirAulaAtiva() {
     const idAtual = localStorage.getItem('aula_atual_id');
     if (!idAtual) return;
 
     let concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
+    
     if (!concluidas.includes(idAtual)) {
         concluidas.push(idAtual);
         localStorage.setItem('aulas_concluidas', JSON.stringify(concluidas));
         
+        // Atualiza a barra visualmente primeiro
         atualizarProgressoVisual();
-        sincronizarComNuvem(); // ENVIA PARA O GOOGLE
-        alert("Aula concluída! ✅");
-        location.reload();
+        
+        // ENVIA E ESPERA (AWAIT)
+        console.log("Salvando progresso...");
+        await sincronizarComNuvem();
+        
+        alert("Excelente! Aula concluída e progresso salvo. ✅");
+        location.reload(); // Só recarrega agora
     }
 }
 
