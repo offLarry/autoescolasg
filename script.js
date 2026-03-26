@@ -99,7 +99,7 @@ function verificarAcesso() {
     const paginaAtual = window.location.pathname;
 
     // Se NÃO estiver logado e tentar acessar index ou cursos
-    if (!estaLogado && (paginaAtual.includes('index.html') || paginaAtual.includes('cursos.html'))) {
+    if (!estaLogado && (paginaAtual.includes('cursoshome.html') || paginaAtual.includes('cursos.html'))) {
         window.location.replace('login.html');
     }
 }
