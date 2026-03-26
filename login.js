@@ -68,6 +68,7 @@ async function handleAuth(e, tipo) {
             const partes = result.split("|");
             localStorage.setItem('usuario_logado', 'true');
             localStorage.setItem('user_name', partes[1] || "Aluno");
+            localStorage.setItem('user_email', email); // Onde 'email' é o valor vindo do input
             localStorage.setItem('permissao_curso', partes[2] || "NÃO");
 
             if (msg) {
