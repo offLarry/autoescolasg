@@ -109,6 +109,7 @@ function concluirAulaAtiva() {
         localStorage.setItem('aulas_concluidas', JSON.stringify(concluidas));
         alert("Aula marcada como concluída! ✅");
         location.reload(); 
+        salvarProgressoNoSheets();
     }
 }
 
