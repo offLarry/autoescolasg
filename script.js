@@ -137,6 +137,38 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+async function sincronizarComNuvem() {
+    const email = localStorage.getItem('user_email');
+    const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
+    const porcentagem = Math.round((concluidas.length / 4) * 100) + "%"; // 4 é o total de aulas
+
+    if (!email) return;
+
+    const url = `${SHEET_API_URL}?acao=atualizarProgresso&email=${encodeURIComponent(email)}&progresso=${encodeURIComponent(porcentagem)}`;
+    
+    try {
+        await fetch(url);
+        console.log("Progresso salvo no Google Sheets!");
+    } catch (e) { console.error("Erro ao sincronizar"); }
+}
+
+// Chame a sincronização dentro da sua função de concluir aula
+function concluirAulaAtiva() {
+    const idAtual = localStorage.getItem('aula_atual_id');
+    if (!idAtual) return;
+
+    let concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
+    if (!concluidas.includes(idAtual)) {
+        concluidas.push(idAtual);
+        localStorage.setItem('aulas_concluidas', JSON.stringify(concluidas));
+        
+        atualizarProgressoVisual();
+        sincronizarComNuvem(); // ENVIA PARA O GOOGLE
+        alert("Aula concluída! ✅");
+        location.reload();
+    }
+}
+
 function verificarPermissoes() {
     const permissao = localStorage.getItem('permissao_curso');
     const cardCurso = document.getElementById('cardCursoLegislacao');
