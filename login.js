@@ -67,12 +67,24 @@ async function handleAuth(e, tipo) {
         senha: tipo === 'login' ? document.getElementById('loginPassword').value : document.getElementById('regPassword').value,
         nome: tipo === 'registro' ? document.getElementById('regNome').value : ""
     };
-
     try {
         const query = new URLSearchParams(dados).toString();
         const response = await fetch(`${SHEET_API_URL}?${query}`);
         const result = await response.text();
 
+
+        if (result.startsWith("autorizado")) {
+            const partes = result.split("|");
+            const nome = partes[1];
+            const cursoLiberado = partes[2]; // Pega o "SIM" ou "NÃO" vindo do Sheets
+        
+            localStorage.setItem('usuario_logado', 'true');
+            localStorage.setItem('user_name', nome);
+            localStorage.setItem('permissao_curso', cursoLiberado); // Salva a permissão
+        
+            window.location.replace('index.html');
+        }
+        
         // Verifica se o retorno indica sucesso
         if (result.includes("sucesso") || result.startsWith("autorizado")) {
             localStorage.setItem('usuario_logado', 'true');
@@ -82,6 +94,7 @@ async function handleAuth(e, tipo) {
             if (result.startsWith("autorizado")) {
                 nomeFinal = result.split("|")[1] || "Aluno";
             }
+
             localStorage.setItem('user_name', nomeFinal);
 
             if (msg) {
