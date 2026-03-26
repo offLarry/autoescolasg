@@ -72,7 +72,7 @@ function concluirAulaAtiva() {
 
 function logout() {
     localStorage.clear();
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
 }
 
 // --- 4. INICIALIZAÇÃO ---
