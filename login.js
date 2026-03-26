@@ -27,7 +27,7 @@ function switchTab(mode) {
 }
 
 /**
- * Mostra/Esconde a senha nos campos de input
+ * Mostra/Esconde a senha
  */
 function togglePassword(inputId, iconId) {
     const passwordInput = document.getElementById(inputId);
@@ -42,87 +42,67 @@ function togglePassword(inputId, iconId) {
 }
 
 /**
- * Gerencia o Login e Registro comunicando-se com o Google Sheets
+ * Lógica de Autenticação e Restauração de Dados
  */
 async function handleAuth(e, tipo) {
     e.preventDefault();
     const msg = document.getElementById('authMessage');
     
-    // Captura os dados dos inputs
     const email = tipo === 'login' ? document.getElementById('loginEmail').value : document.getElementById('regEmail').value;
     const senha = tipo === 'login' ? document.getElementById('loginPassword').value : document.getElementById('regPassword').value;
     const nome = tipo === 'registro' ? document.getElementById('regNome').value : "";
 
-    if (msg) msg.innerText = "Aguarde...";
+    if (msg) msg.innerText = "Processando...";
 
-    // URL com timestamp para evitar cache do navegador
     const url = `${SHEET_API_URL}?acao=${tipo}&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}&nome=${encodeURIComponent(nome)}&t=${new Date().getTime()}`;
 
     try {
         const response = await fetch(url);
         const result = await response.text();
 
-        // CASO 1: LOGIN AUTORIZADO
         if (result.startsWith("autorizado")) {
+            // A resposta do Google deve ser: autorizado|Nome|Liberado|Progresso
             const partes = result.split("|");
             const nomeUser = partes[1];
             const liberado = partes[2];
-            const progressoCSV = partes[3] || "0%"; // Valor vindo da Coluna F
+            const progressoPlanilha = partes[3] || "0%"; 
 
-            // Salva dados de sessão
+            // 1. Salva dados de sessão
             localStorage.setItem('usuario_logado', 'true');
             localStorage.setItem('user_name', nomeUser);
             localStorage.setItem('user_email', email); 
             localStorage.setItem('user_pass', senha);
             localStorage.setItem('permissao_curso', liberado);
 
-            // --- RESTAURAÇÃO DE PROGRESSO ---
-            // Converte a porcentagem (ex: "50%") em IDs de aulas (leg_1, leg_2...)
-            const totalAulas = 4; // Deve ser o mesmo número de aulas do seu script.js
-            const porcentagemNumerica = parseInt(progressoCSV) || 0;
+            // 2. RESTAURAÇÃO DO PROGRESSO (O "PULO DO GATO")
+            // Transformamos a string "50%" em IDs de aulas concluídas
+            const totalAulas = 4; // Ajuste para o número real de aulas do seu script.js
+            const porcentagemNumerica = parseInt(progressoPlanilha) || 0;
             const qtdConcluida = Math.round((porcentagemNumerica / 100) * totalAulas);
             
             let aulasIds = [];
             for (let i = 1; i <= qtdConcluida; i++) {
-                aulasIds.push(`leg_${i}`);
+                aulasIds.push(`leg_${i}`); // Cria a lista ['leg_1', 'leg_2'...]
             }
             
-            // Salva o array de aulas concluídas no formato que o script.js entende
+            // Salva a lista de aulas de volta no navegador
             localStorage.setItem('aulas_concluidas', JSON.stringify(aulasIds));
 
-            // Redireciona para o painel do aluno
             window.location.replace('index.html');
 
-        } 
-        // CASO 2: REGISTRO COM SUCESSO
-        else if (result.includes("sucesso_registro")) {
-            if (msg) msg.innerHTML = "<span style='color: #10b981;'>✅ Conta criada com sucesso! Faça login.</span>";
+        } else if (result.includes("sucesso_registro")) {
+            msg.innerText = "✅ Conta criada! Faça login.";
             switchTab('login');
-        } 
-        // CASO 3: ERROS (Email duplicado, senha errada, etc)
-        else {
-            if (msg) {
-                if (result.includes("email_existente")) msg.innerText = "❌ Este e-mail já está cadastrado.";
-                else if (result.includes("credenciais")) msg.innerText = "❌ E-mail ou senha incorretos.";
-                else msg.innerText = "❌ Erro ao processar. Tente novamente.";
-            }
+        } else {
+            msg.innerText = "❌ Dados incorretos ou erro no servidor.";
         }
     } catch (err) {
-        console.error("Erro na autenticação:", err);
-        if (msg) msg.innerText = "⚠️ Erro de conexão com o servidor.";
+        msg.innerText = "⚠️ Erro de conexão.";
+        console.error(err);
     }
 }
 
-// Inicialização dos eventos
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-
-    if (loginForm) {
-        loginForm.addEventListener('submit', (e) => handleAuth(e, 'login'));
-    }
-    
-    if (registerForm) {
-        registerForm.addEventListener('submit', (e) => handleAuth(e, 'registro'));
-    }
+    document.getElementById('loginForm')?.addEventListener('submit', (e) => handleAuth(e, 'login'));
+    document.getElementById('registerForm')?.addEventListener('submit', (e) => handleAuth(e, 'registro'));
 });
