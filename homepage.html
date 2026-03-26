@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Aluno | São Gotardo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Logo.png" alt="Logo Autoescola São Gotardo" class="nav-logo">
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Meus Cursos</a></li>
+            <li><a href="javascript:void(0)" onclick="logout()">Sair</a></li>
+        </ul>
+    </nav>
+
+    <main style="padding: 120px 5% 40px; max-width: 1200px; margin: 0 auto;">
+        <h1 class="gradient-text" style="font-size: 2.5rem;">Olá, <span id="displayNome">Aluno</span>!</h1>
+        <p style="color: var(--text-dim); margin-bottom: 40px;">Continue seus estudos de onde parou.</p>
+
+        <div class="course-card" style="max-width: 400px;">
+            <div style="height: 180px; background: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=400') center/cover;"></div>
+            <div style="padding: 25px;">
+                <h3 style="margin-bottom: 15px;">Legislação Completa</h3>
+                <div style="margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px;">
+                        <span>Seu Progresso</span>
+                        <span id="porcentagemTexto">0%</span>
+                    </div>
+                    <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                        <div id="barraProgressoFill" style="height: 100%; background: var(--primary); width: 0%; transition: 0.5s;"></div>
+                    </div>
+                </div>
+                <button class="btn-send" style="width: 100%;" onclick="window.location.href='cursos.html'">Acessar Aulas</button>
+            </div>
+        </div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
