@@ -94,6 +94,25 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function verificarPermissoes() {
+    const permissao = localStorage.getItem('permissao_curso');
+    const cardCurso = document.getElementById('cardCursoLegislacao');
+    const cardNegado = document.getElementById('cardAcessoNegado');
+
+    if (permissao === "SIM") {
+        cardCurso?.classList.remove('hidden');
+        cardNegado?.classList.add('hidden');
+    } else {
+        cardCurso?.classList.add('hidden');
+        cardNegado?.classList.remove('hidden');
+    }
+}
+
+// Chame essa função ao carregar a página index.html
+document.addEventListener('DOMContentLoaded', () => {
+    verificarPermissoes();
+});
+
 function verificarAcesso() {
     const estaLogado = localStorage.getItem('usuario_logado');
     const paginaAtual = window.location.pathname;
