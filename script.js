@@ -151,8 +151,17 @@ function verificarPermissoes() {
     }
 }
 
-// Chame essa função ao carregar a página index.html
-document.addEventListener('DOMContentLoaded', () => {
-    verificarPermissoes();
+window.addEventListener('DOMContentLoaded', () => {
+    // Carrega o nome
+    const elNome = document.getElementById('displayNome');
+    if (elNome) elNome.innerText = localStorage.getItem('user_name') || 'Aluno';
+
+    // Chama o progresso
+    atualizarProgressoVisual(); 
     verificarAcessoGeral();
+    // Verifica se o curso deve aparecer ou não
+    if (typeof verificarPermissoes === "function") {
+        verificarPermissoes();
+    }
 });
+
