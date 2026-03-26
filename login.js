@@ -61,48 +61,55 @@ async function handleAuth(e, tipo) {
         msg.style.color = "var(--primary)";
     }
 
-    // Coleta os dados dos inputs
     const email = tipo === 'login' ? document.getElementById('loginEmail').value : document.getElementById('regEmail').value;
     const senha = tipo === 'login' ? document.getElementById('loginPassword').value : document.getElementById('regPassword').value;
     const nome = tipo === 'registro' ? document.getElementById('regNome').value : "";
 
-    // Monta a URL de forma segura
-    const urlFinal = `${SHEET_API_URL}?acao=${tipo}&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}&nome=${encodeURIComponent(nome)}`;
+    // Construção da URL com URLSearchParams para garantir a codificação correta
+    const params = new URLSearchParams({
+        acao: tipo,
+        email: email,
+        senha: senha,
+        nome: nome
+    });
+
+    const urlFinal = `${SHEET_API_URL}?${params.toString()}`;
 
     try {
-        // O modo 'cors' é essencial para o Google Apps Script
-        const response = await fetch(urlFinal, { method: 'GET' });
+        // IMPORTANTE: Não use headers personalizados ou 'mode: cors' explicitamente aqui
+        // O Google Apps Script exige que a requisição seja simples para evitar pre-flight CORS
+        const response = await fetch(urlFinal);
+        
+        if (!response.ok) throw new Error('Erro na rede');
+
         const result = await response.text();
 
-        if (result.startsWith("autorizado") || result.includes("sucesso")) {
+        if (result.includes("autorizado") || result.includes("sucesso_registro")) {
             const partes = result.split("|");
             
-            // Salva os dados no navegador
             localStorage.setItem('usuario_logado', 'true');
             localStorage.setItem('user_name', partes[1] || nome || "Aluno");
             localStorage.setItem('permissao_curso', partes[2] || "NÃO");
 
             if (msg) {
-                msg.innerText = "✅ Acesso permitido! Entrando...";
+                msg.innerText = "✅ Sucesso! Redirecionando...";
                 msg.style.color = "#4ade80";
             }
 
-            // Redireciona após um breve delay
             setTimeout(() => {
                 window.location.replace('index.html');
             }, 800);
 
-        } else if (result === "erro_email_existente") {
-            msg.innerText = "❌ Este e-mail já está cadastrado.";
-            msg.style.color = "#f59e0b";
         } else {
-            msg.innerText = "❌ E-mail ou senha incorretos.";
-            msg.style.color = "#ef4444";
+            if (msg) {
+                msg.innerText = "❌ E-mail ou senha incorretos.";
+                msg.style.color = "#ef4444";
+            }
         }
     } catch (error) {
         console.error("Erro detalhado:", error);
         if (msg) {
-            msg.innerText = "⚠️ Erro de rede. Verifique sua conexão ou o link da API.";
+            msg.innerText = "⚠️ Erro de comunicação com o servidor.";
             msg.style.color = "#f59e0b";
         }
     }
