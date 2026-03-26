@@ -119,7 +119,7 @@ function verificarAcesso() {
 
     // Se NÃO estiver logado e tentar acessar index ou cursos
     if (!estaLogado && (paginaAtual.includes('cursoshome.html') || paginaAtual.includes('cursos.html'))) {
-        window.location.replace('login.html');
+        window.location.replace('index.html');
     }
 }
 
