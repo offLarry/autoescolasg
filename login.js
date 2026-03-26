@@ -90,7 +90,7 @@ async function handleAuth(e, tipo) {
             }
 
             setTimeout(() => {
-                window.location.replace('index.html');
+                window.location.replace('cursoshome.html');
             }, 800);
         } else {
             if (msg) {
