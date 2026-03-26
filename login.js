@@ -70,16 +70,18 @@ async function handleAuth(e, tipo) {
 
         } else if (result.startsWith("autorizado")) {
             const partes = result.split("|");
+            const nomeUsuario = partes[1];
+            const permissao = partes[2]; // Aqui virá "SIM" ou "NÃO" da planilha
+        
             localStorage.setItem('usuario_logado', 'true');
-            localStorage.setItem('user_name', partes[1] || "Aluno");
-            localStorage.setItem('user_email', email); // Onde 'email' é o valor vindo do input
-            localStorage.setItem('permissao_curso', partes[2] || "NÃO");
-
+            localStorage.setItem('user_name', nomeUsuario);
+            localStorage.setItem('permissao_curso', permissao); // Salva o status atual
+        
             if (msg) {
                 msg.innerText = "✅ Login realizado! Entrando...";
                 msg.style.color = "#4ade80";
             }
-            setTimeout(() => window.location.replace('cursoshome.html'), 800);
+            setTimeout(() => window.location.replace('cursoshome.html'), 200);
 
         } else if (result === "erro_email_existente") {
             msg.innerText = "❌ Este e-mail já está cadastrado.";
