@@ -158,7 +158,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Chama o progresso
     atualizarProgressoVisual(); 
-    verificarAcessoGeral();
     // Verifica se o curso deve aparecer ou não
     if (typeof verificarPermissoes === "function") {
         verificarPermissoes();
