@@ -94,3 +94,15 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function verificarAcesso() {
+    const estaLogado = localStorage.getItem('usuario_logado');
+    const paginaAtual = window.location.pathname;
+
+    // Se NÃO estiver logado e tentar acessar index ou cursos
+    if (!estaLogado && (paginaAtual.includes('index.html') || paginaAtual.includes('cursos.html'))) {
+        window.location.replace('login.html');
+    }
+}
+
+// Executa assim que o script carrega
+verificarAcesso();
