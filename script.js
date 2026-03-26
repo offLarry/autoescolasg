@@ -136,17 +136,5 @@ function verificarPermissoes() {
 // Chame essa função ao carregar a página index.html
 document.addEventListener('DOMContentLoaded', () => {
     verificarPermissoes();
+    verificarAcessoGeral();
 });
-
-function verificarAcesso() {
-    const estaLogado = localStorage.getItem('usuario_logado');
-    const paginaAtual = window.location.pathname;
-
-    // Se NÃO estiver logado e tentar acessar index ou cursos
-    if (!estaLogado && (paginaAtual.includes('cursoshome.html') || paginaAtual.includes('cursos.html'))) {
-        window.location.replace('index.html');
-    }
-}
-
-// Executa assim que o script carrega
-verificarAcesso();
