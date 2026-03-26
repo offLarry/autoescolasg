@@ -71,9 +71,8 @@ async function handleAuth(e, tipo) {
         const query = new URLSearchParams(dados).toString();
         const response = await fetch(`${SHEET_API_URL}?${query}`);
         const result = await response.text();
-
-
-        if (result.startsWith("autorizado")) {
+        // Verifica se o retorno indica sucesso
+        if (result.includes("sucesso") || result.startsWith("autorizado")) {
             const partes = result.split("|");
             const nome = partes[1];
             const cursoLiberado = partes[2]; // Pega o "SIM" ou "NÃO" vindo do Sheets
@@ -83,11 +82,6 @@ async function handleAuth(e, tipo) {
             localStorage.setItem('permissao_curso', cursoLiberado); // Salva a permissão
         
             window.location.replace('index.html');
-        }
-        
-        // Verifica se o retorno indica sucesso
-        if (result.includes("sucesso") || result.startsWith("autorizado")) {
-            localStorage.setItem('usuario_logado', 'true');
             
             // Extrai o nome do utilizador se vier da API, senão usa o do input
             let nomeFinal = dados.nome || "Aluno";
