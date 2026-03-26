@@ -31,6 +31,23 @@ const CURSO_LEGISLACAO = [
     }
 })();
 
+async function salvarProgressoNoSheets() {
+    const email = localStorage.getItem('user_email'); // Certifique-se de salvar o email no login
+    const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
+    const porcentagem = Math.round((concluidas.length / CURSO_LEGISLACAO.length) * 100) + "%";
+
+    if (!email) return;
+
+    const url = `${SHEET_API_URL}?acao=atualizarProgresso&email=${encodeURIComponent(email)}&progresso=${encodeURIComponent(porcentagem)}`;
+
+    try {
+        await fetch(url);
+        console.log("Progresso sincronizado com a nuvem!");
+    } catch (error) {
+        console.error("Erro ao salvar progresso:", error);
+    }
+}
+
 // --- 2. LÓGICA DO SIMULADOR ---
 function calcularOrcamento() {
     // Preços atualizados
