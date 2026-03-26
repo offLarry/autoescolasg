@@ -133,7 +133,7 @@ verificarAcesso();
     const paginaAtual = window.location.pathname;
 
     // Se não estiver logado, vai para o login
-    if (!logado && !paginaAtual.includes('login.html') && !paginaAtual.includes('homepage.html')) {
+    if (!logado && !paginaAtual.includes('login.html') && !paginaAtual.includes('cursoshome.html')) {
         window.location.replace('login.html');
     }
 
