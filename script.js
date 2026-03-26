@@ -99,7 +99,9 @@ function atualizarProgressoVisual() {
     if (bar) bar.style.width = `${porcentagem}%`;
 }
 
-function concluirAulaAtiva() {
+async function concluirAulaAtiva(e) {
+    if (e) e.preventDefault(); // Impede a página de resetar
+    
     const idAtual = localStorage.getItem('aula_atual_id');
     if (!idAtual) return;
 
@@ -107,9 +109,14 @@ function concluirAulaAtiva() {
     if (!concluidas.includes(idAtual)) {
         concluidas.push(idAtual);
         localStorage.setItem('aulas_concluidas', JSON.stringify(concluidas));
-        alert("Aula marcada como concluída! ✅");
-        location.reload(); 
-        salvarProgressoNoSheets();
+        
+        atualizarProgressoVisual();
+        
+        // Aguarda a sincronização antes de qualquer outra ação
+        await sincronizarComNuvem(); 
+        
+        alert("Aula concluída e salva! ✅");
+        // location.reload(); <-- COMENTE ESTA LINHA para o erro não sumir
     }
 }
 
