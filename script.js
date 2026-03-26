@@ -6,6 +6,31 @@ const CURSO_LEGISLACAO = [
     { id: 'leg_4', title: '04. Sinalização Horizontal', url: 'https://www.dropbox.com/scl/fi/q2d25lqww46i62osqopdw/02-LEGISLA-O.mp4?rlkey=2lfmybi5ro6pa386s8vt98lbp&st=8tjdt68b&raw=1' }
 ];
 
+(function verificarAcessoGeral() {
+    const logado = localStorage.getItem('usuario_logado');
+    const permissao = localStorage.getItem('permissao_curso');
+    const caminho = window.location.pathname;
+    
+    // Extrai apenas o nome do arquivo (ex: index.html)
+    const paginaAtual = caminho.split("/").pop();
+
+    // 1. Lista de páginas que QUALQUER UM pode ver
+    // Se a sua home for "index.html", ela deve estar aqui.
+    const paginasPublicas = ['index.html', '', 'homepage.html']; 
+
+    // 2. Se NÃO está logado e tenta acessar algo que NÃO está na lista pública
+    if (!logado && !paginasPublicas.includes(paginaAtual)) {
+        window.location.replace('index.html'); // Manda de volta para a Home/Login
+        return;
+    }
+
+    // 3. Se está logado mas tenta acessar as aulas (cursos.html) sem ter o "SIM" na planilha
+    if (paginaAtual === 'cursos.html' && permissao !== "SIM") {
+        alert("Acesso negado. Este curso ainda não foi liberado para o seu usuário.");
+        window.location.replace('index.html');
+    }
+})();
+
 // --- 2. LÓGICA DO SIMULADOR ---
 function calcularOrcamento() {
     // Preços atualizados
@@ -125,17 +150,3 @@ function verificarAcesso() {
 
 // Executa assim que o script carrega
 verificarAcesso();
-
-// Proteção de Rota
-(function verificarAcessoGeral() {
-    const logado = localStorage.getItem('usuario_logado');
-    const permissao = localStorage.getItem('permissao_curso');
-    const paginaAtual = window.location.pathname;
-
-
-    // Se tentar entrar em cursos.html sem permissão "SIM"
-    if (paginaAtual.includes('cursos.html') && permissao !== "SIM") {
-        alert("Acesso negado. Este curso não está liberado para você.");
-        window.location.replace('index.html');
-    }
-})();
