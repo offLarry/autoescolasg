@@ -11,7 +11,6 @@ function switchTab(mode) {
     const tabRegister = document.getElementById('tabRegister');
     const msg = document.getElementById('authMessage');
     
-    // Limpa mensagens ao trocar de aba
     if (msg) msg.innerText = "";
 
     if (mode === 'login') {
@@ -28,9 +27,7 @@ function switchTab(mode) {
 }
 
 /**
- * Alterna a visibilidade da senha e troca o ícone do olhinho
- * @param {string} inputId - ID do campo de input
- * @param {string} iconId - ID do ícone <i>
+ * Alterna a visibilidade da senha
  */
 function togglePassword(inputId, iconId) {
     const passwordInput = document.getElementById(inputId);
@@ -38,12 +35,10 @@ function togglePassword(inputId, iconId) {
 
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
-        // Troca o ícone para "olho cortado"
         eyeIcon.classList.remove('fa-eye');
         eyeIcon.classList.add('fa-eye-slash');
     } else {
         passwordInput.type = 'password';
-        // Volta para o ícone de "olho aberto"
         eyeIcon.classList.remove('fa-eye-slash');
         eyeIcon.classList.add('fa-eye');
     }
@@ -57,42 +52,44 @@ async function handleAuth(e, tipo) {
     const msg = document.getElementById('authMessage');
     
     if (msg) {
-        msg.innerText = "Verificando dados...";
+        msg.innerText = "Processando... aguarde.";
         msg.style.color = "var(--primary)";
     }
 
+    // Captura os valores corretamente dependendo do formulário
     const email = tipo === 'login' ? document.getElementById('loginEmail').value : document.getElementById('regEmail').value;
     const senha = tipo === 'login' ? document.getElementById('loginPassword').value : document.getElementById('regPassword').value;
     const nome = tipo === 'registro' ? document.getElementById('regNome').value : "";
 
-    // Construção da URL com URLSearchParams para garantir a codificação correta
-    const params = new URLSearchParams({
-        acao: tipo,
-        email: email,
-        senha: senha,
-        nome: nome
-    });
-
-    const urlFinal = `${SHEET_API_URL}?${params.toString()}`;
+    // Monta a URL de forma simples para evitar erro de CORS do Google
+    const urlFinal = `${SHEET_API_URL}?acao=${tipo}&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}&nome=${encodeURIComponent(nome)}`;
 
     try {
-        // IMPORTANTE: Não use headers personalizados ou 'mode: cors' explicitamente aqui
-        // O Google Apps Script exige que a requisição seja simples para evitar pre-flight CORS
         const response = await fetch(urlFinal);
-        
-        if (!response.ok) throw new Error('Erro na rede');
-
         const result = await response.text();
 
-        if (result.includes("autorizado") || result.includes("sucesso_registro")) {
+        console.log("Resposta do Servidor:", result);
+
+        if (result.includes("sucesso_registro")) {
+            if (msg) {
+                msg.innerText = "✅ Conta criada! Agora faça seu login.";
+                msg.style.color = "#4ade80";
+            }
+            // Limpa o formulário e volta para aba de login
+            document.getElementById('registerForm').reset();
+            setTimeout(() => switchTab('login'), 2000);
+
+        } else if (result.startsWith("autorizado")) {
             const partes = result.split("|");
-            
+            const nomeUsuario = partes[1];
+            const permissaoCurso = partes[2];
+
             localStorage.setItem('usuario_logado', 'true');
-            localStorage.setItem('user_name', partes[1] || nome || "Aluno");
-            localStorage.setItem('permissao_curso', partes[2] || "NÃO");
+            localStorage.setItem('user_name', nomeUsuario);
+            localStorage.setItem('permissao_curso', permissaoCurso);
 
             if (msg) {
-                msg.innerText = "✅ Sucesso! Redirecionando...";
+                msg.innerText = "✅ Login realizado! Entrando...";
                 msg.style.color = "#4ade80";
             }
 
@@ -100,22 +97,23 @@ async function handleAuth(e, tipo) {
                 window.location.replace('index.html');
             }, 800);
 
+        } else if (result === "erro_email_existente") {
+            msg.innerText = "❌ Este e-mail já está cadastrado.";
+            msg.style.color = "#f59e0b";
         } else {
-            if (msg) {
-                msg.innerText = "❌ E-mail ou senha incorretos.";
-                msg.style.color = "#ef4444";
-            }
+            msg.innerText = "❌ E-mail ou senha incorretos.";
+            msg.style.color = "#ef4444";
         }
     } catch (error) {
-        console.error("Erro detalhado:", error);
+        console.error("Erro:", error);
         if (msg) {
-            msg.innerText = "⚠️ Erro de comunicação com o servidor.";
+            msg.innerText = "⚠️ Erro de conexão com o servidor.";
             msg.style.color = "#f59e0b";
         }
     }
 }
 
-// Inicialização dos Listeners
+// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loginForm')?.addEventListener('submit', (e) => handleAuth(e, 'login'));
     document.getElementById('registerForm')?.addEventListener('submit', (e) => handleAuth(e, 'registro'));
