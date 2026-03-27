@@ -21,6 +21,54 @@ body {
     line-height: 1.6;
 }
 
+/* Container de imagem do módulo */
+.module-image {
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px 12px 0 0;
+}
+
+
+/* Badge flutuante do módulo */
+.module-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: var(--primary);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    z-index: 10;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.course-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+}
+
+.opacity-50 {
+    opacity: 0.5;
+    filter: saturate(0);
+}
+
+.lock-overlay {
+    text-align: center;
+    color: var(--text-dim);
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Garante que o card seja um container relativo para a badge */
+.course-card { position: relative; overflow: hidden; display: flex; flex-direction: column; }
+
 /* =========================================
    2. NAVBAR (Global)
    ========================================= */
@@ -40,7 +88,157 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.nav-logo { height: 40px; width: auto; }
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Número alto para ficar na frente */
+}
+
+:root {
+    /* Ajuste para a cor principal da sua marca */
+    --primary-rgb: 139, 92, 246; 
+}
+
+#student-dashboard {
+    position: fixed;
+    top: 85px; /* Ajuste conforme a altura da sua navbar */
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    padding: 0 5%;
+    pointer-events: none; /* Permite clicar no que está atrás se necessário */
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.student-dashboard-hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none !important;
+}
+
+.dashboard-glass {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 15px 25px;
+    pointer-events: auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.dashboard-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Info do Usuário */
+.user-stats {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex: 1;
+}
+
+.status-badge {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 50px;
+    text-transform: uppercase;
+}
+
+.welcome-text h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: white;
+}
+
+/* Barra de Progresso */
+.progress-wrapper {
+    flex: 1;
+    max-width: 300px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-bottom: 6px;
+}
+
+.progress-track {
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), #a78bfa);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+    transition: width 1s ease-in-out;
+}
+
+/* Botões */
+.dashboard-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-continue {
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.btn-continue:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
+
+.btn-logout-icon {
+    background: rgba(255, 68, 68, 0.1);
+    border: none;
+    color: #ff4444;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-logout-icon:hover {
+    background: #ff4444;
+    color: white;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .dashboard-content { flex-direction: column; text-align: center; }
+    .user-stats { flex-direction: column; gap: 15px; }
+    #student-dashboard { top: 70px; }
+}
+.nav-logo { height: 60px; width: auto; }
 .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--primary); text-decoration: none; }
 .nav-links { display: flex; list-style: none; gap: 25px; align-items: center; }
 .nav-links a { color: white; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: 0.3s; }
@@ -341,4 +539,146 @@ input[type="radio"]:checked + .radio-card i { filter: drop-shadow(0 0 5px var(--
 @media (max-width: 1024px) {
     .estudo-wrapper { grid-template-columns: 1fr; height: auto; }
     .sidebar-aulas { height: 500px; }
+}
+
+
+.map-container-wrapper {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr; /* Mapa maior que a lista */
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 450px;
+}
+
+.map-box {
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.filiais-grid-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto; /* Permite scroll se tiver muitas filiais */
+    padding-right: 10px;
+}
+
+.filial-card-small {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+.filial-card-small {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Estilo para quando a filial está selecionada */
+.filial-card-small.active-map {
+    background: rgba(var(--primary-rgb), 0.15); /* Cor de destaque leve */
+    border-color: var(--primary);
+    transform: translateX(5px);
+}
+
+.filial-card-small.active-map i {
+    color: var(--primary);
+}
+
+.indicator {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+.active-map .indicator {
+    color: var(--primary);
+    transform: translateX(3px);
+}
+
+
+
+#aluno-home-banner {
+    margin-top: 80px; /* Altere para a altura exata da sua navbar */
+    position: relative;
+    z-index: 900; /* Menor que a nav */
+    display: none; /* Mantido conforme lógica anterior */
+    background: rgba(var(--primary-rgb), 0.1);
+    border-bottom: 1px solid var(--primary);
+    padding: 25px 5%;
+}
+
+/* Se você usa um Header logo após a Nav, ele também precisa desse ajuste */
+header {
+    margin-top: 80px; 
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.filial-card-small:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary);
+}
+
+.filial-info {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.filial-info i {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.filial-info h4 {
+    font-size: 0.95rem;
+    margin: 0;
+    color: white;
+}
+
+.filial-info p {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin: 2px 0 0 0;
+}
+
+.btn-map-mini {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.btn-map-mini:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* Ajuste para Celular */
+@media (max-width: 768px) {
+    .map-container-wrapper {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    .map-box {
+        height: 300px;
+    }
 }
