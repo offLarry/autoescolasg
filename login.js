@@ -52,8 +52,12 @@ async function handleAuth(e, tipo) {
     const senha = tipo === 'login' ? document.getElementById('loginPassword').value : document.getElementById('regPassword').value;
     const nome = tipo === 'registro' ? document.getElementById('regNome').value : "";
 
-    if (msg) msg.innerText = "Verificando dados...";
+    if (msg) {
+        msg.style.color = "#94a3b8";
+        msg.innerText = "Verificando dados...";
+    }
 
+    // Adicionamos um timestamp para evitar cache do navegador
     const url = `${SHEET_API_URL}?acao=${tipo}&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}&nome=${encodeURIComponent(nome)}&t=${new Date().getTime()}`;
 
     try {
@@ -66,60 +70,76 @@ async function handleAuth(e, tipo) {
             const liberado = partes[2];
             const progressoPlanilha = partes[3] || "0"; 
 
-            // 1. Limpa o LocalStorage para evitar conflito
+            // 1. Limpa o LocalStorage para evitar lixo de sessões anteriores
             localStorage.clear();
 
-            // 2. Salva dados básicos
+            // 2. Salva dados básicos de identificação
             localStorage.setItem('usuario_logado', 'true');
             localStorage.setItem('user_name', nomeUser);
             localStorage.setItem('user_email', email); 
             localStorage.setItem('user_pass', senha);
             localStorage.setItem('permissao_curso', liberado);
 
-            // 3. RESTAURAÇÃO DE PROGRESSO (TRATAMENTO DE DECIMAIS)
-            const totalAulas = 4; // Ajuste conforme seu script.js
+            // 3. PROCESSAMENTO DO PROGRESSO (Convertendo decimal da planilha em IDs de aula)
+            const totalAulas = 4; // Ajuste para o número total de vídeos do seu curso
             let porcentagemFinal = 0;
 
-            // Se o Google enviar "0.3" ou "1" (formato decimal da planilha)
+            // Tratamento de segurança para números decimais (ex: 0.25 ou 0,25)
             const valorNumerico = parseFloat(progressoPlanilha.toString().replace(',', '.'));
             
             if (!isNaN(valorNumerico)) {
-                if (valorNumerico <= 1) {
-                    // Caso seja 0.3, vira 30%
+                if (valorNumerico > 0 && valorNumerico <= 1) {
+                    // Se for 0.5 vira 50%
                     porcentagemFinal = valorNumerico * 100;
                 } else {
-                    // Caso seja 30 ou 100
+                    // Se já for 50 vira 50%
                     porcentagemFinal = valorNumerico;
                 }
             }
 
+            // Calcula quantas aulas foram concluídas baseado na porcentagem
             const qtdConcluida = Math.round((porcentagemFinal / 100) * totalAulas);
             
-            console.log(`Debug: Recebido ${progressoPlanilha} -> Calculado ${porcentagemFinal}% -> Aulas: ${qtdConcluida}`);
-
+            // Gera a lista de IDs de aulas (leg_1, leg_2...)
             let aulasIds = [];
             for (let i = 1; i <= qtdConcluida; i++) {
                 aulasIds.push(`leg_${i}`);
             }
             
+            // Salva o progresso restaurado no LocalStorage
             localStorage.setItem('aulas_concluidas', JSON.stringify(aulasIds));
 
-            // 4. Redireciona
+            console.log(`Sucesso! Nome: ${nomeUser} | Progresso: ${porcentagemFinal}% | Aulas: ${aulasIds.length}`);
+
+            // 4. Força atualização visual se os scripts da home estiverem carregados
+            if (typeof atualizarProgressoVisual === 'function') {
+                atualizarProgressoVisual();
+            }
+
+            // 5. Redireciona para a Home
             window.location.replace('index.html');
 
         } else if (result.includes("sucesso_registro")) {
-            if (msg) msg.innerHTML = "<span style='color: #10b981;'>✅ Conta criada! Faça login.</span>";
+            if (msg) {
+                msg.innerHTML = "<span style='color: #10b981;'>✅ Conta criada! Faça login.</span>";
+            }
             switchTab('login');
         } else {
-            if (msg) msg.innerText = "❌ E-mail ou senha incorretos.";
+            if (msg) {
+                msg.style.color = "#ef4444";
+                msg.innerText = "❌ E-mail ou senha incorretos.";
+            }
         }
     } catch (err) {
-        console.error(err);
-        if (msg) msg.innerText = "⚠️ Erro de conexão com o servidor.";
+        console.error("Erro no Fetch:", err);
+        if (msg) {
+            msg.style.color = "#ef4444";
+            msg.innerText = "⚠️ Erro de conexão com o servidor.";
+        }
     }
 }
 
-// Inicialização
+// Inicialização dos eventos
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('loginForm')?.addEventListener('submit', (e) => handleAuth(e, 'login'));
     document.getElementById('registerForm')?.addEventListener('submit', (e) => handleAuth(e, 'registro'));

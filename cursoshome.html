@@ -19,39 +19,60 @@
         </ul>
     </nav>
 
-   <main style="padding: 120px 5% 40px; max-width: 1200px; margin: 0 auto;">
-        <h1 class="gradient-text" style="font-size: 2.5rem;">Olá, <span id="displayNome">Aluno</span>!</h1>
-        <p style="color: var(--text-dim); margin-bottom: 40px;">Continue seus estudos de onde parou.</p>
+	<main style="padding: 120px 5% 40px; max-width: 1200px; margin: 0 auto;">
+		<h1 class="gradient-text" style="font-size: 2.5rem;">Olá, <span id="displayNome">Aluno</span>!</h1>
+		<p style="color: var(--text-dim); margin-bottom: 40px;">Continue seus estudos de onde parou.</p>
 
-        <div id="cursoLiberado" class="course-card hidden" style="max-width: 400px;">
-            <div style="height: 180px; background: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=400') center/cover;"></div>
-            <div style="padding: 25px;">
-                <h3 style="margin-bottom: 15px;">Legislação Completa</h3>
-                <div style="margin-bottom: 20px;">
-                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px;">
-                        <span>Seu Progresso</span>
-                        <span id="porcentagemTexto">0%</span>
-                    </div>
-                    <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
-                        <div id="barraProgressoFill" style="height: 100%; background: var(--primary); width: 0%; transition: 0.5s;"></div>
-                    </div>
-                </div>
-                <button class="btn-send" style="width: 100%;" onclick="window.location.href='cursos.html'">Acessar Aulas</button>
-            </div>
-        </div>
+		<div id="cursoLiberado" class="hidden">
+			<div class="modules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+				
+				<div id="modulo-1" class="course-card">
+					<div class="module-badge">Módulo 01</div>
+					<div class="module-image" style="background-image: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=400'); height: 150px; background-size: cover; background-position: center;"></div>
+					<div style="padding: 20px;">
+						<h3>Legislação de Trânsito</h3>
+						<div style="margin: 15px 0;">
+							<div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px;">
+								<span>Progresso</span>
+								<span id="porcentagemTexto">0%</span>
+							</div>
+							<div class="progress-track"><div id="barraProgresso" class="progress-fill"></div></div>
+						</div>
+						<a href="cursos.html?mod=leg" class="btn-send" style="display: block; text-align: center; text-decoration: none;">Acessar Módulo</a>
+					</div>
+				</div>
+				<div id="modulo-2" class="course-card opacity-50" style="pointer-events: none;">
+					<div class="module-badge" style="background: #475569;">Módulo 02</div>
+					<div class="module-image" style="filter: grayscale(1); background-image: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=400'); height: 150px; background-size: cover;"></div>
+					
+					<div style="padding: 20px;">
+						<h3 style="color: var(--text-dim);">Direção Defensiva</h3>
+						
+						<div style="margin: 15px 0;">
+							<div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px;">
+								<span>Progresso</span>
+								<span id="porcentagemDef">0%</span>
+							</div>
+							<div class="progress-track">
+								<div id="barraDef" class="progress-fill" style="width: 0%;"></div>
+							</div>
+						</div>
+						<a href="cursos.html?mod=def" id="btn-modulo-2" class="btn-send" style="display: block; text-align: center; text-decoration: none;">
+							<i class="fas fa-lock" id="icon-lock-2"></i> Bloqueado
+						</a>
+					</div>
+				</div>			
+			</div>
+		</div>
 
-        <div id="cursoBloqueado" class="course-card hidden" style="max-width: 400px; border: 1px solid rgba(239, 68, 68, 0.3);">
-            <div style="height: 180px; background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=400') center/cover; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-lock" style="font-size: 3rem; color: var(--danger);"></i>
-            </div>
-            <div style="padding: 25px; text-align: center;">
-                <h3 style="margin-bottom: 10px; color: var(--text-dim);">Curso de Legislação</h3>
-                <p style="font-size: 0.9rem; color: var(--text-dim); margin-bottom: 20px;">O seu acesso ainda não foi liberado pela administração.</p>
-                <button class="btn-send" style="width: 100%; background: var(--bg-accent); cursor: not-allowed;" disabled>Aguardando Liberação</button>
-            </div>
-        </div>
-    </main>
-
+		<div id="cursoBloqueado" class="course-card hidden" style="max-width: 500px; margin: 0 auto;">
+			<div style="padding: 40px; text-align: center;">
+				<i class="fas fa-lock" style="font-size: 3rem; color: var(--danger); margin-bottom: 20px;"></i>
+				<h3>Acesso Restrito</h3>
+				<p style="color: var(--text-dim);">O seu acesso geral ao curso ainda não foi liberado pela administração.</p>
+			</div>
+		</div>
+	</main>
     <script src="script.js"></script>
     <script>
         // Lógica de Bloqueio/Liberação

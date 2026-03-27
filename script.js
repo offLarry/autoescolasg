@@ -8,199 +8,85 @@ const CURSO_LEGISLACAO = [
     { id: 'leg_4', title: '04. Sinalização Horizontal', url: 'https://www.dropbox.com/scl/fi/q2d25lqww46i62osqopdw/02-LEGISLA-O.mp4?rlkey=2lfmybi5ro6pa386s8vt98lbp&st=8tjdt68b&raw=1' }
 ];
 
-// --- 2. SEGURANÇA E REDIRECIONAMENTO ---
-(function verificarAcessoGeral() {
-    const logado = localStorage.getItem('usuario_logado');
-    const permissao = localStorage.getItem('permissao_curso');
-    const paginaAtual = window.location.pathname.split("/").pop();
-    const paginasPublicas = ['index.html', '', 'homepage.html']; 
+const CURSO_DIRECAO = [
+    { id: 'def_1', title: '01. Conceitos de Direção Defensiva', url: 'URL_DO_VIDEO_AQUI' },
+    { id: 'def_2', title: '02. Elementos da Direção Defensiva', url: 'URL_DO_VIDEO_AQUI' },
+    { id: 'def_3', title: '03. Condições Adversas', url: 'URL_DO_VIDEO_AQUI' },
+];
 
-    if (!logado && !paginasPublicas.includes(paginaAtual)) {
-        window.location.replace('index.html');
-        return;
-    }
-
-    if (paginaAtual === 'cursos.html' && permissao !== "SIM") {
-        alert("Acesso negado. Este curso ainda não foi liberado para você.");
-        window.location.replace('index.html');
-    }
-})();
-
-// --- 3. FUNCIONALIDADES DE PROGRESSO (DATABASE) ---
-
-async function sincronizarComNuvem() {
-    const email = localStorage.getItem('user_email');
+// --- 2. FUNÇÃO UNIFICADA DE INTERFACE ---
+function atualizarTudo() {
     const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
-    const porcentagem = Math.round((concluidas.length / CURSO_LEGISLACAO.length) * 100) + "%";
+    const nome = localStorage.getItem('user_name') || 'Aluno';
 
-    if (!email) return false;
+    const aulasLeg = concluidas.filter(id => id.startsWith('leg_')).length;
+    const porcLeg = Math.min(Math.round((aulasLeg / 4) * 100), 100);
 
-    const url = `${SHEET_API_URL}?acao=atualizarProgresso&email=${encodeURIComponent(email)}&progresso=${encodeURIComponent(porcentagem)}&t=${new Date().getTime()}`;
+    const aulasDef = concluidas.filter(id => id.startsWith('def_')).length;
+    const porcDef = Math.min(Math.round((aulasDef / 3) * 100), 100);
 
-    try {
-        const response = await fetch(url);
-        const texto = await response.text();
-        console.log("Sincronização:", texto);
-        return texto.includes("progresso_salvo");
-    } catch (error) {
-        console.error("Erro ao sincronizar:", error);
-        return false;
-    }
-}
+    // Atualiza Nomes e Barras (Módulo 1)
+    const elNome = document.getElementById('displayNome') || document.getElementById('home-nome-aluno');
+    if (elNome) elNome.innerText = nome.split(' ')[0];
 
-async function concluirAulaAtiva(e) {
-    if (e) e.preventDefault();
-    
-    const idAtual = localStorage.getItem('aula_atual_id');
-    if (!idAtual) {
-        alert("Selecione uma aula primeiro!");
-        return;
-    }
+    const txtM1 = document.getElementById('porcentagemTexto') || document.getElementById('home-porcentagem');
+    const barM1 = document.getElementById('barraProgresso') || document.getElementById('home-barra-fill');
+    if (txtM1) txtM1.innerText = porcLeg + "%";
+    if (barM1) barM1.style.width = porcLeg + "%";
 
-    let concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
-    
-    if (!concluidas.includes(idAtual)) {
-        concluidas.push(idAtual);
-        localStorage.setItem('aulas_concluidas', JSON.stringify(concluidas));
-        
-        atualizarProgressoVisual();
-        
-        // Exibe feedback visual de carregamento se desejar
-        console.log("Enviando progresso...");
-        
-        const salvo = await sincronizarComNuvem();
-        
-        if (salvo) {
-            alert("Aula concluída e salva na nuvem! ✅");
+    // Atualiza Módulo 2
+    const txtM2 = document.getElementById('porcentagemDef');
+    const barM2 = document.getElementById('barraDef');
+    if (txtM2) txtM2.innerText = porcDef + "%";
+    if (barM2) barM2.style.width = porcDef + "%";
+
+    // Bloqueio do Módulo 2
+    const btnM2 = document.getElementById('btn-modulo-2');
+    const cardM2 = document.getElementById('modulo-2');
+    if (cardM2 && btnM2) {
+        if (porcLeg >= 100) {
+            cardM2.classList.remove('opacity-50');
+            cardM2.style.pointerEvents = "auto";
+            btnM2.innerHTML = "Acessar Módulo";
         } else {
-            alert("Aula marcada localmente, mas houve erro na sincronização.");
+            cardM2.classList.add('opacity-50');
+            cardM2.style.pointerEvents = "none";
+            btnM2.innerHTML = '<i class="fas fa-lock"></i> Bloqueado';
         }
-        location.reload(); 
-    } else {
-        alert("Esta aula já foi concluída anteriormente.");
     }
 }
 
-function atualizarProgressoVisual() {
+// --- 3. CARREGAMENTO DINÂMICO DE AULAS ---
+function renderizarListaAulas() {
+    const container = document.getElementById('listaAulas');
+    if (!container) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const modulo = urlParams.get('mod');
+    const aulasParaExibir = (modulo === 'def') ? CURSO_DIRECAO : CURSO_LEGISLACAO;
     const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
-    const porcentagem = Math.round((concluidas.length / CURSO_LEGISLACAO.length) * 100);
 
-    const txt = document.getElementById('porcentagemTexto');
-    const bar = document.getElementById('barraProgressoFill');
-    
-    if (txt) txt.innerText = `${porcentagem}%`;
-    if (bar) bar.style.width = `${porcentagem}%`;
+    container.innerHTML = aulasParaExibir.map(aula => {
+        const check = concluidas.includes(aula.id);
+        return `
+            <div class="aula-item ${check ? 'concluida' : ''}" onclick="carregarVideo('${aula.url}', '${aula.id}')">
+                <i class="fas ${check ? 'fa-check-circle' : 'fa-play-circle'}"></i>
+                <span>${aula.title}</span>
+            </div>
+        `;
+    }).join('');
 }
 
-// --- 4. CHECAGEM EM TEMPO REAL (ADMIN) ---
-
-async function verificarLiberacaoEmTempoReal() {
-    const email = localStorage.getItem('user_email');
-    const senha = localStorage.getItem('user_pass');
-    const statusAtual = localStorage.getItem('permissao_curso');
-
-    // Só verifica se estiver logado e ainda não tiver acesso
-    if (localStorage.getItem('usuario_logado') === 'true' && statusAtual !== 'SIM' && email) {
-        const url = `${SHEET_API_URL}?acao=login&email=${encodeURIComponent(email)}&senha=${encodeURIComponent(senha)}&t=${new Date().getTime()}`;
-        
-        try {
-            const response = await fetch(url);
-            const result = await response.text();
-            
-            if (result.startsWith("autorizado")) {
-                const partes = result.split("|");
-                const novaPermissao = partes[2];
-
-                if (novaPermissao === "SIM") {
-                    localStorage.setItem('permissao_curso', 'SIM');
-                    alert("🎉 Seu acesso ao curso foi liberado agora mesmo!");
-                    verificarPermissoes(); // Atualiza os cards sem refresh
-                }
-            }
-        } catch (e) {
-            console.warn("Erro silencioso na checagem em tempo real.");
-        }
-    }
+function carregarVideo(url, id) {
+    const iframe = document.getElementById('videoPrincipal');
+    if (iframe) iframe.src = url;
+    localStorage.setItem('aula_atual_id', id);
 }
 
-// Verifica a cada 30 segundos
-setInterval(verificarLiberacaoEmTempoReal, 30000);
-
-// --- 5. INTERFACE E CONTROLE ---
-
-function verificarPermissoes() {
-    const permissao = localStorage.getItem('permissao_curso');
-    const cardCurso = document.getElementById('cardCursoLegislacao');
-    const cardNegado = document.getElementById('cardAcessoNegado');
-
-    if (permissao === "SIM") {
-        cardCurso?.classList.remove('hidden');
-        cardNegado?.classList.add('hidden');
-    } else {
-        cardCurso?.classList.add('hidden');
-        cardNegado?.classList.remove('hidden');
-    }
-}
-
-function logout() {
-    localStorage.clear();
-    window.location.href = 'index.html';
-}
-
-// --- 6. SIMULADOR DE ORÇAMENTO ---
-
-function calcularOrcamento() {
-    const tabela = {
-        primeira: { A: 1550, B: 2100, AB: 3250, D: 0 },
-        adicao:   { A: 1100, B: 1550, AB: 2400, D: 1750 },
-        mudanca:  { A: 0,    B: 0,    AB: 0,    D: 1850 }
-    };
-
-    const selectProcesso = document.getElementById('tipoProcesso');
-    if (!selectProcesso) return;
-
-    const tipo = selectProcesso.value;
-    const radioSelecionado = document.querySelector('input[name="cat"]:checked');
-    const display = document.getElementById('valorTotal');
-    
-    if (!display || !radioSelecionado) return;
-
-    const cat = radioSelecionado.value;
-    const valor = tabela[tipo][cat] || 0;
-    
-    if (valor === 0) {
-        display.innerText = "Consulte-nos";
-    } else {
-        display.innerText = `R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-    }
-}
-
-function finalizarNoWhats() {
-    const tipoTxt = document.getElementById('tipoProcesso').options[document.getElementById('tipoProcesso').selectedIndex].text;
-    const cat = document.querySelector('input[name="cat"]:checked')?.value || "";
-    const valor = document.getElementById('valorTotal').innerText;
-    
-    const msg = `Olá! Usei o simulador do site e quero saber mais sobre: %0A✅ *${tipoTxt}* %0A🚗 *Categoria ${cat}* %0A💰 *Valor Estimado: ${valor}*`;
-    window.open(`https://wa.me/5534998047604?text=${msg}`, '_blank');
-}
-
-// --- 7. INICIALIZAÇÃO ---
-
-window.addEventListener('DOMContentLoaded', () => {
-    // Exibir nome do usuário
-    const elNome = document.getElementById('displayNome');
-    if (elNome) elNome.innerText = localStorage.getItem('user_name') || 'Aluno';
-
-    // Atualizar UI de progresso e permissões
-    atualizarProgressoVisual();
-    verificarPermissoes();
-
-    // Configurar Simulador se estiver na página
-    if (document.getElementById('valorTotal')) {
-        document.getElementById('tipoProcesso').addEventListener('change', calcularOrcamento);
-        document.querySelectorAll('input[name="cat"]').forEach(input => {
-            input.addEventListener('change', calcularOrcamento);
-        });
-        calcularOrcamento();
-    }
+// --- 4. INICIALIZAÇÃO ---
+document.addEventListener('DOMContentLoaded', () => {
+    atualizarTudo();
+    renderizarListaAulas();
 });
+
+function logout() { localStorage.clear(); window.location.href = 'index.html'; }
