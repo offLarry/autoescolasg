@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autoescola São Gotardo | Referência em Habilitação</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <link rel="stylesheet" href="style.css">
+    
     <style>
         /* Estilos de reforço para garantir o layout da Home */
         .section-title { text-align: center; margin-bottom: 50px; }
@@ -49,20 +52,52 @@
     <nav class="navbar">
         <div class="logo">
             <img src="Logo.png" alt="Logo Autoescola São Gotardo" class="nav-logo">
-            <span></span>
         </div>
         <ul class="nav-links">
             <li><a href="#servicos">Serviços</a></li>
-            <li><a href="#simulador">Orçamentos</a></li>
-            <li><a href="login.html" class="btn-nav" style="background: var(--primary); border-radius: 8px; padding: 10px 25px; color: white; text-decoration: none;">Área do Aluno</a></li>
+            <li><a href="#orcamento">Orçamentos</a></li>
+            <li id="nav-auth-container">
+                <a href="login.html" class="btn-nav" style="background: var(--primary); border-radius: 8px; padding: 10px 25px; color: white; text-decoration: none;">Área do Aluno</a>
+            </li>
         </ul>
     </nav>
 
+    <div id="student-dashboard" class="student-dashboard-hidden">
+        <div class="dashboard-glass">
+            <div class="dashboard-content">
+                <div class="user-stats">
+                    <div class="welcome-text">
+                        <span class="status-badge">Aluno Online</span>
+                        <h3>Olá, <span id="home-nome-aluno">Motorista</span>!</h3>
+                    </div>
+                    <div class="progress-wrapper">
+                        <div class="progress-info">
+                            <span>Progresso do Curso</span>
+                            <b id="home-porcentagem">0%</b>
+                        </div>
+                        <div class="progress-track">
+                            <div id="home-barra-fill" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-actions">
+                    <a href="cursos.html" class="btn-continue">
+                        <i class="fas fa-play"></i> Continuar Aulas
+                    </a>
+                    <button onclick="logout()" class="btn-logout-icon" title="Sair">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <header style="padding: 160px 5% 100px; text-align: center; background: radial-gradient(circle at center, var(--bg-accent), var(--bg));">
-        <span class="badge-aluno" style="margin-bottom: 20px;">AUTOESCOLA SÃO GOTARDO</span>
+        <span class="badge-aluno" style="margin-bottom: 20px; display: inline-block;">AUTOESCOLA SÃO GOTARDO</span>
         <h1 class="gradient-text" style="font-size: 4rem; max-width: 900px; margin: 0 auto 25px; line-height: 1;">Sua CNH com quem entende de aprovação.</h1>
-        <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px;">Qualidade no atendimento, instrutores dedicados e a melhor infraestrutura de São Gotardo.</p>
-        <div style="display: flex; justify-content: center; gap: 20px;">
+        <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px;">Qualidade no atendimento, instrutores dedicados e a melhor infraestrutura da região.</p>
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
             <a href="#servicos" class="btn-send" style="width: auto; padding: 15px 40px; text-decoration: none;">Ver Serviços</a>
             <a href="https://wa.me/5534998047604" target="_blank" class="btn-send" style="width: auto; padding: 15px 40px; background: transparent; border: 1px solid var(--primary); text-decoration: none;">Falar com Consultor</a>
         </div>
@@ -87,7 +122,7 @@
             <div class="step-item">
                 <div class="step-number">3</div>
                 <h4>Teórico</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Realize o curso teorico e faça a prova de legislação.</p>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Realize o curso teórico e faça a prova de legislação.</p>
             </div>
             <div class="step-item">
                 <div class="step-number">4</div>
@@ -115,19 +150,19 @@
 
             <div class="service-card">
                 <h3 style="color: var(--primary);">Inclusão de Categoria</h3>
-                <p style="margin: 20px 0; color: var(--text-dim);">Já possui CNH e quer adicionar Moto ou Carro? Nós facilitamos o processo para você.</p>
+                <p style="margin: 20px 0; color: var(--text-dim);">Já possui CNH e quer adicionar Moto ou Carro? Nós facilitamos para você.</p>
                 <button class="btn-send" style="font-size: 0.8rem;">Saber Mais</button>
             </div>
 
             <div class="service-card">
-                <h3 style="color: var(--primary);">Mudança de categoria</h3>
-                <p style="margin: 20px 0; color: var(--text-dim);">Já possui CNH e quer mudar para Ônibus ou Caminhão? Nós facilitamos o processo.</p>
+                <h3 style="color: var(--primary);">Mudança de Categoria</h3>
+                <p style="margin: 20px 0; color: var(--text-dim);">Já possui CNH e quer mudar para Ônibus ou Caminhão?</p>
                 <button class="btn-send" style="font-size: 0.8rem;">Saber Mais</button>
             </div>
         </div>
     </section>
 
-    <section id="simulador" style="padding: 80px 5%; background: rgba(0,0,0,0.2);">
+    <section id="orcamento" style="padding: 80px 5%; background: rgba(0,0,0,0.2);">
         <div class="auth-card" style="max-width: 850px; margin: 0 auto; padding: 40px;">
             <h2 style="text-align: center; margin-bottom: 30px;">Simulador de Orçamento</h2>
             
@@ -149,7 +184,6 @@
                         <span>Cat. A</span>
                     </div>
                 </label>
-
                 <label style="flex: 1;">
                     <input type="radio" name="cat" value="B">
                     <div class="radio-card">
@@ -157,7 +191,6 @@
                         <span>Cat. B</span>
                     </div>
                 </label>
-
                 <label style="flex: 1;">
                     <input type="radio" name="cat" value="AB">
                     <div class="radio-card">
@@ -165,7 +198,6 @@
                         <span>Cat. AB</span>
                     </div>
                 </label>
-
                 <label style="flex: 1;">
                     <input type="radio" name="cat" value="D">
                     <div class="radio-card">
@@ -186,6 +218,58 @@
         </div>
     </section>
 
+    <section id="localizacao" style="padding: 100px 5%; background: rgba(30, 41, 59, 0.2);">
+        <div class="section-title">
+            <p>Onde estamos</p>
+            <h2>Nossas Unidades</h2>
+        </div>
+
+        <div class="map-container-wrapper">
+            <div class="map-box">
+                <iframe 
+                    id="mapaInterativo"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470.6588057900485!2d-46.04364211166368!3d-19.31406735612511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b210aaa8d9466b%3A0x27861e49d6855bac!2sAutoescola%20S%C3%A3o%20Gotardo!5e0!3m2!1spt-BR!2sbr!4v1774557238722!5m2!1spt-BR!2sbr"
+                    width="100%" height="100%" style="border:0; border-radius: 15px;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+
+			<div class="filiais-grid-mini">
+				<div class="filial-card-small active-map" onclick="alterarMapa(this, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470.6588057900485!2d-46.04364211166368!3d-19.31406735612511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b210aaa8d9466b%3A0x27861e49d6855bac!2sAutoescola%20S%C3%A3o%20Gotardo!5e0!3m2!1spt-BR!2sbr!4v1774557238722!5m2!1spt-BR!2sbr')">
+					<div class="filial-info">
+						<i class="fas fa-star"></i>
+						<div>
+							<h4>Matriz - São Gotardo</h4>
+							<p>Praça São Geraldo, 01 - Centro</p>
+						</div>
+					</div>
+					<span class="indicator"><i class="fas fa-chevron-right"></i></span>
+				</div>
+
+				<div class="filial-card-small" onclick="alterarMapa(this, 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d235.24650408534768!2d-46.13184913171031!3d-19.371574486144368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr!4v1774557190904!5m2!1spt-BR!2sbr')">
+					<div class="filial-info">
+						<i class="fas fa-map-marker-alt"></i>
+						<div>
+							<h4>Guarda dos Ferreiros</h4>
+							<p>Av. Hermenegildo, 900 - Guarda</p>
+						</div>
+					</div>
+                    <span class="indicator"><i class="fas fa-chevron-right"></i></span>
+                </div>
+
+                <div class="filial-card-small" onclick="alterarMapa(this, 'URL_DO_MAPA_TIROS')">
+                    <div class="filial-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Unidade Tiros</h4>
+                            <p>Rua Exemplo, 123 - Centro</p>
+                        </div>
+                    </div>
+                    <span class="indicator"><i class="fas fa-chevron-right"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="footer-info">
         <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;">
             <div>
@@ -194,17 +278,18 @@
             </div>
             <div>
                 <h4 style="margin-bottom: 20px;">Localização</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem;">Praça São Geraldo, 01 - São Geraldo<br>São Gotardo / MG</p>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">Praça São Geraldo, 01 - Centro<br>São Gotardo / MG</p>
             </div>
             <div>
                 <h4 style="margin-bottom: 20px;">Links Úteis</h4>
-                <a href="https://detran.mg.gov.br/habilitacao" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">Transito MG (DETRAN)</a>
+                <a href="https://detran.mg.gov.br/habilitacao" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">Detran MG</a>
             </div>
         </div>
         <div style="border-top: 1px solid rgba(255,255,255,0.05); margin-top: 50px; padding-top: 20px; text-align: center; color: var(--text-dim); font-size: 0.8rem;">
-            &copy; 2026 Autoescola São Gotardo. Todos os direitos reservados.
+            © 2026 Autoescola São Gotardo. Todos os direitos reservados.
         </div>
     </footer>
+
     <script src="script.js"></script>
-</body>
 </html>
+</body>
