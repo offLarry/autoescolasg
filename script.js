@@ -9,15 +9,31 @@ const CURSO_LEGISLACAO = [
 ];
 
 const CURSO_DIRECAO = [
-    { id: 'def_1', title: '01. Conceitos de Direção Defensiva', url: 'URL_DO_VIDEO_AQUI' },
-    { id: 'def_2', title: '02. Elementos da Direção Defensiva', url: 'URL_DO_VIDEO_AQUI' },
-    { id: 'def_3', title: '03. Condições Adversas', url: 'URL_DO_VIDEO_AQUI' },
+    { id: 'def_1', title: '01. Conceitos de Direção Defensiva', url: 'LINK_VIDEO_DEF_1' },
+    { id: 'def_2', title: '02. Elementos da Direção Defensiva', url: 'LINK_VIDEO_DEF_2' },
+    { id: 'def_3', title: '03. Condições Adversas', url: 'LINK_VIDEO_DEF_3' },
 ];
 
-// --- 2. FUNÇÃO UNIFICADA DE INTERFACE ---
+// --- 2. FUNÇÃO TROCA DE FILIAL (MAPA) ---
+function alterarMapa(elemento, urlMapa) {
+    // 1. Atualiza o iframe do mapa
+    const mapa = document.getElementById('mapaInterativo');
+    if (mapa) mapa.src = urlMapa;
+
+    // 2. Remove a classe 'active-map' de todos os cards
+    document.querySelectorAll('.filial-card-small').forEach(card => {
+        card.classList.remove('active-map');
+    });
+
+    // 3. Adiciona a classe no card clicado
+    elemento.classList.add('active-map');
+}
+
+// --- 3. FUNÇÃO UNIFICADA DE INTERFACE ---
 function atualizarTudo() {
     const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
     const nome = localStorage.getItem('user_name') || 'Aluno';
+    const logado = localStorage.getItem('usuario_logado') === 'true';
 
     const aulasLeg = concluidas.filter(id => id.startsWith('leg_')).length;
     const porcLeg = Math.min(Math.round((aulasLeg / 4) * 100), 100);
@@ -25,10 +41,17 @@ function atualizarTudo() {
     const aulasDef = concluidas.filter(id => id.startsWith('def_')).length;
     const porcDef = Math.min(Math.round((aulasDef / 3) * 100), 100);
 
-    // Atualiza Nomes e Barras (Módulo 1)
+    // Atualiza Nomes e Visibilidade do Dashboard na Home
     const elNome = document.getElementById('displayNome') || document.getElementById('home-nome-aluno');
     if (elNome) elNome.innerText = nome.split(' ')[0];
 
+    const dashboard = document.getElementById('student-dashboard');
+    if (dashboard) {
+        if (logado) dashboard.classList.remove('student-dashboard-hidden');
+        else dashboard.classList.add('student-dashboard-hidden');
+    }
+
+    // Atualiza Progresso Módulo 1 (Suporta index e painel)
     const txtM1 = document.getElementById('porcentagemTexto') || document.getElementById('home-porcentagem');
     const barM1 = document.getElementById('barraProgresso') || document.getElementById('home-barra-fill');
     if (txtM1) txtM1.innerText = porcLeg + "%";
@@ -40,7 +63,7 @@ function atualizarTudo() {
     if (txtM2) txtM2.innerText = porcDef + "%";
     if (barM2) barM2.style.width = porcDef + "%";
 
-    // Bloqueio do Módulo 2
+    // Lógica de Bloqueio
     const btnM2 = document.getElementById('btn-modulo-2');
     const cardM2 = document.getElementById('modulo-2');
     if (cardM2 && btnM2) {
@@ -56,7 +79,7 @@ function atualizarTudo() {
     }
 }
 
-// --- 3. CARREGAMENTO DINÂMICO DE AULAS ---
+// --- 4. CARREGAMENTO DINÂMICO DE AULAS ---
 function renderizarListaAulas() {
     const container = document.getElementById('listaAulas');
     if (!container) return;
@@ -83,7 +106,7 @@ function carregarVideo(url, id) {
     localStorage.setItem('aula_atual_id', id);
 }
 
-// --- 4. INICIALIZAÇÃO ---
+// --- 5. INICIALIZAÇÃO ---
 document.addEventListener('DOMContentLoaded', () => {
     atualizarTudo();
     renderizarListaAulas();
