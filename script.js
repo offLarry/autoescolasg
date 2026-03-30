@@ -9,9 +9,9 @@ const CURSO_LEGISLACAO = [
 ];
 
 const CURSO_DIRECAO = [
-    { id: 'def_1', title: '01. Conceitos de Direção Defensiva', url: 'LINK_VIDEO_DEF_1' },
-    { id: 'def_2', title: '02. Elementos da Direção Defensiva', url: 'LINK_VIDEO_DEF_2' },
-    { id: 'def_3', title: '03. Condições Adversas', url: 'LINK_VIDEO_DEF_3' },
+    { id: 'def_1', title: '01. Conceitos de Direção Defensiva', url: 'URL_DO_VIDEO_DEF_1' },
+    { id: 'def_2', title: '02. Elementos da Direção Defensiva', url: 'URL_DO_VIDEO_DEF_2' },
+    { id: 'def_3', title: '03. Condições Adversas', url: 'URL_DO_VIDEO_DEF_3' },
 ];
 
 // --- 2. LÓGICA DO SIMULADOR DE ORÇAMENTO (INDEX) ---
@@ -36,7 +36,7 @@ function finalizarNoWhats() {
     const tipo = document.getElementById('tipoProcesso').value;
     const categoria = document.querySelector('input[name="cat"]:checked').value;
     const valor = document.getElementById('valorTotal').innerText;
-    const msg = encodeURIComponent(`Olá! Fiz uma simulação no site:\nProcesso: ${tipo}\nCategoria: ${categoria}\nValor Estimado: ${valor}\nGostaria de mais informações.`);
+    const msg = encodeURIComponent(`Olá! Fiz uma simulação no site:\nProcesso: ${tipo}\nCategoria: ${categoria}\nValor Estimado: ${valor}`);
     window.open(`https://wa.me/5534998047604?text=${msg}`, '_blank');
 }
 
@@ -48,42 +48,35 @@ function alterarMapa(elemento, urlMapa) {
     elemento.classList.add('active-map');
 }
 
-// --- 4. INTERFACE E PROGRESSO (AULAS) ---
+// --- 4. INTERFACE E PROGRESSO ---
 function atualizarTudo() {
-   function atualizarTudo() {
     const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
     const nome = localStorage.getItem('user_name') || 'Aluno';
-    
-    // 1. Defina o total de aulas de TODOS os módulos somados
-    // Exemplo: 4 de Legislação + 3 de Direção = 7 aulas no total
-    const totalAulasDoCurso = CURSO_LEGISLACAO.length + CURSO_DIRECAO.length;
-    
-    // 2. Conte quantas aulas o aluno concluiu no total
-    const totalConcluidas = concluidas.length;
-    
-    // 3. Calcule a porcentagem geral
-    const porcGeral = totalAulasDoCurso > 0 
-        ? Math.min(Math.round((totalConcluidas / totalAulasDoCurso) * 100), 100) 
-        : 0;
+    const logado = localStorage.getItem('usuario_logado') === 'true';
 
-    // --- ATUALIZAÇÃO NA TELA ---
-
-    // Atualiza o texto e a barra da HOMEPAGE (Geral)
-    const txtGeral = document.getElementById('home-porcentagem'); 
-    const barGeral = document.getElementById('home-barra-fill');
-    
-    if (txtGeral) txtGeral.innerText = porcGeral + "%";
-    if (barGeral) barGeral.style.width = porcGeral + "%";
-
-    // Mantém as atualizações individuais dos cards se você ainda quiser mostrá-las
     const aulasLeg = concluidas.filter(id => id.startsWith('leg_')).length;
-    const porcLeg = Math.round((aulasLeg / CURSO_LEGISLACAO.length) * 100);
-    
-    const txtM1 = document.getElementById('porcentagemTexto');
-    const barM1 = document.getElementById('barraProgresso');
+    const porcLeg = Math.min(Math.round((aulasLeg / 4) * 100), 100);
+    const aulasDef = concluidas.filter(id => id.startsWith('def_')).length;
+    const porcDef = Math.min(Math.round((aulasDef / 3) * 100), 100);
+
+    const elNome = document.getElementById('displayNome') || document.getElementById('home-nome-aluno');
+    if (elNome) elNome.innerText = nome.split(' ')[0];
+
+    const dashboard = document.getElementById('student-dashboard');
+    if (dashboard) dashboard.classList.toggle('student-dashboard-hidden', !logado);
+
+    // Módulo 1
+    const txtM1 = document.getElementById('porcentagemTexto') || document.getElementById('home-porcentagem');
+    const barM1 = document.getElementById('barraProgresso') || document.getElementById('home-barra-fill');
     if (txtM1) txtM1.innerText = porcLeg + "%";
     if (barM1) barM1.style.width = porcLeg + "%";
-       
+
+    // Módulo 2
+    const txtM2 = document.getElementById('porcentagemDef');
+    const barM2 = document.getElementById('barraDef');
+    if (txtM2) txtM2.innerText = porcDef + "%";
+    if (barM2) barM2.style.width = porcDef + "%";
+
     const btnM2 = document.getElementById('btn-modulo-2');
     const cardM2 = document.getElementById('modulo-2');
     if (cardM2 && btnM2) {
@@ -102,6 +95,7 @@ function atualizarTudo() {
 function renderizarListaAulas() {
     const container = document.getElementById('listaAulas');
     if (!container) return;
+    
     const urlParams = new URLSearchParams(window.location.search);
     const modulo = urlParams.get('mod');
     const aulasParaExibir = (modulo === 'def') ? CURSO_DIRECAO : CURSO_LEGISLACAO;
@@ -127,12 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
     atualizarTudo();
     renderizarListaAulas();
     
-    // Listeners para o Simulador
+    // Listeners do Simulador
     document.getElementById('tipoProcesso')?.addEventListener('change', atualizarOrcamento);
     document.querySelectorAll('input[name="cat"]').forEach(input => {
         input.addEventListener('change', atualizarOrcamento);
     });
-    atualizarOrcamento(); // Inicia com valor
+    atualizarOrcamento(); 
 });
 
 function logout() { localStorage.clear(); window.location.href = 'index.html'; }
