@@ -14,22 +14,41 @@ const CURSO_DIRECAO = [
     { id: 'def_3', title: '03. Condições Adversas', url: 'LINK_VIDEO_DEF_3' },
 ];
 
-// --- 2. FUNÇÃO TROCA DE FILIAL (MAPA) ---
+// --- 2. LÓGICA DO SIMULADOR DE ORÇAMENTO (INDEX) ---
+const PRECOS = {
+    primeira: { A: 1200, B: 1500, AB: 2200, D: 0 },
+    adicao: { A: 900, B: 1100, AB: 0, D: 0 },
+    mudanca: { A: 0, B: 0, AB: 0, D: 1800 }
+};
+
+function atualizarOrcamento() {
+    const tipo = document.getElementById('tipoProcesso')?.value;
+    const categoria = document.querySelector('input[name="cat"]:checked')?.value;
+    const display = document.getElementById('valorTotal');
+
+    if (tipo && categoria && display) {
+        const valor = PRECOS[tipo][categoria] || 0;
+        display.innerText = valor > 0 ? `R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}` : "Sob Consulta";
+    }
+}
+
+function finalizarNoWhats() {
+    const tipo = document.getElementById('tipoProcesso').value;
+    const categoria = document.querySelector('input[name="cat"]:checked').value;
+    const valor = document.getElementById('valorTotal').innerText;
+    const msg = encodeURIComponent(`Olá! Fiz uma simulação no site:\nProcesso: ${tipo}\nCategoria: ${categoria}\nValor Estimado: ${valor}\nGostaria de mais informações.`);
+    window.open(`https://wa.me/5534998047604?text=${msg}`, '_blank');
+}
+
+// --- 3. LÓGICA DO MAPA (FILIAIS) ---
 function alterarMapa(elemento, urlMapa) {
-    // 1. Atualiza o iframe do mapa
     const mapa = document.getElementById('mapaInterativo');
     if (mapa) mapa.src = urlMapa;
-
-    // 2. Remove a classe 'active-map' de todos os cards
-    document.querySelectorAll('.filial-card-small').forEach(card => {
-        card.classList.remove('active-map');
-    });
-
-    // 3. Adiciona a classe no card clicado
+    document.querySelectorAll('.filial-card-small').forEach(card => card.classList.remove('active-map'));
     elemento.classList.add('active-map');
 }
 
-// --- 3. FUNÇÃO UNIFICADA DE INTERFACE ---
+// --- 4. INTERFACE E PROGRESSO (AULAS) ---
 function atualizarTudo() {
     const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
     const nome = localStorage.getItem('user_name') || 'Aluno';
@@ -37,33 +56,25 @@ function atualizarTudo() {
 
     const aulasLeg = concluidas.filter(id => id.startsWith('leg_')).length;
     const porcLeg = Math.min(Math.round((aulasLeg / 4) * 100), 100);
-
     const aulasDef = concluidas.filter(id => id.startsWith('def_')).length;
     const porcDef = Math.min(Math.round((aulasDef / 3) * 100), 100);
 
-    // Atualiza Nomes e Visibilidade do Dashboard na Home
     const elNome = document.getElementById('displayNome') || document.getElementById('home-nome-aluno');
     if (elNome) elNome.innerText = nome.split(' ')[0];
 
     const dashboard = document.getElementById('student-dashboard');
-    if (dashboard) {
-        if (logado) dashboard.classList.remove('student-dashboard-hidden');
-        else dashboard.classList.add('student-dashboard-hidden');
-    }
+    if (dashboard) dashboard.classList.toggle('student-dashboard-hidden', !logado);
 
-    // Atualiza Progresso Módulo 1 (Suporta index e painel)
     const txtM1 = document.getElementById('porcentagemTexto') || document.getElementById('home-porcentagem');
     const barM1 = document.getElementById('barraProgresso') || document.getElementById('home-barra-fill');
     if (txtM1) txtM1.innerText = porcLeg + "%";
     if (barM1) barM1.style.width = porcLeg + "%";
 
-    // Atualiza Módulo 2
     const txtM2 = document.getElementById('porcentagemDef');
     const barM2 = document.getElementById('barraDef');
     if (txtM2) txtM2.innerText = porcDef + "%";
     if (barM2) barM2.style.width = porcDef + "%";
 
-    // Lógica de Bloqueio
     const btnM2 = document.getElementById('btn-modulo-2');
     const cardM2 = document.getElementById('modulo-2');
     if (cardM2 && btnM2) {
@@ -79,11 +90,9 @@ function atualizarTudo() {
     }
 }
 
-// --- 4. CARREGAMENTO DINÂMICO DE AULAS ---
 function renderizarListaAulas() {
     const container = document.getElementById('listaAulas');
     if (!container) return;
-
     const urlParams = new URLSearchParams(window.location.search);
     const modulo = urlParams.get('mod');
     const aulasParaExibir = (modulo === 'def') ? CURSO_DIRECAO : CURSO_LEGISLACAO;
@@ -91,12 +100,10 @@ function renderizarListaAulas() {
 
     container.innerHTML = aulasParaExibir.map(aula => {
         const check = concluidas.includes(aula.id);
-        return `
-            <div class="aula-item ${check ? 'concluida' : ''}" onclick="carregarVideo('${aula.url}', '${aula.id}')">
-                <i class="fas ${check ? 'fa-check-circle' : 'fa-play-circle'}"></i>
-                <span>${aula.title}</span>
-            </div>
-        `;
+        return `<div class="aula-item ${check ? 'concluida' : ''}" onclick="carregarVideo('${aula.url}', '${aula.id}')">
+            <i class="fas ${check ? 'fa-check-circle' : 'fa-play-circle'}"></i>
+            <span>${aula.title}</span>
+        </div>`;
     }).join('');
 }
 
@@ -110,6 +117,13 @@ function carregarVideo(url, id) {
 document.addEventListener('DOMContentLoaded', () => {
     atualizarTudo();
     renderizarListaAulas();
+    
+    // Listeners para o Simulador
+    document.getElementById('tipoProcesso')?.addEventListener('change', atualizarOrcamento);
+    document.querySelectorAll('input[name="cat"]').forEach(input => {
+        input.addEventListener('change', atualizarOrcamento);
+    });
+    atualizarOrcamento(); // Inicia com valor
 });
 
 function logout() { localStorage.clear(); window.location.href = 'index.html'; }
