@@ -41,12 +41,26 @@
 
     <script src="script.js"></script>
     <script>
-        function renderizarSidebar() {
+        
+      function renderizarSidebar() {
             const container = document.getElementById('lista-aulas');
+            if (!container) return;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const modulo = urlParams.get('mod');
+            
+            // Pega a lista correta do script.js (LEGISLACAO ou DIRECAO)
+            const aulasParaExibir = (modulo === 'def') ? CURSO_DIRECAO : CURSO_LEGISLACAO;
             const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
+            
+            const subtitulo = document.querySelector('.video-main-container p');
+            if (subtitulo) {
+                subtitulo.innerText = (modulo === 'def') ? 'Módulo de Direção Defensiva' : 'Módulo de Legislação';
+            }
+
             container.innerHTML = '';
 
-            CURSO_LEGISLACAO.forEach(aula => {
+            aulasParaExibir.forEach(aula => {
                 const jaFeita = concluidas.includes(aula.id);
                 const item = document.createElement('div');
                 item.className = `btn-aula ${localStorage.getItem('aula_atual_id') === aula.id ? 'active' : ''}`;
@@ -65,7 +79,40 @@
                 container.appendChild(item);
             });
         }
-        window.onload = renderizarSidebar;
+
+        // NOVA FUNÇÃO DE CONCLUIR PARA O BOTÃO
+        async function concluirAulaAtiva() {
+            const idAtual = localStorage.getItem('aula_atual_id');
+            if (!idAtual) return alert("Por favor, selecione uma aula primeiro!");
+
+            let concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
+            
+            if (!concluidas.includes(idAtual)) {
+                concluidas.push(idAtual);
+                localStorage.setItem('aulas_concluidas', JSON.stringify(concluidas));
+                
+                alert("Presença confirmada ✅");
+                
+                // Atualiza a lista lateral e o progresso
+                renderizarSidebar(); 
+                if (typeof atualizarProgressoGeral === 'function') {
+                    atualizarProgressoGeral();
+                }
+
+                // Sincroniza com sua planilha do Google
+                const email = localStorage.getItem('user_email');
+                if(email && typeof SHEET_API_URL !== 'undefined') {
+                    const totalAulas = 15; // Ajuste para o número total de suas aulas
+                    const progressoCalc = Math.round((concluidas.length / totalAulas) * 100);
+                    const url = `${SHEET_API_URL}?acao=atualizarProgresso&email=${encodeURIComponent(email)}&progresso=${progressoCalc}`;
+                    fetch(url).catch(e => console.log("Erro de sincronização"));
+                }
+            } else {
+                alert("Você já marcou presença nesta aula.");
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', renderizarSidebar);
     </script>
 </body>
 </html>
