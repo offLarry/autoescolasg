@@ -672,13 +672,89 @@ header {
     color: white;
 }
 
-/* Ajuste para Celular */
+/* --- AJUSTES PARA DISPOSITIVOS MÓVEIS (Celulares e Tablets) --- */
 @media (max-width: 768px) {
-    .map-container-wrapper {
-        grid-template-columns: 1fr;
-        height: auto;
+    
+    /* 1. Ajuste do Cabeçalho (Hero) */
+    header {
+        padding: 100px 5% 60px !important; /* Reduz o espaçamento superior */
     }
+
+    header h1 {
+        font-size: 2.2rem !important; /* Diminui o título principal */
+        line-height: 1.2;
+    }
+
+    header p {
+        font-size: 1rem !important;
+    }
+
+    /* 2. Grades de Conteúdo (Transforma tudo em 1 coluna) */
+    .services-grid, 
+    .steps-grid, 
+    .filiais-grid-mini {
+        grid-template-columns: 1fr !important; 
+        gap: 20px;
+    }
+
+    /* 3. Simulador de Orçamento */
+    .radio-group {
+        flex-wrap: wrap; /* Faz as categorias (A, B, AB) quebrarem linha */
+        gap: 10px;
+    }
+
+    .radio-card {
+        padding: 15px 10px; /* Ajusta o tamanho dos cards de categoria */
+    }
+
+    #valorTotal {
+        font-size: 2.5rem !important; /* Evita que o preço fique gigante */
+    }
+
+    /* 4. Navegação (Navbar) */
+    .nav-links {
+        gap: 15px;
+    }
+
+    .btn-nav {
+        padding: 8px 15px !important;
+        font-size: 0.9rem;
+    }
+
+    /* 5. Mapa e Unidades */
+    .map-container-wrapper {
+        flex-direction: column; /* Coloca a lista de cidades abaixo do mapa */
+        height: auto !important;
+    }
+
     .map-box {
-        height: 300px;
+        height: 300px; /* Define uma altura fixa para o mapa no celular */
+    }
+
+    /* 6. Dashboard do Aluno (Glassmorphism) */
+    .dashboard-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .progress-wrapper {
+        width: 100% !important;
+    }
+
+    .dashboard-actions {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Ajustes extras para telas muito pequenas (iPhone SE, etc) */
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.8rem !important;
+    }
+    
+    .btn-send {
+        width: 100% !important; /* Botões ocupam a largura toda para facilitar o toque */
     }
 }
