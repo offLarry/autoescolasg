@@ -12,10 +12,10 @@ const CURSO_LEGISLACAO = [
     { id: 'leg_7', title: '07 Sinalização', url: 'https://www.dropbox.com/scl/fi/wdcw32037vhnd4no2koso/07-SINALIZA-O.mp4?rlkey=d3hvj93zwoq400lz2h7eqo7yx&st=t08ph9e1&raw=1' },
     { id: 'leg_8', title: '08. Sinalização', url: 'https://www.dropbox.com/scl/fi/05cs21an3v96znuyxt1s1/08-SINALIZA-O.mp4?rlkey=jeqagbfl1uu38n0kqy160x8ss&st=nurxqroc&raw=1' },
 
-    { id: 'leg_9', title:  '09. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/va827yqp7a36oj1qvp7hk/09-INFRA-ES.mp4?rlkey=f2m041w9zar4lh04f040f0cvx&st=b2gw1fwn&raw=1' },
-    { id: 'leg_10', title: '10. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/1i96iu1gzdjb2rrw2jq9p/10-INFRA-ES.mp4?rlkey=7xnldn35yxsjgpoqq9i20vsee&st=a6hard5y&raw=1' },
-    { id: 'leg_11', title: '11. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/dfxtfkagy7ekv04vq4y1s/11-INFRA-ES.mp4?rlkey=a9dtcfrkdq2vfje6fyveqf9qj&st=nvmn2agw&raw=1' },
-    { id: 'leg_12', title: '12. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/eyqbltxxfgvomy0t34y7w/12-INFRA-ES.mp4?rlkey=pzr1uhx3aow2t84rxzie6rxby&st=tr535ria&raw=1' },
+    { id: 'leg_9', title:  '09. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/t50k8f0hfj3aslb2vbdq5/09-INFRA-ES.mp4?rlkey=cnh8bx1vgab6nxv52guvqm876&st=rrhfjpdj&raw=1' },
+    { id: 'leg_10', title: '10. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/qbn5nzpcaztmit709s1xc/10-INFRA-ES.mp4?rlkey=wkuiu73lcn3lw30qhji51gh0j&st=yz501tj8&raw=1' },
+    { id: 'leg_11', title: '11. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/fjasegp1qr5ripw18tq13/11-INFRA-ES.mp4?rlkey=wghwksy0otf3i3e8mua3ozqkq&st=xisbvwe8&raw=1' },
+    { id: 'leg_12', title: '12. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/ywz1vllesjrlnbi9mh47o/12-INFRA-ES.mp4?rlkey=dlbhx8qchguspl0eut16c71fd&st=ehy5a1vp&raw=1' },
 
     { id: 'leg_13', title: '13. Introdução à Legislação', url: 'https://www.dropbox.com/scl/fi/q670pw9onlsoup0uwu9uh/01-Legisla-o-EDIT.mp4?rlkey=fgkfqvnpv2cbeb8ue2garx9j5&st=9eftivl1&raw=1' },
     { id: 'leg_14', title: '14. Normas de Circulação', url: 'https://www.dropbox.com/scl/fi/q2d25lqww46i62osqopdw/02-LEGISLA-O.mp4?rlkey=2lfmybi5ro6pa386s8vt98lbp&st=8tjdt68b&raw=1' },
