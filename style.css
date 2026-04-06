@@ -1148,15 +1148,6 @@ img, iframe, video {
         height: 64px;
     }
 
-    .nav-links {
-        gap: 4px;
-    }
-
-    /* Esconde links de navegação secundários no mobile */
-    .nav-links li:not(#nav-auth-container) {
-        display: none;
-    }
-
     .btn-nav {
         padding: 9px 16px !important;
         font-size: 0.82rem !important;
