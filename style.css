@@ -139,6 +139,31 @@ h1, h2, h3, h4 {
     background: rgba(255, 255, 255, 0.06);
 }
 
+
+.nav-linksc {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+    align-items: center;
+}
+
+.nav-linksc a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    letter-spacing: 0.01em;
+}
+
+.nav-linksc a:hover,
+.nav-linksc a.active {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.06);
+}
+
 .btn-nav {
     background: var(--primary) !important;
     color: white !important;
@@ -1146,6 +1171,15 @@ img, iframe, video {
     .navbar {
         padding: 0 4%;
         height: 64px;
+    }
+
+    .nav-links {
+        gap: 4px;
+    }
+
+    /* Esconde links de navegação secundários no mobile */
+    .nav-links li:not(#nav-auth-container) {
+        display: none;
     }
 
     .btn-nav {
