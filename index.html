@@ -55,8 +55,8 @@
         <ul class="nav-links">
             <li><a href="#inicio">Início</a></li>
             <li><a href="#servicos">Serviços</a></li>
-            <li><a href="#instrutores">Instrutores</a></li>
             <li><a href="#orcamento">Orçamentos</a></li>
+            <li><a href="#instrutores">Instrutores</a></li>
             <li id="nav-auth-container">
                 <a href="login.html" class="btn-nav">Área do Aluno</a>
             </li>
@@ -94,28 +94,45 @@
         </div>
     </div>
 
-    <header style="padding: 160px 5% 100px; text-align: center; background: radial-gradient(circle at center, var(--bg-accent), var(--bg));">
-        <span class="badge-aluno" style="margin-bottom: 20px; display: inline-block;">AUTOESCOLA SÃO GOTARDO</span>
-        <h1 class="gradient-text" style="font-size: 4rem; max-width: 900px; margin: 0 auto 25px; line-height: 1;">Sua CNH com quem entende de aprovação.</h1>
-        <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px;">Qualidade no atendimento, instrutores dedicados e qualificados. Com a melhor estrutura com filiais em toda região!</p>
-        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-            <a href="#servicos" class="btn-send" style="width: auto; padding: 15px 40px; text-decoration: none;">Ver Serviços</a>
-            <a href="https://wa.me/5534998047604" target="_blank" class="btn-send" style="width: auto; padding: 15px 40px; background: transparent; border: 1px solid var(--primary); text-decoration: none;">Falar com Consultor</a>
-        </div>
-    </header>
+        <header id="inicio" style="padding: 160px 5% 100px; text-align: center; background: radial-gradient(circle at center, var(--bg-accent), var(--bg));">
+            <span class="badge-aluno" style="margin-bottom: 20px; display: inline-block;">AUTOESCOLA SÃO GOTARDO</span>
+            <h1 class="gradient-text" style="font-size: 4rem; max-width: 900px; margin: 0 auto 25px; line-height: 1;">Sua CNH com quem entende de aprovação.</h1>
+            <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px;">Qualidade no atendimento, instrutores dedicados e qualificados. Com a melhor estrutura com filiais em toda região!</p>
+            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                <a href="#orcamento" class="btn-send" style="width: auto; padding: 15px 40px; text-decoration: none;">Ver Serviços</a>
+                <a href="https://wa.me/5534998047604" target="_blank" class="btn-send" style="width: auto; padding: 15px 40px; background: transparent; border: 1px solid var(--primary); text-decoration: none;">Falar com Consultor</a>
+            </div>
+        </header>   
 
     <section id="servicos" class="step-container">
         <div class="section-title">
             <p>Como funciona</p>
-            <h2>Inicie suas aulas conosco</h2>
+            <h2>Inicie suas processo conosco</h2>
         </div>
         <div class="steps-grid">
-            <div class="step-item"><div class="step-number">1</div><h4>Matrícula</h4></div>
-            <div class="step-item"><div class="step-number">2</div><h4>Exames</h4></div>
-            <div class="step-item"><div class="step-number">3</div><h4>Teórico</h4></div>
-            <div class="step-item"><div class="step-number">4</div><h4>Prático</h4></div>
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <h4>Matrícula</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Apresente seus documentos e realize sua inscrição.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <h4>Exames</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Agende os exames médico e psicotécnico.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <h4>Teórico</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Realize o curso teórico e faça a prova de legislação.</p>
+            </div>
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <h4>Prático</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Conclua as aulas práticas e conquiste sua CNH.</p>
+            </div>
         </div>
     </section>
+
 
     <section id="orcamento" style="padding: 80px 5%; background: rgba(0,0,0,0.2);">
         <div class="auth-card" style="max-width: 850px; margin: 0 auto; padding: 40px;">
@@ -166,16 +183,16 @@
             <h2>Nossos Instrutores</h2>
         </div>
         
-        <div class="instrutores-grid">
+        <div class="instrutores-grid reveal">
             <div class="instrutor-card">
                 <div class="instrutor-img">
-                    <i class="fas fa-user-tie"></i>
+                    <i class="fas fa-car"></i>
                 </div>
-                <h3>João Silva</h3>
-                <span class="badge">Legislação</span>
-                <p>Especialista em leis de trânsito e simulados teóricos.</p>
-                <a href="https://wa.me/5534998047604?text=Olá João, gostaria de tirar uma dúvida sobre legislação." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Falar com João
+                <h3>Instrutora Zelia</h3>
+                <span class="badge">Aulas Prática B</span>
+                <p>Instrutora de direção para categoria B de carros.</p>
+                <a href="https://wa.me/5534998047604?text=Olá Zelia, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Falar com Zelia
                 </a>
             </div>
 
@@ -183,30 +200,42 @@
                 <div class="instrutor-img">
                     <i class="fas fa-car"></i>
                 </div>
-                <h3>Maria Oliveira</h3>
+                <h3>Instrutor Josiel</h3>
                 <span class="badge">Prática B</span>
-                <p>Instrutora de direção para categoria de carros de passeio.</p>
-                <a href="https://wa.me/5534998047604?text=Olá Maria, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Falar com Maria
+                <p>Instrutor de direção para categoria B de carros.</p>
+                <a href="https://wa.me/5534998047604?text=Olá Josiel, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Falar com Josiel
                 </a>
             </div>
 
             <div class="instrutor-card">
                 <div class="instrutor-img">
-                    <i class="fas fa-motorcycle"></i>
+                    <i class="fas fa-car"></i>
                 </div>
-                <h3>Carlos Souza</h3>
-                <span class="badge">Categoria A</span>
-                <p>Especialista em treinamento de moto e pista de exames.</p>
-                <a href="https://wa.me/5534998047604?text=Olá Carlos, tenho dúvidas sobre o exame de moto." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Falar com Carlos
+                <h3>Instrutor Tony</h3>
+                <span class="badge">Prática B</span>
+                <p>Instrutor de direção para categoria B de carros.</p>
+                <a href="https://wa.me/5534998047604?text=Olá Tony, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Falar com Tony
+                </a>
+            </div>
+
+            <div class="instrutor-card">
+                <div class="instrutor-img">
+                    <i class="fas fa-bus"></i>
+                </div>
+                <h3>Instrutor Osmano</h3>
+                <span class="badge">Categoria D</span>
+                <p>Instrutor de direção para categoria D de ônibus.</p>
+                <a href="https://wa.me/5534998047604?text=Olá Osmano, gostaria de agendar uma aula prática de ônibus." class="btn-contato-instrutor" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Falar com Osmano
                 </a>
             </div>
         </div>
     </section>
 
     <section id="localizacao" style="padding: 100px 5%; background: rgba(30, 41, 59, 0.2);">
-        <div class="section-title">
+        <div class="section-title reveal">
             <p>Onde estamos</p>
             <h2>Nossas Unidades</h2>
         </div>
@@ -216,7 +245,7 @@
                 <iframe id="mapaInterativo" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470.6588057900485!2d-46.04364211166368!3d-19.31406735612511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b210aaa8d9466b%3A0x27861e49d6855bac!2sAutoescola%20S%C3%A3o%20Gotardo!5e0!3m2!1spt-BR!2sbr!4v1774557238722!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0; border-radius: 0; display:block;" allowfullscreen="" loading="lazy"></iframe>
             </div>
 
-			<div class="filiais-grid-mini">
+			<div class="filiais-grid-mini reveal">
 				<div class="filial-card-small active-map" onclick="alterarMapa(this, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470.6588057900485!2d-46.04364211166368!3d-19.31406735612511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b210aaa8d9466b%3A0x27861e49d6855bac!2sAutoescola%20S%C3%A3o%20Gotardo!5e0!3m2!1spt-BR!2sbr!4v1774557238722!5m2!1spt-BR!2sbr')">
 					<div class="filial-info">
 						<i class="fas fa-star"></i>
@@ -245,9 +274,36 @@
         </div>
     </section>
 
-    <footer class="footer-info">
-        <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center; color: var(--text-dim); font-size: 0.8rem;">
-            © 2026 Autoescola São Gotardo.
+    <footer class="footer-info reveal">
+        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; padding: 0 5%;">
+            <div>
+                <h4 style="color: var(--primary); margin-bottom: 20px; font-size: 1.2rem;">AUTOESCOLA SÃO GOTARDO</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.6;">
+                    Formando condutores com excelência, segurança e responsabilidade desde 2000.
+                </p>
+            </div>
+            
+            <div>
+                <h4 style="margin-bottom: 20px; font-size: 1.1rem;">Localização</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">
+                    <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i>
+                    Praça São Geraldo, 01 - Centro
+                </p>
+            </div>
+
+            <div>
+                <h4 style="margin-bottom: 20px; font-size: 1.1rem;">Contato</h4>
+                <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 10px;">
+                    <i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"></i>
+                    (34) 3671-2274
+                </p>
+            </div>
+        </div>
+
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px; padding-top: 20px; text-align: center;">
+            <p style="color: var(--text-dim); font-size: 0.8rem;">
+                &copy; 2026 Autoescola São Gotardo. Todos os direitos reservados.
+            </p>
         </div>
     </footer>
 

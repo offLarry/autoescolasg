@@ -202,13 +202,18 @@ header h1 {
     z-index: 999;
     padding: 0 5%;
     pointer-events: none;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s;
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
 }
 
+/* Quando escondido: invisível E completamente não-clicável */
 .student-dashboard-hidden {
-    opacity: 0;
-    transform: translateY(-12px);
+    opacity: 0 !important;
+    transform: translateY(-20px) !important;
     pointer-events: none !important;
+    visibility: hidden !important;
 }
 
 .dashboard-glass {
@@ -555,7 +560,7 @@ input[type="radio"]:checked + .radio-card i {
    ========================================= */
 .instrutores-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 24px;
     padding: 0 5%;
     max-width: 1200px;
@@ -1198,7 +1203,7 @@ img, iframe, video {
     .services-grid,
     .steps-grid,
     .instrutores-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(100px, 1fr)
         gap: 16px;
         padding: 0;
     }
