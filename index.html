@@ -53,10 +53,12 @@
             <img src="Logo.png" alt="Logo Autoescola São Gotardo" class="nav-logo">
         </div>
         <ul class="nav-links">
+            <li><a href="#inicio">Início</a></li>
             <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#instrutores">Instrutores</a></li>
             <li><a href="#orcamento">Orçamentos</a></li>
             <li id="nav-auth-container">
-                <a href="login.html" class="btn-nav" style="background: var(--primary); border-radius: 8px; padding: 10px 25px; color: white; text-decoration: none;">Área do Aluno</a>
+                <a href="login.html" class="btn-nav">Área do Aluno</a>
             </li>
         </ul>
     </nav>
@@ -101,8 +103,8 @@
             <a href="https://wa.me/5534998047604" target="_blank" class="btn-send" style="width: auto; padding: 15px 40px; background: transparent; border: 1px solid var(--primary); text-decoration: none;">Falar com Consultor</a>
         </div>
     </header>
-	
-  	<section id="orcamento" style="padding: 80px 5%; background: rgba(0,0,0,0.2);">
+
+    <section id="servicos" class="step-container">
         <div class="section-title">
             <p>Como funciona</p>
             <h2>Inicie suas aulas conosco</h2>
@@ -157,6 +159,52 @@
         </div>
     </section>
 
+
+    <section id="instrutores" class="section-container">
+        <div class="section-title">
+            <p>Equipe CFC SG</p>
+            <h2>Nossos Instrutores</h2>
+        </div>
+        
+        <div class="instrutores-grid">
+            <div class="instrutor-card">
+                <div class="instrutor-img">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>João Silva</h3>
+                <span class="badge">Legislação</span>
+                <p>Especialista em leis de trânsito e simulados teóricos.</p>
+                <a href="https://wa.me/5534998047604?text=Olá João, gostaria de tirar uma dúvida sobre legislação." class="btn-contato-instrutor" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Falar com João
+                </a>
+            </div>
+
+            <div class="instrutor-card">
+                <div class="instrutor-img">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3>Maria Oliveira</h3>
+                <span class="badge">Prática B</span>
+                <p>Instrutora de direção para categoria de carros de passeio.</p>
+                <a href="https://wa.me/5534998047604?text=Olá Maria, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Falar com Maria
+                </a>
+            </div>
+
+            <div class="instrutor-card">
+                <div class="instrutor-img">
+                    <i class="fas fa-motorcycle"></i>
+                </div>
+                <h3>Carlos Souza</h3>
+                <span class="badge">Categoria A</span>
+                <p>Especialista em treinamento de moto e pista de exames.</p>
+                <a href="https://wa.me/5534998047604?text=Olá Carlos, tenho dúvidas sobre o exame de moto." class="btn-contato-instrutor" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Falar com Carlos
+                </a>
+            </div>
+        </div>
+    </section>
+
     <section id="localizacao" style="padding: 100px 5%; background: rgba(30, 41, 59, 0.2);">
         <div class="section-title">
             <p>Onde estamos</p>
@@ -165,7 +213,7 @@
 
         <div class="map-container-wrapper">
             <div class="map-box">
-                <iframe id="mapaInterativo" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470.6588057900485!2d-46.04364211166368!3d-19.31406735612511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b210aaa8d9466b%3A0x27861e49d6855bac!2sAutoescola%20S%C3%A3o%20Gotardo!5e0!3m2!1spt-BR!2sbr!4v1774557238722!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0; border-radius: 15px;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe id="mapaInterativo" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470.6588057900485!2d-46.04364211166368!3d-19.31406735612511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b210aaa8d9466b%3A0x27861e49d6855bac!2sAutoescola%20S%C3%A3o%20Gotardo!5e0!3m2!1spt-BR!2sbr!4v1774557238722!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0; border-radius: 0; display:block;" allowfullscreen="" loading="lazy"></iframe>
             </div>
 
 			<div class="filiais-grid-mini">

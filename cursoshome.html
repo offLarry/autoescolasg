@@ -58,8 +58,13 @@
 	</main>
     <script src="script.js"></script>
     <script>
-        // Lógica de Bloqueio/Liberação
         document.addEventListener('DOMContentLoaded', () => {
+            // 1. Nome do aluno
+            const nome = localStorage.getItem('user_name') || 'Aluno';
+            const elNome = document.getElementById('displayNome');
+            if (elNome) elNome.innerText = nome.split(' ')[0];
+
+            // 2. Bloqueio / Liberação
             const permissao = localStorage.getItem('permissao_curso');
             const areaLiberada = document.getElementById('cursoLiberado');
             const areaBloqueada = document.getElementById('cursoBloqueado');
@@ -70,6 +75,34 @@
             } else {
                 areaLiberada.classList.add('hidden');
                 areaBloqueada.classList.remove('hidden');
+            }
+
+            // 3. Barra de progresso
+            const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
+            const totalAulas = CURSO_LEGISLACAO.length + CURSO_DIRECAO.length;
+            const porc = totalAulas > 0 ? Math.round((concluidas.length / totalAulas) * 100) : 0;
+
+            const textoPorc = document.getElementById('texto-progresso-total');
+            const barraPorc = document.getElementById('barra-progresso-total');
+
+            if (textoPorc) textoPorc.innerText = porc + '%';
+            if (barraPorc) {
+                // Pequeno delay para a animação de largura funcionar
+                setTimeout(() => { barraPorc.style.width = porc + '%'; }, 200);
+            }
+
+            // 4. Badge de status
+            const badge = document.getElementById('status-badge');
+            if (badge) {
+                if (porc >= 100) {
+                    badge.innerText = '✅ Completo';
+                    badge.style.background = '#10b981';
+                } else if (porc > 0) {
+                    badge.innerText = '▶ Em Progresso';
+                } else {
+                    badge.innerText = '🔒 Não iniciado';
+                    badge.style.background = 'rgba(100,100,100,0.7)';
+                }
             }
         });
     </script>
