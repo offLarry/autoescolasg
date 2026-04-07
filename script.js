@@ -63,9 +63,9 @@ function reveal() {
 
 // --- 3. SIMULADOR E MAPAS ---
 const PRECOS = {
-    primeira: { A: 1200, B: 1500, AB: 2200, D: 0 },
+    primeira: { A: 1200, B: 1500, AB: 2200, D: 1825 },
     adicao: { A: 900, B: 1100, AB: 0, D: 0 },
-    mudanca: { A: 0, B: 0, AB: 0, D: 1800 }
+    mudanca: { A: 0, B: 0, AB: 0, D: 1825 }
 };
 
 function atualizarOrcamento() {
