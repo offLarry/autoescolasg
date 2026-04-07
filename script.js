@@ -48,6 +48,23 @@ const CURSO_DIRECAO = [
     { id: 'def_3', title: '03. Condições Adversas', url: 'URL_VIDEO_3' },
 ];
 
+
+function finalizarNoWhats() {
+    const tipo = document.getElementById('tipoProcesso').value;
+    const categoria = document.querySelector('input[name="cat"]:checked').value;
+    const valor = document.getElementById('valorTotal').innerText;
+    
+    // Texto formatado para o WhatsApp
+    const texto = `Olá! Fiz uma simulação no site da Autoescola São Gotardo:%0A%0A` +
+                  `*Processo:* ${tipo}%0A` +
+                  `*Categoria:* ${categoria}%0A` +
+                  `*Valor Estimado:* ${valor}%0A%0A` +
+                  `Gostaria de mais informações!`;
+
+    const fone = "553436712274";
+    window.open(`https://wa.me/${fone}?text=${texto}`, '_blank');
+}
+
 // --- 2. LÓGICA DE ANIMAÇÃO (REVEAL) - CORREÇÃO DO FOOTER ---
 function reveal() {
     const reveals = document.querySelectorAll(".reveal");
