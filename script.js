@@ -81,7 +81,7 @@ function reveal() {
 // --- 3. SIMULADOR E MAPAS ---
 const PRECOS = {
     primeira: { A: 1187, B: 1217, AB: 1693, D: 2346 },
-    adicao: { A: 768, B: 798, AB: 0, D: 0 },
+    adicao: { A: 768, B: 798, AB: 0, D: 2346 },
     mudanca: { A: 0, B: 0, AB: 0, D: 2346 }
 };
 
