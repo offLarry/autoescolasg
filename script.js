@@ -28,10 +28,10 @@ const CURSO_LEGISLACAO = [
     { id: 'leg_20', title: '20. Direção Defensiva', url: 'https://www.dropbox.com/scl/fi/1nkxoifxczy0cnqe1qths/20-DIRE-O-DEFENSIVA.mp4?rlkey=j43unqxy8brwo8othv05f9xox&st=j8vcyer2&raw=1' },
     { id: 'leg_21', title: '21. Direção Defensiva', url: 'https://www.dropbox.com/scl/fi/wb1s6sdes8h0flnywgekc/21-DIRE-O-DEFENSIVA.mp4?rlkey=whyernmrz11l3h9e488pm39nq&st=zdx2hli2&raw=1' },
 
-    { id: 'leg_22', title: '22. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/8eh70ydl7nw0b3tkj41qu/24-PRIMEIROS-SOCORROS.mp4?rlkey=4rnirtm44t99owt5rc87m513g&st=gbark4md&raw=1' },
-    { id: 'leg_23', title: '23. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/0v4coveq5b7h7etojsvkn/25-PRIMEIROS-SOCORROS.mp4?rlkey=os8eo3z7ansascflh29e1vh1n&st=iq7yopg1&raw=1' },
-    { id: 'leg_24', title: '24. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/aqmvod20rt7xhkjqvc54c/26-PRIMEIROS-SOCORROS.mp4?rlkey=jaizi1ifkkd3t3h3lmjefk42a&st=7dbyuhng&raw=1' },
-    { id: 'leg_25', title: '25. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/uleso3vy033f6r2r86boh/27-PRIMEIROS-SOCORROS-cut.mp4?rlkey=xdrlfufqidartr4y2jmdjvdsf&st=as8gs13l&raw=1' },
+    { id: 'leg_22', title: '22. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/tl2nmehycw2pno9wixar7/30-PRIMEIROS-SOCORROS.mp4?rlkey=fy12kfoa7uk1bwxnr099f1gjz&st=x3se4mg4&raw=1' },
+    { id: 'leg_23', title: '23. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/9l49s7w8tp1iuyb8m8vvn/31-PRIMEIROS-SOCORROS.mp4?rlkey=q68j339oxn8ggz72hvug4truh&st=0y3sbp6l&raw=1' },
+    { id: 'leg_24', title: '24. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/nrj88ol1dafw9ibe3bw18/32-PRIMEIROS-SOCORROS.mp4?rlkey=l6dx4tfignlpez5wz6lao32yt&st=7oxgg9y1&raw=1' },
+    { id: 'leg_25', title: '25. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/qrpaxb1gs421b4xys47is/33-PRIMEIROS-SOCORROS-QUEST-ES.mp4?rlkey=tdqy7pdkt7kzdqr2uv7wfeaey&st=4200jd1c&raw=1' },
 
     { id: 'leg_26', title: '26. Meio Ambiente', url: 'https://www.dropbox.com/scl/fi/qm2usit08vbn754reepf0/28-MEIO-AMBIENTE.mp4?rlkey=9cy1en3ljg2vaxcoqkzwunpj8&st=q36qwtlw&raw=1' },
     { id: 'leg_27', title: '27. Meio Ambiente', url: 'https://www.dropbox.com/scl/fi/ze1oxs3ycax4suwnn1bum/29-MEIO-AMBIENTE.mp4?rlkey=ztuin39vu2if216tx52vqv4uz&st=29c5ji&raw=1' },
