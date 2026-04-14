@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulado | Autoescola São Gotardo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ── SIMULADO ESPECÍFICO ── */
+        .sim-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 100px 5% 60px;
+        }
+
+        /* ── TELA INICIAL ── */
+        .sim-start-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            text-align: center;
+            animation: fadeIn 0.6s ease;
+        }
+        .sim-start-card .sim-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .sim-start-card h2 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        .sim-start-card p {
+            color: var(--text-dim);
+            max-width: 480px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+        .sim-info-badges {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+        }
+        .sim-badge {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.25);
+            color: var(--primary);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        /* ── HEADER DO SIMULADO ── */
+        .sim-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 16px 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .sim-counter {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+        .sim-counter strong {
+            color: var(--text);
+            font-size: 1rem;
+        }
+        .sim-timer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            color: var(--primary);
+            letter-spacing: 0.05em;
+        }
+        .sim-timer.warning { color: #f59e0b; }
+        .sim-timer.danger  { color: var(--danger); animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+        /* ── BARRA DE PROGRESSO ── */
+        .sim-progress-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.07);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 28px;
+        }
+        .sim-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #c084fc);
+            transition: width 0.4s ease;
+            border-radius: 4px;
+        }
+
+        /* ── CARD DA QUESTÃO ── */
+        .sim-question-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 36px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.4s ease;
+        }
+        .sim-question-num {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            margin-bottom: 14px;
+        }
+        .sim-question-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 28px;
+            color: var(--text);
+        }
+
+        /* ── ALTERNATIVAS ── */
+        .sim-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .sim-option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(255,255,255,0.025);
+            border: 1.5px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            width: 100%;
+            font-size: 0.93rem;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+        }
+        .sim-option:hover:not(:disabled) {
+            background: rgba(168, 85, 247, 0.07);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+        .sim-option.selected {
+            background: rgba(168, 85, 247, 0.12);
+            border-color: var(--primary);
+        }
+        .sim-option.correct {
+            background: rgba(16, 185, 129, 0.12) !important;
+            border-color: var(--success) !important;
+            color: #34d399;
+        }
+        .sim-option.wrong {
+            background: rgba(239, 68, 68, 0.1) !important;
+            border-color: var(--danger) !important;
+            color: #f87171;
+        }
+        .sim-option:disabled { cursor: default; }
+        .opt-letter {
+            min-width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.78rem;
+            letter-spacing: 0.05em;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+        .sim-option.selected .opt-letter { background: var(--primary); color: white; }
+        .sim-option.correct .opt-letter  { background: var(--success); color: white; }
+        .sim-option.wrong   .opt-letter  { background: var(--danger); color: white; }
+
+        /* ── FEEDBACK DA QUESTÃO ── */
+        .sim-feedback {
+            margin-top: 18px;
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
+            font-size: 0.87rem;
+            display: none;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.55;
+        }
+        .sim-feedback.show { display: flex; animation: fadeIn 0.3s ease; }
+        .sim-feedback.ok  { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); color: #34d399; }
+        .sim-feedback.err { background: rgba(239,68,68,0.1);  border: 1px solid rgba(239,68,68,0.2);  color: #f87171; }
+
+        /* ── NAVEGAÇÃO ── */
+        .sim-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .sim-nav .btn-send { width: auto; padding: 12px 28px; }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--card-border);
+            color: var(--text-dim);
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-danger {
+            background: rgba(239,68,68,0.1);
+            border: 1.5px solid rgba(239,68,68,0.25);
+            color: var(--danger);
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-danger:hover { background: rgba(239,68,68,0.2); }
+
+        /* ── MAPA DE QUESTÕES ── */
+        .sim-map {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 24px;
+        }
+        .sim-map-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.04);
+            border: 1.5px solid var(--card-border);
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+        .sim-map-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .sim-map-btn.answered { background: rgba(168,85,247,0.12); border-color: var(--primary); color: var(--primary); }
+        .sim-map-btn.current  { background: var(--primary); color: white; border-color: var(--primary); }
+        .sim-map-btn.q-correct{ background: rgba(16,185,129,0.15); border-color: var(--success); color: #34d399; }
+        .sim-map-btn.q-wrong  { background: rgba(239,68,68,0.1); border-color: var(--danger); color: #f87171; }
+
+        /* ── TELA DE RESULTADO ── */
+        .sim-result-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 48px 36px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        .result-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            margin: 0 auto 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            font-size: 2rem;
+            font-weight: 800;
+            position: relative;
+        }
+        .result-circle.pass { background: rgba(16,185,129,0.12); border: 3px solid var(--success); color: var(--success); }
+        .result-circle.fail { background: rgba(239,68,68,0.1);  border: 3px solid var(--danger);  color: var(--danger); }
+        .result-circle small { font-size: 0.65rem; font-weight: 600; opacity: 0.7; margin-top: 2px; }
+        .result-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin: 28px 0;
+        }
+        .result-stat {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 18px 28px;
+            min-width: 110px;
+        }
+        .result-stat .stat-val { font-size: 1.8rem; font-weight: 800; }
+        .result-stat .stat-lbl { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.07em; margin-top: 4px; }
+        .result-stat.s-ok .stat-val  { color: var(--success); }
+        .result-stat.s-err .stat-val { color: var(--danger); }
+        .result-stat.s-skip .stat-val { color: var(--text-dim); }
+        .result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
+
+        /* ── LOADING ── */
+        .sim-loading {
+            text-align: center;
+            padding: 80px 0;
+        }
+        .sim-loading .spinner {
+            width: 48px; height: 48px;
+            border: 3px solid rgba(168,85,247,0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── REVISÃO ── */
+        .review-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .review-item .q-label {
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.1em; margin-bottom: 10px;
+        }
+        .review-item.r-ok  { border-left: 3px solid var(--success); }
+        .review-item.r-ok .q-label  { color: var(--success); }
+        .review-item.r-err { border-left: 3px solid var(--danger); }
+        .review-item.r-err .q-label { color: var(--danger); }
+        .review-item.r-skip { border-left: 3px solid var(--text-muted); }
+        .review-item.r-skip .q-label { color: var(--text-muted); }
+
+        @media (max-width: 600px) {
+            .sim-question-card { padding: 24px 18px; }
+            .sim-start-card    { padding: 32px 20px; }
+            .sim-result-card   { padding: 32px 20px; }
+            .result-stats      { gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="Logo.png" alt="Logo Autoescola São Gotardo" class="nav-logo">
+        </div>
+        <ul class="nav-linksc">
+            <li><a href="cursoshome.html">Cursos</a></li>
+            <li><a href="simulado.html" class="active">Simulado</a></li>
+            <li><a href="javascript:void(0)" onclick="logout()">Sair</a></li>
+        </ul>
+    </nav>
+
+    <div class="sim-wrapper">
+
+        <!-- ══════════════════════════════════
+             TELA 1: INÍCIO
+        ══════════════════════════════════ -->
+        <div id="telaInicio">
+            <div class="sim-start-card">
+                <span class="sim-icon">📋</span>
+                <h2 class="gradient-text">Simulado de Legislação</h2>
+                <p>Teste seus conhecimentos com questões aleatórias do banco de dados. Você terá <strong>1 hora</strong> para responder até <strong>30 questões</strong>. Precisa acertar 70% para ser aprovado.</p>
+                <div class="sim-info-badges">
+                    <span class="sim-badge"><i class="fas fa-list-ol"></i> 30 questões</span>
+                    <span class="sim-badge"><i class="fas fa-clock"></i> 60 minutos</span>
+                    <span class="sim-badge"><i class="fas fa-check-circle"></i> Mínimo 70% para aprovação</span>
+                </div>
+                <button class="btn-send" style="max-width:260px; margin:0 auto;" onclick="iniciarSimulado()">
+                    <i class="fas fa-play" style="margin-right:8px;"></i> Iniciar Simulado
+                </button>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             TELA 2: CARREGANDO
+        ══════════════════════════════════ -->
+        <div id="telaLoading" class="hidden">
+            <div class="sim-loading">
+                <div class="spinner"></div>
+                <p style="color:var(--text-dim);">Carregando questões...</p>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             TELA 3: SIMULADO ATIVO
+        ══════════════════════════════════ -->
+        <div id="telaSimulado" class="hidden">
+            <!-- Header com timer -->
+            <div class="sim-header">
+                <div class="sim-counter">
+                    Questão <strong id="numAtual">1</strong> de <strong id="numTotal">30</strong>
+                </div>
+                <div class="sim-timer" id="timerDisplay">
+                    <i class="fas fa-clock"></i>
+                    <span id="timerTexto">60:00</span>
+                </div>
+                <button class="btn-danger" onclick="confirmarEncerrar()">
+                    <i class="fas fa-stop"></i> Encerrar
+                </button>
+            </div>
+
+            <!-- Barra de progresso -->
+            <div class="sim-progress-bar">
+                <div class="sim-progress-fill" id="barraProgSim" style="width:0%"></div>
+            </div>
+
+            <!-- Questão -->
+            <div class="sim-question-card" id="questionCard">
+                <div class="sim-question-num" id="questionNum">QUESTÃO 1</div>
+                <div class="sim-question-text" id="questionText">Carregando...</div>
+                <div class="sim-options" id="optionsContainer"></div>
+                <div class="sim-feedback" id="feedbackBox">
+                    <i class="fas fa-info-circle" style="margin-top:2px; flex-shrink:0;"></i>
+                    <span id="feedbackText"></span>
+                </div>
+            </div>
+
+            <!-- Navegação -->
+            <div class="sim-nav">
+                <button class="btn-outline" onclick="navegarQuestao(-1)" id="btnAnterior">
+                    <i class="fas fa-arrow-left"></i> Anterior
+                </button>
+                <button class="btn-send" onclick="navegarQuestao(1)" id="btnProximo" style="min-width:140px;">
+                    Próxima <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Mapa de questões -->
+            <div style="margin-top:32px;">
+                <p style="font-size:0.78rem; color:var(--text-dim); font-weight:600; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:12px;">
+                    Mapa de Questões
+                </p>
+                <div class="sim-map" id="mapaQuestoes"></div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             TELA 4: RESULTADO
+        ══════════════════════════════════ -->
+        <div id="telaResultado" class="hidden">
+            <div class="sim-result-card">
+                <div class="result-circle" id="resultCircle">
+                    <span id="resultPct">0%</span>
+                    <small id="resultLabel">APROVADO</small>
+                </div>
+                <h2 id="resultTitulo" style="margin-bottom:8px;"></h2>
+                <p id="resultSubtitulo" style="color:var(--text-dim); margin-bottom:4px;"></p>
+
+                <div class="result-stats">
+                    <div class="result-stat s-ok">
+                        <div class="stat-val" id="rCertas">0</div>
+                        <div class="stat-lbl">Acertos</div>
+                    </div>
+                    <div class="result-stat s-err">
+                        <div class="stat-val" id="rErros">0</div>
+                        <div class="stat-lbl">Erros</div>
+                    </div>
+                    <div class="result-stat s-skip">
+                        <div class="stat-val" id="rPuladas">0</div>
+                        <div class="stat-lbl">Não respondidas</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="stat-val" id="rTempo" style="color:var(--primary)">--</div>
+                        <div class="stat-lbl">Tempo usado</div>
+                    </div>
+                </div>
+
+                <div class="result-actions">
+                    <button class="btn-outline" onclick="verRevisao()">
+                        <i class="fas fa-search"></i> Revisar Respostas
+                    </button>
+                    <button class="btn-send" style="width:auto;" onclick="reiniciarSimulado()">
+                        <i class="fas fa-redo"></i> Novo Simulado
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════
+             TELA 5: REVISÃO
+        ══════════════════════════════════ -->
+        <div id="telaRevisao" class="hidden">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:12px;">
+                <h2 class="gradient-text">Revisão do Simulado</h2>
+                <button class="btn-outline" onclick="voltarResultado()">
+                    <i class="fas fa-arrow-left"></i> Voltar ao resultado
+                </button>
+            </div>
+            <div id="revisaoContainer"></div>
+        </div>
+
+    </div><!-- /sim-wrapper -->
+
+    <script src="script.js"></script>
+    <script>
+    // ═══════════════════════════════════════════════════
+    //  CONFIGURAÇÃO
+    // ═══════════════════════════════════════════════════
+    // URL do seu Google Apps Script (mesmo já usado no login)
+    const SIMULADO_API_URL = 'https://script.google.com/macros/s/AKfycbzVtKRAkHOo_n8MT1rbi0RFUbQqOhmHZdvIlYBrEA943lPdQ-z2W_MzzYqMMfqcCadG/exec';
+
+    const TOTAL_QUESTOES  = 30;     // máximo de questões por simulado
+    const TEMPO_TOTAL_SEG = 3600;   // 60 minutos
+    const APROVACAO_PCT   = 70;     // % mínimo para aprovação
+
+    // ═══════════════════════════════════════════════════
+    //  ESTADO
+    // ═══════════════════════════════════════════════════
+    let questoes       = [];   // banco carregado da planilha
+    let questoesSim    = [];   // 30 sorteadas
+    let respostas      = {};   // { index: letra_escolhida }
+    let indexAtual     = 0;
+    let timerInterval  = null;
+    let segundosLeft   = TEMPO_TOTAL_SEG;
+    let simuladoAtivo  = false;
+    let tempoUsado     = 0;
+
+    // ═══════════════════════════════════════════════════
+    //  GUARD DE LOGIN
+    // ═══════════════════════════════════════════════════
+    if (localStorage.getItem('usuario_logado') !== 'true') {
+        window.location.replace('login.html');
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  TELAS
+    // ═══════════════════════════════════════════════════
+    function mostrarTela(id) {
+        ['telaInicio','telaLoading','telaSimulado','telaResultado','telaRevisao']
+            .forEach(t => document.getElementById(t).classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  CARREGAR QUESTÕES DA PLANILHA
+    //  A planilha precisa ter uma aba chamada "Simulado"
+    //  com as colunas:
+    //    A: pergunta | B: alternativa_a | C: alternativa_b
+    //    D: alternativa_c | E: alternativa_d | F: gabarito (A/B/C/D)
+    //    G: explicacao (opcional)
+    // ═══════════════════════════════════════════════════
+    async function carregarQuestoes() {
+        const url = `${SIMULADO_API_URL}?acao=simulado&t=${Date.now()}`;
+        const resp = await fetch(url);
+        const texto = await resp.text();
+
+        // Tenta JSON puro
+        try {
+            const dados = JSON.parse(texto);
+            if (Array.isArray(dados)) return dados;
+        } catch(e) {}
+
+        // Fallback: CSV simples (linha por questão, separador |)
+        // Formato: pergunta|a|b|c|d|gabarito|explicacao
+        const linhas = texto.trim().split('\n').filter(l => l.trim());
+        return linhas.map(linha => {
+            const partes = linha.split('|');
+            return {
+                pergunta:    (partes[0] || '').trim(),
+                a:           (partes[1] || '').trim(),
+                b:           (partes[2] || '').trim(),
+                c:           (partes[3] || '').trim(),
+                d:           (partes[4] || '').trim(),
+                gabarito:    (partes[5] || '').trim().toUpperCase(),
+                explicacao:  (partes[6] || '').trim(),
+            };
+        }).filter(q => q.pergunta && q.gabarito);
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  INICIAR
+    // ═══════════════════════════════════════════════════
+    async function iniciarSimulado() {
+        mostrarTela('telaLoading');
+        try {
+            questoes = await carregarQuestoes();
+
+            if (!questoes || questoes.length === 0) {
+                alert('⚠️ Nenhuma questão encontrada na planilha.\n\nVerifique se o seu Google Apps Script retorna as questões com ação "simulado".');
+                mostrarTela('telaInicio');
+                return;
+            }
+
+            // Sorteia até TOTAL_QUESTOES questões aleatórias
+            const embaralhado = [...questoes].sort(() => Math.random() - 0.5);
+            questoesSim = embaralhado.slice(0, Math.min(TOTAL_QUESTOES, embaralhado.length));
+
+            // Reseta estado
+            respostas      = {};
+            indexAtual     = 0;
+            segundosLeft   = TEMPO_TOTAL_SEG;
+            simuladoAtivo  = true;
+            tempoUsado     = 0;
+
+            // Atualiza total
+            document.getElementById('numTotal').textContent = questoesSim.length;
+
+            // Monta mapa
+            montarMapaQuestoes();
+
+            // Renderiza primeira questão
+            renderizarQuestao(0);
+            mostrarTela('telaSimulado');
+
+            // Inicia timer
+            iniciarTimer();
+
+        } catch(err) {
+            console.error(err);
+            alert('❌ Erro ao carregar as questões. Verifique sua conexão e o Google Apps Script.');
+            mostrarTela('telaInicio');
+        }
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  TIMER
+    // ═══════════════════════════════════════════════════
+    function iniciarTimer() {
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (!simuladoAtivo) { clearInterval(timerInterval); return; }
+            segundosLeft--;
+            tempoUsado++;
+            atualizarTimerDisplay();
+            if (segundosLeft <= 0) {
+                clearInterval(timerInterval);
+                finalizarSimulado(true);
+            }
+        }, 1000);
+    }
+
+    function atualizarTimerDisplay() {
+        const min = Math.floor(segundosLeft / 60);
+        const seg = segundosLeft % 60;
+        const txt = `${String(min).padStart(2,'0')}:${String(seg).padStart(2,'0')}`;
+        const el  = document.getElementById('timerTexto');
+        const wr  = document.getElementById('timerDisplay');
+        if (el) el.textContent = txt;
+        if (wr) {
+            wr.classList.remove('warning','danger');
+            if (segundosLeft <= 60)        wr.classList.add('danger');
+            else if (segundosLeft <= 600)  wr.classList.add('warning');
+        }
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  RENDERIZAR QUESTÃO
+    // ═══════════════════════════════════════════════════
+    function renderizarQuestao(idx) {
+        const q = questoesSim[idx];
+        if (!q) return;
+
+        const respondida = respostas[idx] !== undefined;
+
+        // Cabeçalho
+        document.getElementById('numAtual').textContent   = idx + 1;
+        document.getElementById('questionNum').textContent = `QUESTÃO ${idx + 1}`;
+        document.getElementById('questionText').textContent = q.pergunta;
+
+        // Barra
+        const pct = ((idx + 1) / questoesSim.length) * 100;
+        document.getElementById('barraProgSim').style.width = pct + '%';
+
+        // Alternativas
+        const container = document.getElementById('optionsContainer');
+        container.innerHTML = '';
+        const letras = ['A','B','C','D'];
+        const textos = [q.a, q.b, q.c, q.d].filter(t => t);
+
+        textos.forEach((txt, i) => {
+            const letra = letras[i];
+            const btn   = document.createElement('button');
+            btn.className = 'sim-option';
+            btn.innerHTML = `<span class="opt-letter">${letra}</span><span>${txt}</span>`;
+            btn.onclick   = () => responder(idx, letra, btn);
+
+            if (respondida) {
+                btn.disabled = true;
+                const resp = respostas[idx];
+                if (letra === q.gabarito) btn.classList.add('correct');
+                else if (letra === resp)  btn.classList.add('wrong');
+                btn.classList.toggle('selected', letra === resp);
+            }
+            container.appendChild(btn);
+        });
+
+        // Feedback
+        const fb = document.getElementById('feedbackBox');
+        const ft = document.getElementById('feedbackText');
+        if (respondida) {
+            const acertou = respostas[idx] === q.gabarito;
+            fb.className  = `sim-feedback show ${acertou ? 'ok' : 'err'}`;
+            const explicacao = q.explicacao ? ` — ${q.explicacao}` : '';
+            ft.textContent = acertou
+                ? `✅ Correto! Gabarito: ${q.gabarito}${explicacao}`
+                : `❌ Incorreto. Gabarito correto: ${q.gabarito}${explicacao}`;
+        } else {
+            fb.className = 'sim-feedback';
+        }
+
+        // Navegação
+        document.getElementById('btnAnterior').disabled = idx === 0;
+        const btnProx = document.getElementById('btnProximo');
+        if (idx === questoesSim.length - 1) {
+            btnProx.innerHTML = 'Finalizar <i class="fas fa-flag-checkered"></i>';
+            btnProx.onclick   = () => confirmarFinalizar();
+        } else {
+            btnProx.innerHTML = 'Próxima <i class="fas fa-arrow-right"></i>';
+            btnProx.onclick   = () => navegarQuestao(1);
+        }
+
+        // Atualiza mapa
+        atualizarMapaQuestoes(idx);
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  RESPONDER
+    // ═══════════════════════════════════════════════════
+    function responder(idx, letra, btnClicado) {
+        if (respostas[idx] !== undefined) return; // já respondida
+        respostas[idx] = letra;
+
+        const q = questoesSim[idx];
+
+        // Desabilita todos os botões
+        document.querySelectorAll('.sim-option').forEach(b => {
+            b.disabled = true;
+            const l = b.querySelector('.opt-letter')?.textContent;
+            if (l === q.gabarito) b.classList.add('correct');
+            else if (l === letra) b.classList.add('wrong');
+        });
+        btnClicado.classList.add('selected');
+
+        // Feedback
+        const acertou = letra === q.gabarito;
+        const fb = document.getElementById('feedbackBox');
+        const ft = document.getElementById('feedbackText');
+        const explicacao = q.explicacao ? ` — ${q.explicacao}` : '';
+        fb.className  = `sim-feedback show ${acertou ? 'ok' : 'err'}`;
+        ft.textContent = acertou
+            ? `✅ Correto! Gabarito: ${q.gabarito}${explicacao}`
+            : `❌ Incorreto. Gabarito correto: ${q.gabarito}${explicacao}`;
+
+        atualizarMapaQuestoes(idx);
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  NAVEGAR
+    // ═══════════════════════════════════════════════════
+    function navegarQuestao(delta) {
+        const novo = indexAtual + delta;
+        if (novo < 0 || novo >= questoesSim.length) return;
+        indexAtual = novo;
+        renderizarQuestao(indexAtual);
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  MAPA DE QUESTÕES
+    // ═══════════════════════════════════════════════════
+    function montarMapaQuestoes() {
+        const mapa = document.getElementById('mapaQuestoes');
+        mapa.innerHTML = '';
+        questoesSim.forEach((_, i) => {
+            const b = document.createElement('button');
+            b.className = 'sim-map-btn';
+            b.textContent = i + 1;
+            b.onclick = () => { indexAtual = i; renderizarQuestao(i); };
+            mapa.appendChild(b);
+        });
+    }
+
+    function atualizarMapaQuestoes(idxAtivo) {
+        document.querySelectorAll('.sim-map-btn').forEach((b, i) => {
+            b.className = 'sim-map-btn';
+            if (i === idxAtivo) {
+                b.classList.add('current');
+            } else if (respostas[i] !== undefined) {
+                const acertou = respostas[i] === questoesSim[i].gabarito;
+                b.classList.add(acertou ? 'q-correct' : 'q-wrong');
+            }
+        });
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  FINALIZAR / ENCERRAR
+    // ═══════════════════════════════════════════════════
+    function confirmarFinalizar() {
+        const naoResp = questoesSim.length - Object.keys(respostas).length;
+        if (naoResp > 0) {
+            if (!confirm(`Você ainda tem ${naoResp} questão(ões) sem resposta.\nDeseja finalizar mesmo assim?`)) return;
+        }
+        finalizarSimulado(false);
+    }
+
+    function confirmarEncerrar() {
+        if (!confirm('Deseja encerrar o simulado? Seu progresso será salvo e o resultado calculado.')) return;
+        finalizarSimulado(false);
+    }
+
+    function finalizarSimulado(porTempo) {
+        simuladoAtivo = false;
+        clearInterval(timerInterval);
+
+        const total   = questoesSim.length;
+        let certas    = 0;
+        let erros     = 0;
+
+        questoesSim.forEach((q, i) => {
+            if (respostas[i] === undefined) return;
+            if (respostas[i] === q.gabarito) certas++;
+            else erros++;
+        });
+
+        const puladas  = total - certas - erros;
+        const pct      = Math.round((certas / total) * 100);
+        const aprovado = pct >= APROVACAO_PCT;
+
+        // Tempo usado
+        const minUsado = Math.floor(tempoUsado / 60);
+        const segUsado = tempoUsado % 60;
+        const tempoStr = `${String(minUsado).padStart(2,'0')}:${String(segUsado).padStart(2,'0')}`;
+
+        // Preenche tela de resultado
+        const circle = document.getElementById('resultCircle');
+        circle.className = `result-circle ${aprovado ? 'pass' : 'fail'}`;
+        document.getElementById('resultPct').textContent    = pct + '%';
+        document.getElementById('resultLabel').textContent  = aprovado ? 'APROVADO' : 'REPROVADO';
+        document.getElementById('resultTitulo').textContent = aprovado
+            ? '🎉 Parabéns! Você foi aprovado!'
+            : '😔 Não foi dessa vez. Continue estudando!';
+        document.getElementById('resultSubtitulo').textContent = porTempo
+            ? 'O tempo esgotou. As questões não respondidas foram contadas como erros.'
+            : `Simulado finalizado com ${pct}% de aproveitamento.`;
+
+        document.getElementById('rCertas').textContent  = certas;
+        document.getElementById('rErros').textContent   = erros;
+        document.getElementById('rPuladas').textContent = puladas;
+        document.getElementById('rTempo').textContent   = tempoStr;
+
+        // Salva resultado na planilha
+        salvarResultado({ certas, erros, puladas, total, pct, aprovado, tempoStr, porTempo });
+
+        mostrarTela('telaResultado');
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  SALVAR RESULTADO NA PLANILHA
+    // ═══════════════════════════════════════════════════
+    async function salvarResultado({ certas, erros, puladas, total, pct, aprovado, tempoStr, porTempo }) {
+        const email = localStorage.getItem('user_email');
+        const senha = localStorage.getItem('user_pass');
+        if (!email || !senha) return; // segurança: não envia sem credenciais
+
+        const params = new URLSearchParams({
+            acao:      'salvarSimulado',
+            email,
+            senha,
+            certas,
+            erros,
+            puladas,
+            total,
+            pct,
+            aprovado:  aprovado ? 'SIM' : 'NÃO',
+            tempo:     tempoStr,
+            porTempo:  porTempo ? 'SIM' : 'NÃO',
+            t:         Date.now()
+        });
+
+        try {
+            await fetch(`${SIMULADO_API_URL}?${params}`);
+            console.log('✅ Resultado do simulado salvo na planilha.');
+        } catch(err) {
+            console.warn('⚠️ Não foi possível salvar o resultado:', err);
+            // Não interrompe o fluxo — resultado ainda aparece na tela
+        }
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  REVISÃO
+    // ═══════════════════════════════════════════════════
+    function verRevisao() {
+        const container = document.getElementById('revisaoContainer');
+        container.innerHTML = '';
+        const letras = ['A','B','C','D'];
+
+        questoesSim.forEach((q, i) => {
+            const resp     = respostas[i];
+            const acertou  = resp === q.gabarito;
+            const naoResp  = resp === undefined;
+
+            const div = document.createElement('div');
+            div.className = `review-item ${naoResp ? 'r-skip' : acertou ? 'r-ok' : 'r-err'}`;
+
+            const label = naoResp ? '— Não respondida' : acertou ? '✅ Correta' : '❌ Incorreta';
+
+            const textos = [q.a, q.b, q.c, q.d].filter(t => t);
+            const optsHtml = textos.map((txt, j) => {
+                const l = letras[j];
+                const isCor  = l === q.gabarito;
+                const isResp = l === resp;
+                let style = '';
+                if (isCor)  style = 'color:#34d399; font-weight:700;';
+                if (isResp && !isCor) style = 'color:#f87171; text-decoration:line-through;';
+                return `<div style="padding:4px 0; font-size:0.87rem; ${style}"><strong>${l}.</strong> ${txt}</div>`;
+            }).join('');
+
+            const expHtml = q.explicacao
+                ? `<div style="margin-top:10px; font-size:0.82rem; color:var(--text-dim); padding:10px 14px; background:rgba(255,255,255,0.03); border-radius:8px; border-left:3px solid rgba(168,85,247,0.4);">${q.explicacao}</div>`
+                : '';
+
+            div.innerHTML = `
+                <div class="q-label">${label} — Questão ${i + 1}</div>
+                <div style="font-size:0.92rem; font-weight:600; margin-bottom:14px;">${q.pergunta}</div>
+                <div>${optsHtml}</div>
+                ${expHtml}
+            `;
+            container.appendChild(div);
+        });
+
+        mostrarTela('telaRevisao');
+    }
+
+    function voltarResultado()   { mostrarTela('telaResultado'); }
+    function reiniciarSimulado() { mostrarTela('telaInicio'); }
+
+    // Logout herdado do script.js
+    function logout() { localStorage.clear(); window.location.href = 'index.html'; }
+    </script>
+</body>
+</html>
