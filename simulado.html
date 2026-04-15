@@ -367,7 +367,7 @@
             <img src="Logo.png" alt="Logo Autoescola São Gotardo" class="nav-logo">
         </div>
         <ul class="nav-linksc">
-            <li><a href="cursoshome.html">Cursos</a></li>
+            <li><a href="cursoshome.html">Meus Cursos</a></li>
             <li><a href="simulado.html" class="active">Simulado</a></li>
             <li><a href="javascript:void(0)" onclick="logout()">Sair</a></li>
         </ul>
@@ -376,9 +376,25 @@
     <div class="sim-wrapper">
 
         <!-- ══════════════════════════════════
+             TELA 0: ACESSO BLOQUEADO
+        ══════════════════════════════════ -->
+        <div id="telaBloqueado" class="hidden">
+            <div class="sim-start-card" style="border-color: rgba(239,68,68,0.25);">
+                <span class="sim-icon">🔒</span>
+                <h2 style="background: linear-gradient(120deg,#fff 20%,#ef4444 80%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">
+                    Acesso Restrito
+                </h2>
+                <p>O seu acesso ao simulado ainda não foi liberado pela administração.<br>Entre em contato com a autoescola para mais informações.</p>
+                <a href="cursoshome.html" class="btn-send" style="max-width:260px; margin:0 auto; display:block; text-align:center; text-decoration:none;">
+                    <i class="fas fa-arrow-left" style="margin-right:8px;"></i> Voltar aos Cursos
+                </a>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════
              TELA 1: INÍCIO
         ══════════════════════════════════ -->
-        <div id="telaInicio">
+        <div id="telaInicio" class="hidden">
             <div class="sim-start-card">
                 <span class="sim-icon">📋</span>
                 <h2 class="gradient-text">Simulado de Legislação</h2>
@@ -539,17 +555,31 @@
     let tempoUsado     = 0;
 
     // ═══════════════════════════════════════════════════
-    //  GUARD DE LOGIN
+    //  GUARD DE LOGIN + PERMISSÃO
     // ═══════════════════════════════════════════════════
-    if (localStorage.getItem('usuario_logado') !== 'true') {
-        window.location.replace('login.html');
-    }
+    (function verificarAcesso() {
+        // 1. Não está logado → redireciona para o login
+        if (localStorage.getItem('usuario_logado') !== 'true') {
+            window.location.replace('login.html');
+            return;
+        }
+        // 2. Logado mas curso não liberado → mostra tela de bloqueio
+        const permissao = localStorage.getItem('permissao_curso') || '';
+        if (permissao.trim().toUpperCase() !== 'SIM') {
+            // Espera o DOM carregar para mostrar a tela correta
+            document.addEventListener('DOMContentLoaded', () => mostrarTela('telaBloqueado'));
+        }
+        // 3. Liberado → revela telaInicio no DOMContentLoaded
+        else {
+            document.addEventListener('DOMContentLoaded', () => mostrarTela('telaInicio'));
+        }
+    })();
 
     // ═══════════════════════════════════════════════════
     //  TELAS
     // ═══════════════════════════════════════════════════
     function mostrarTela(id) {
-        ['telaInicio','telaLoading','telaSimulado','telaResultado','telaRevisao']
+        ['telaBloqueado','telaInicio','telaLoading','telaSimulado','telaResultado','telaRevisao']
             .forEach(t => document.getElementById(t).classList.add('hidden'));
         document.getElementById(id).classList.remove('hidden');
     }
@@ -890,7 +920,7 @@
         });
 
         try {
-            await fetch(`${SIMULADO_API_URL}?${params}`);
+            await fetch(`${SIMULADO_API_URL}?${params}`, { mode: 'no-cors' });
             console.log('✅ Resultado do simulado salvo na planilha.');
         } catch(err) {
             console.warn('⚠️ Não foi possível salvar o resultado:', err);
