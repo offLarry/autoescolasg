@@ -166,6 +166,39 @@ document.addEventListener('DOMContentLoaded', () => {
         input.addEventListener('change', atualizarOrcamento);
     });
     atualizarOrcamento();
+    
 });
+
+function openNews(title, date, image, text) {
+    const modal = document.getElementById('newsModal');
+    const body = document.getElementById('modalBody');
+
+    // Monta o HTML interno da notícia
+    body.innerHTML = `
+        <img src="${image}" alt="${title}">
+        <span class="meta-info">${date}</span>
+        <h2>${title}</h2>
+        <div class="content">
+            ${text}
+        </div>
+    `;
+
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden"; // Trava o scroll da página ao fundo
+}
+
+function closeNews() {
+    const modal = document.getElementById('newsModal');
+    modal.style.display = "none";
+    document.body.style.overflow = "auto"; // Libera o scroll
+}
+
+// Fecha o modal se clicar fora da caixa branca
+window.onclick = function(event) {
+    const modal = document.getElementById('newsModal');
+    if (event.target == modal) {
+        closeNews();
+    }
+}
 
 function logout() { localStorage.clear(); window.location.href = 'index.html'; }

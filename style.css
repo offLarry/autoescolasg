@@ -1146,6 +1146,189 @@ input[type="radio"]:checked + .radio-card i {
     transform: translateY(0);
 }
 
+
+/* =========================================
+   SEÇÃO DE NOTÍCIAS / BLOG
+   ========================================= */
+.news-section {
+    padding: 80px 5%;
+    background: linear-gradient(to bottom, var(--bg), var(--bg-secondary));
+}
+
+.news-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.news-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    justify-self: center;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.news-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px var(--primary-glow);
+}
+
+.news-image {
+    width: 100%;
+    height: 200px;
+    background: var(--bg-accent);
+    position: relative;
+    overflow: hidden;
+}
+
+.news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.news-card:hover .news-image img {
+    transform: scale(1.1);
+}
+
+.news-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.news-date {
+    font-size: 0.8rem;
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.news-title {
+    font-size: 1.25rem;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.news-excerpt {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.news-link {
+    margin-top: auto;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.news-link i {
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
+
+.news-link:hover {
+    color: var(--primary);
+}
+
+.news-link:hover i {
+    transform: translateX(5px);
+}
+
+/* Container do Modal */
+.news-modal {
+    display: none; 
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(8, 13, 26, 0.95); /* Fundo escuro */
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+    padding: 40px 20px;
+}
+
+/* Caixa de Conteúdo */
+.news-modal-content {
+    background: var(--bg-secondary);
+    border: 1px solid var(--card-border);
+    margin: auto;
+    padding: 40px;
+    max-width: 800px;
+    border-radius: var(--radius-lg);
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+/* Botão Fechar */
+.close-modal {
+    position: absolute;
+    right: 25px;
+    top: 15px;
+    color: var(--text-dim);
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-modal:hover {
+    color: var(--primary);
+}
+
+/* Estilos internos do Modal */
+#modalBody img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    margin-bottom: 25px;
+}
+
+#modalBody h2 {
+    color: var(--text);
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+#modalBody .meta-info {
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 30px;
+    display: block;
+}
+
+#modalBody p {
+    color: var(--text-dim);
+    line-height: 1.8;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
 /* =========================================
    17. RESPONSIVIDADE
    ========================================= */
@@ -1294,6 +1477,11 @@ img, iframe, video {
     }
 }
 
+.tab-btn { padding: 9px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: transparent; color: var(--text-dim); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+.tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+.panel { display: none; }
+.panel.active { display: block; }
+
 @media (max-width: 480px) {
     header h1 {
         font-size: 2rem;
@@ -1307,3 +1495,5 @@ img, iframe, video {
         padding: 28px 20px;
     }
 }
+
+

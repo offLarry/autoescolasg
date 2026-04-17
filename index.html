@@ -107,6 +107,56 @@
             </div>
         </header>   
 
+<section class="news-section" id="noticias">
+        <div class="news-header">
+            <h2 class="gradient-text" style="font-size: 2.5rem;">Notícias e Dicas</h2>
+            <p style="color: var(--text-dim);">Fique por dentro das atualizações do trânsito e dicas para sua prova.</p>
+        </div>
+
+        <div class="news-grid">
+            <article class="news-card" onclick="openNews(
+                'Novos valores Exame medico e psicologico', 
+                '15 Abril, 2026', 
+                'https://digem.com.br/wp-content/uploads/2024/01/exames-de-imagem-check-up.jpg', 
+                '<p>Em cumprimento à decisão judicial proferida pelo Tribunal Regional Federal revogou a Portaria DETRAN nº 211/2026 e alterou os valores praticados pelas clínicas médicas e psicológicas credenciadas pelo Detran-MG</p><p>I - Avaliação Psicológica: R$ 232,23</p><p>II - Exame de Aptidão Física e Mental: R$ 232,23</p><p>III - Reexame Psicológico: 16,04 UFEMGs _ R$ 92,87IV - Obtenção de 2ª via de Exames: R$ 60,38</p>'
+            )">
+                <div class="news-image">
+                    <img src="https://digem.com.br/wp-content/uploads/2024/01/exames-de-imagem-check-up.jpg" alt="Novos Exames">
+                </div>
+                <div class="news-content">
+                    <span class="news-date">15 de Abril de 2026</span>
+                    <h3 class="news-title">Alteração valor exames médico e psicotécnico</h3>
+                    <p class="news-excerpt">Confira os novos valores para os exames...</p>
+                    <span class="news-link">Ler mais <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </article>
+            <article class="news-card" onclick="openNews(
+                'Dicas para a Prova Prática', 
+                '02 de Abril de 2026', 
+                'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800', 
+                '<p>O exame prático é o momento de maior tensão. Para passar de primeira, foque nos detalhes: ajuste os espelhos antes de ligar o carro, sinalize todas as manobras e mantenha a calma na baliza.</p><p>Lembre-se: o examinador avalia sua segurança e domínio do veículo.</p>'
+            )">
+                <div class="news-image">
+                    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=500" alt="Dicas CNH">
+                </div>
+                <div class="news-content">
+                    <span class="news-date">02 de Abril de 2026</span>
+                    <h3 class="news-title">Como passar na prova prática de primeira</h3>
+                    <p class="news-excerpt">O nervosismo é o maior vilão. Aprenda técnicas e veja os erros mais comuns que você deve evitar...</p>
+                    <span class="news-link">Ler mais <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <div id="newsModal" class="news-modal">
+        <div class="news-modal-content">
+            <span class="close-modal" onclick="closeNews()">&times;</span>
+            <div id="modalBody">
+                </div>
+        </div>
+    </div>
+
     <section id="servicos" class="step-container">
         <div class="section-title">
             <p>Como funciona</p>
