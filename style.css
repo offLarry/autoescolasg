@@ -7,6 +7,33 @@
 /* =========================================
    1. VARIÁVEIS E BASE
    ========================================= */
+        /* Hero Section com imagem de fundo e overlay para destacar o texto */
+        #inicio {
+            background: linear-gradient(rgba(8, 13, 26, 0.85), rgba(8, 13, 26, 0.85)), url('https://plus.unsplash.com/premium_photo-1683133959080-c34cc9fb2f73?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YXV0byUyMGVzY29sYXxlbnwwfHwwfHx8MA%3D%3D');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Efeito de zoom nos cards de notícias */
+        .news-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .news-image { overflow: hidden; height: 200px; }
+        .news-image img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.5s ease; 
+        }
+        .news-card:hover .news-image img { transform: scale(1.1); }
+
+    
+	
 :root {
     --primary: #a855f7;
     --primary-hover: #9333ea;

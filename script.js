@@ -107,6 +107,17 @@ function atualizarInterfaceGeral() {
     const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
     const totalAulas = CURSO_LEGISLACAO.length + CURSO_DIRECAO.length;
     
+    // --- LÓGICA PARA O BOTÃO "INICIAR" OU "CONTINUAR" ---
+    const btnContinue = document.querySelector('.btn-continue');
+    if (btnContinue) {
+        if (concluidas.length === 0) {
+            btnContinue.innerHTML = '<i class="fas fa-play"></i> Iniciar Aulas';
+        } else {
+            btnContinue.innerHTML = '<i class="fas fa-play"></i> Continuar Aulas';
+        }
+    }
+    // ----------------------------------------------------
+
     // Porcentagem Total (Home)
     const porcGeral = totalAulas > 0 ? Math.round((concluidas.length / totalAulas) * 100) : 0;
     const txtGeral = document.getElementById('home-porcentagem');
