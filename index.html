@@ -1,419 +1,356 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html> <!-- Declara que o documento é HTML5 moderno -->
+<html lang="pt-BR" data-theme="dark"> <!-- Idioma e tema escuro inicial -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autoescola São Gotardo | Referência em Habilitação</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <meta charset="UTF-8"> <!-- Suporte a acentuação e caracteres em português -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajuste para telas de celulares -->
+    <title>Autoescola São Gotardo | Formação de Condutores</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-	<meta name="description" content="Autoescola São Gotardo. Primeira habilitação, adição de categoria e muito mais. Fale conosco!">
-	<meta name="keywords" content="autoescola sao gotardo, CNH sg, habilitação sao gotardo">
-	<link rel="canonical" href="https://autoescolaguarda.com.br">
-		
+    <!-- Importação de fontes do Google (Plus Jakarta Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Importação da biblioteca de ícones FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Conecta o HTML com o seu arquivo CSS externo -->
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        .section-title { text-align: center; margin-bottom: 50px; }
-        .section-title h2 { font-size: 2.5rem; color: var(--text); }
-        .section-title p { color: var(--primary); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            padding: 0 5%;
-            max-width: 1200px;
-            margin: 0 auto 80px;
-        }
-
-        .step-container {
-            background: rgba(30, 41, 59, 0.4);
-            padding: 60px 5%;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer-info {
-            background: #0a0f1e;
-            padding: 60px 5% 20px;
-            margin-top: 80px;
-        }
-    </style>
 </head>
+
+
 <body>
 
+    <!-- BARRA DE NAVEGAÇÃO -->
     <nav class="navbar">
-        <div class="logo">
-            <img src="Logo.png" alt="Logo Autoescola São Gotardo" class="nav-logo">
-        </div>
+        <a href="index.html" class="logo">
+            <i class="fas fa-traffic-light logo-icon"></i> <!-- Ícone de semáforo -->
+            <span>AUTOESCOLA SÃO GOTARDO</span>
+        </a>
         <ul class="nav-links">
-            <li><a href="#inicio">Início</a></li>
+            <li><a href="#inicio" class="active">Início</a></li>
             <li><a href="#servicos">Serviços</a></li>
-            <li><a href="#orcamento">Orçamentos</a></li>
+            <li><a href="#orcamento">Simulador de Orçamento</a></li>
+            <li><a href="#diferenciais">Por Que Nós?</a></li>
             <li><a href="#instrutores">Instrutores</a></li>
-            <li id="nav-auth-container">
-                <a href="login.html" class="btn-nav">Área do Aluno</a>
-            </li>
+            <li><a href="#filiais">Unidades</a></li>
+            <!-- O botão abaixo aponta para a tela de Login -->
+            <li id="nav-auth-container"><a href="login.html" class="btn-nav"></i> Área do Aluno</a></li>
         </ul>
+
+        <!-- CONTROLES ADICIONAIS NA NAVBAR -->
+        <div class="nav-controls">
+            <!-- Botão que aciona a troca de tema no JS -->
+            <button id="themeToggleBtn" class="btn-theme-toggle" title="Alternar Modo Claro/Escuro" aria-label="Alternar tema">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+            <button class="btn-menu-mobile" id="mobileMenuBtn" aria-label="Abrir Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </nav>
 
+    <!-- DASHBOARD FLUTUANTE DO ALUNO (SÓ APARECE QUANDO LOGADO) -->
     <div id="student-dashboard" class="student-dashboard-hidden">
         <div class="dashboard-glass">
             <div class="dashboard-content">
                 <div class="user-stats">
+                    <span class="status-badge"><i class="fas fa-check-circle"></i> Aluno Conectado</span>
                     <div class="welcome-text">
-                        <span class="status-badge">Aluno Online</span>
-                        <h3>Olá, <span id="home-nome-aluno">Motorista</span>!</h3>
+                        <!-- O nome do aluno será inserido dinamicamente aqui pelo JS -->
+                        <h3>Olá, <span id="home-nome-aluno">Aluno</span>!</h3>
                     </div>
-                    <div class="progress-wrapper">
-                        <div class="progress-info">
-                            <span>Progresso do Curso</span>
-                            <b id="home-porcentagem">0%</b>
-                        </div>
-                        <div class="progress-track">
-                            <div id="home-barra-fill" class="progress-fill"></div>
-                        </div>
+                </div>
+                <div class="progress-wrapper">
+                    <div class="progress-info">
+                        <span>Progresso Teórico</span>
+                        <strong id="home-porcentagem">0%</strong>
+                    </div>
+                    <div class="progress-track">
+                        <!-- A barra é preenchida conforme as aulas assistidas -->
+                        <div class="progress-fill" id="home-barra-fill"></div>
+                    </div>
+                </div>
+                <div class="dashboard-actions">
+                    <a href="cursos.html" class="btn-continue"><i class="fas fa-play-circle"></i> Continuar Aulas</a>
+                    <!-- Função logout() é chamada ao clicar no botão -->
+                    <button class="btn-logout-icon" onclick="logout()" title="Sair da Conta"><i class="fas fa-sign-out-alt"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEÇÃO DE APRESENTAÇÃO (HERO) -->
+    <header id="inicio">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="badge-traffic">
+                <i class="fas fa-shield-halved"></i> Formação de Condutores em São Gotardo e região!
+            </div>
+            <h2>Sua CNH com segurança e alta taxa de aprovação</h2>
+            <h3>Infraestrutura moderna, instrutores qualificados, filiais perto de você, veiculos novos com ar-condicionado e direção hidráulica para facilitar seu aprendizado.</h3>
+            <div class="hero-buttons">
+                <a href="#orcamento" class="btn-send"><i class="fas fa-calculator"></i> Simular Orçamento</a>
+                <a href="login.html" class="btn-outline-hero"><i class="fas fa-user-graduate"></i> Portal do Aluno</a>
+            </div>
+
+            <!-- NÚMEROS E ESTATÍSTICAS -->
+            <div class="hero-stats-grid">
+                <div class="stat-item">
+                    <h3>+5000</h3>
+                    <p>Alunos Habilitados</p>
+                </div>
+                <div class="stat-item">
+                    <h3>90%</h3>
+                    <p>Aprovação de 1ª</p>
+                </div>
+                <div class="stat-item">
+                    <h3>20+</h3>
+                    <p>Anos de Tradição</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEÇÃO DE CATEGORIAS DA AUTOESCOLA -->
+    <section id="servicos" class="section-container reveal">
+        <div class="section-title">
+            <p><i class="fas fa-car-side"></i> Categorias & Cursos</p>
+            <h2>Nossas Opções de Habilitação</h2>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon-box"><i class="fas fa-motorcycle"></i></div>
+                <h3>Categoria A</h3>
+                <p>Treinamento prático e teórico completo para motocicletas e ciclomotores com circuito fechado e instrutores credenciados.</p>
+                <a href="#orcamento" class="link-card" onclick="selecionarCategoria('A')">Simular Categoria A <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card highlight">
+                 <div class="badge-pop">Mais Popular</div>
+                <div class="service-icon-box"><i class="fas fa-car"></i></div>
+                <h3>Categoria B</h3>
+                <p>Formação completa para automóveis de passeio, veículos com câmbio suave e direção leve para fácil adaptação.</p>
+                <a href="#orcamento" class="link-card" onclick="selecionarCategoria('B')">Simular Categoria B <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon-box"><i class="fas fa-layer-group"></i></div>
+                <h3>Categoria AB (Combo)</h3>
+                <p>Conquiste a CNH de Carro e Moto juntas com o melhor custo-benefício e desconto em aulas e aluguel.</p>
+                <a href="#orcamento" class="link-card" onclick="selecionarCategoria('AB')">Simular Combo AB <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="service-card">
+                <div class="service-icon-box"><i class="fas fa-truck-moving"></i></div>
+                <h3>Adição & Reciclagem</h3>
+                <p>Adicione novas categorias (A ou B) ou faça sua reciclagem de condutor suspenso.</p>
+                <a href="#orcamento" class="link-card" onclick="selecionarCategoria('ADC_A')">Ver Opções <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DIFERENCIAIS -->
+    <section id="diferenciais" class="section-container reveal alt-bg">
+        <div class="section-title">
+            <p><i class="fas fa-award"></i> Vantagens Exclusivas</p>
+            <h2>Por que escolher a Autoescola São Gotardo?</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-laptop-code feature-icon"></i>
+                <h4>Plataforma EAD Própria</h4>
+                <p>Assista às aulas teóricas gravadas direto do seu celular ou computador na Area do Aluno.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-route feature-icon"></i>
+                <h4>Aulas para Exame Prático</h4>
+                <p>Treine nos exatos percursos onde são realizados os testes oficiais do DETRAN em São Gotardo.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-clock feature-icon"></i>
+                <h4>Horários Flexíveis</h4>
+                <p>Aulas práticas das 07:00 às 18:00, inclusive aos sábados, para você se habilitar sem comprometer a rotina.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-hand-holding-dollar feature-icon"></i>
+                <h4>Pagamento Facilitado</h4>
+                <p>Parcelamento em até 3x no cartão de crédito com pequenas taxas da maquininha.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIMULADOR DE ORÇAMENTO -->
+    <section id="orcamento" class="section-container reveal">
+        <div class="section-title">
+            <p><i class="fas fa-calculator"></i> Transparência Financeira</p>
+            <h2>Simulador de Orçamento Interativo</h2>
+        </div>
+        <div class="orcamento-card">
+            <!-- Form com desativação do recarregamento padrão (event.preventDefault()) -->
+            <form id="formOrcamento" onsubmit="event.preventDefault();">
+                <div class="form-group">
+                    <label for="nomeCliente"><i class="fas fa-user"></i> Seu Nome Completo:</label>
+                    <input type="text" id="nomeCliente" placeholder="Digite seu nome para personalizar..." maxlength="80">
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="tipoProcesso"><i class="fas fa-id-card"></i> Serviço Desejado:</label>
+                        <!-- O evento onchange chama o recalculo automático do orçamento -->
+                        <select id="tipoProcesso" onchange="calcularOrcamento()">
+                            <option value="A">1ª Habilitação - Categoria A (Moto)</option>
+                            <option value="B" selected>1ª Habilitação - Categoria B (Carro)</option>
+                            <option value="AB">1ª Habilitação - Combo AB (Carro e Moto)</option>
+                            <option value="ADC_A">Adição de Categoria A (Moto)</option>
+                            <option value="ADC_B">Adição de Categoria B (Carro)</option>
+                            <option value="REAB">Reciclagem de Condutor</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selectNomeAula"><i class="fas fa-chalkboard-user"></i> Aulas Práticas</label>
+                        <select id="selectNomeAula" onchange="atualizarDetalheAula()">
+                            <option value="2">2 Aulas Práticas e Aluguel veiculo</option>
+                            <option value="5">5 Aulas Práticas e Aluguel veiculo</option>
+                            <option value="10">10 Aulas Práticas e Aluguel veiculo</option>
+                            <option value="20">20 Aulas Práticas e Aluguel veiculo</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="dashboard-actions">
-                    <a href="cursoshome.html" class="btn-continue">
-                        <i class="fas fa-play"></i> Continuar Aulas
-                    </a>
-                    <button onclick="logout()" class="btn-logout-icon" title="Sair">
-                        <i class="fas fa-sign-out-alt"></i>
+                <div id="infoAulaSelecionada" class="aula-info-badge">
+                    <i class="fas fa-info-circle"></i> <span id="txtInfoAula">Pacote Padrão Selecionado.</span>
+                </div>
+
+                <div class="orcamento-resultado">
+                    <div class="valor-box">
+                        <span>Valor Total Estimado:</span>
+                        <!-- ID alterado dinamicamente via JS -->
+                        <h3 id="valorTotal">R$ 811.86,00</h3>
+                    </div>
+                    <p class="orcamento-nota"><i class="fas fa-shield-check"></i> Valores calculados com base nas taxas atuais. Condições sujeitas a consulta exata no balcão.</p>
+                </div>
+
+                <div class="orcamento-actions">
+                    <button type="button" class="btn-send" onclick="finalizarNoWhats()">
+                        <i class="fab fa-whatsapp"></i> Enviar para WhatsApp
+                    </button>
+                    <button type="button" class="btn-outline-action" onclick="imprimirOrcamento()">
+                        <i class="fas fa-print"></i> Gerar PDF / Imprimir
                     </button>
                 </div>
-            </div>
-        </div>
-    </div>
-
-        <header id="inicio" class="hero-section">
-            <span class="badge-aluno" style="margin-bottom: 20px; display: inline-block;">AUTOESCOLA SÃO GOTARDO</span>
-            <h1 class="gradient-text" style="font-size: 4rem; max-width: 900px; margin: 0 auto 25px; line-height: 1;">Sua CNH com quem entende de aprovação.</h1>
-            <p style="color: var(--text-dim); font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px;">Qualidade no atendimento, instrutores dedicados e qualificados. Com a melhor estrutura com filiais em toda região!</p>
-            <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-                <a href="#orcamento" class="btn-send" style="width: auto; padding: 15px 40px; text-decoration: none;">Ver Serviços</a>
-                <a href="https://wa.me/553436712274" target="_blank" class="btn-send" style="width: auto; padding: 15px 40px; background: transparent; border: 1px solid var(--primary); text-decoration: none;">Falar com Consultor</a>
-            </div>
-        </header>   
-
-<section class="news-section" id="noticias">
-        <div class="news-header">
-            <h2 class="gradient-text" style="font-size: 2.5rem;">Notícias e Dicas</h2>
-            <p style="color: var(--text-dim);">Fique por dentro das atualizações do trânsito e dicas para sua prova.</p>
-        </div>
-
-        <div class="news-grid">
-            <article class="news-card" onclick="openNews(
-                'Novos valores Exame medico e psicologico', 
-                '15 Abril, 2026', 
-                'https://digem.com.br/wp-content/uploads/2024/01/exames-de-imagem-check-up.jpg', 
-                '<p>Em cumprimento à decisão judicial proferida pelo Tribunal Regional Federal revogou a Portaria DETRAN nº 211/2026 e alterou os valores praticados pelas clínicas médicas e psicológicas credenciadas pelo Detran-MG</p><p>I - Avaliação Psicológica: R$ 232,23</p><p>II - Exame de Aptidão Física e Mental: R$ 232,23</p><p>III - Reexame Psicológico: R$ 92,87</p><p>IV - Obtenção de 2ª via de Exames: R$ 60,38</p>'
-            )">
-                <div class="news-image">
-                    <img src="https://digem.com.br/wp-content/uploads/2024/01/exames-de-imagem-check-up.jpg" alt="Novos Exames">
-                </div>
-                <div class="news-content">
-                    <span class="news-date">15 de Abril de 2026</span>
-                    <h3 class="news-title">Alteração valor exames médico e psicotécnico</h3>
-                    <p class="news-excerpt">Confira os novos valores para os exames...</p>
-                    <span class="news-link">Ler mais <i class="fas fa-arrow-right"></i></span>
-                </div>
-            </article>
-            <article class="news-card" onclick="openNews(
-                'Dicas para a Prova Prática', 
-                '02 de Abril de 2026', 
-                'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=800', 
-                '<p>O exame prático é o momento de maior tensão. Para passar de primeira, foque nos detalhes: ajuste os espelhos antes de ligar o carro, sinalize todas as manobras e mantenha a calma na baliza.</p><p>Lembre-se: o examinador avalia sua segurança e domínio do veículo.</p>'
-            )">
-                <div class="news-image">
-                    <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=500" alt="Dicas CNH">
-                </div>
-                <div class="news-content">
-                    <span class="news-date">02 de Abril de 2026</span>
-                    <h3 class="news-title">Como passar na prova prática de primeira</h3>
-                    <p class="news-excerpt">O nervosismo é o maior vilão. Aprenda técnicas e veja os erros mais comuns que você deve evitar...</p>
-                    <span class="news-link">Ler mais <i class="fas fa-arrow-right"></i></span>
-                </div>
-            </article>
+            </form>
         </div>
     </section>
 
-    <div id="newsModal" class="news-modal">
-        <div class="news-modal-content">
-            <span class="close-modal" onclick="closeNews()">&times;</span>
-            <div id="modalBody">
-                </div>
-        </div>
-    </div>
-
-    <section id="servicos" class="step-container">
+    <!-- INSTRUTORES -->
+    <section id="instrutores" class="section-container reveal">
         <div class="section-title">
-            <p>Como funciona</p>
-            <h2>Inicie seu processo conosco</h2>
+            <p><i class="fas fa-chalkboard-teacher"></i> Equipe Especializada</p>
+            <h2>Nossos Instrutores Credenciados</h2>
         </div>
-        <div class="steps-grid">
-            <div class="step-item">
-                <div class="step-number">1</div>
-                <h4>Matrícula</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Apresente seus documentos e realize sua inscrição.</p>
-            </div>
-            <div class="step-item">
-                <div class="step-number">2</div>
-                <h4>Exames</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Agende os exames médico e psicotécnico.</p>
-            </div>
-            <div class="step-item">
-                <div class="step-number">3</div>
-                <h4>Teórico</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Realize o curso teórico e faça a prova de legislação.</p>
-            </div>
-            <div class="step-item">
-                <div class="step-number">4</div>
-                <h4>Prático</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 10px;">Conclua as aulas práticas e conquiste sua CNH.</p>
-            </div>
-        </div>
+        <!-- Esta div é preenchida dinamicamente pela função renderizarInstrutores() no script.js -->
+        <div class="instrutores-grid" id="gridInstrutores"></div>
     </section>
 
-
-    <section id="orcamento" style="padding: 80px 5%; background: rgba(0,0,0,0.2);">
-        <div class="auth-card" style="max-width: 850px; margin: 0 auto; padding: 40px;">
-            <h2 style="text-align: center; margin-bottom: 30px;">Simulador de Orçamento</h2>
-            
-            <div style="margin-bottom: 30px;">
-                <label style="display: block; margin-bottom: 10px; color: var(--text-dim);">Selecione o tipo de processo:</label>
-                <select id="tipoProcesso" onchange="ajustarCategoriasDisponiveis()" class="form-group" style="width:100%; padding:15px; background:var(--bg); border:1px solid rgba(255,255,255,0.1); color:white; border-radius:10px;">
-                    <option value="primeira">Primeira Habilitação</option>
-                    <option value="adicao">Adição de Categoria</option>
-                    <option value="mudanca">Mudança de Categoria</option>
-                </select>
-            </div>
-
-            <label style="display: block; margin-bottom: 10px; color: var(--text-dim);">Escolha a Categoria:</label>
-            <div class="radio-group">
-                <label id="cat-A-wrapper" style="flex: 1;">
-                    <input type="radio" name="cat" value="A" checked>
-                    <div class="radio-card"><i class="fas fa-motorcycle"></i><span>Cat. A</span></div>
-                </label>
-                <label id="cat-B-wrapper" style="flex: 1;">
-                    <input type="radio" name="cat" value="B">
-                    <div class="radio-card"><i class="fas fa-car"></i><span>Cat. B</span></div>
-                </label>
-                <label id="cat-AB-wrapper" style="flex: 1;">
-                    <input type="radio" name="cat" value="AB">
-                    <div class="radio-card"><i class="fas fa-truck-pickup"></i><span>Cat. AB</span></div>
-                </label>
-                <label id="cat-D-wrapper" style="flex: 1;">
-                    <input type="radio" name="cat" value="D">
-                    <div class="radio-card"><i class="fas fa-bus"></i><span>Cat. D</span></div>
-                </label>
-            </div>
-
-            <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.05);">
-                <h3 id="valorTotal" style="font-size: 3.5rem; color: var(--primary); font-weight: 800;">R$ 0,00</h3>
-                <button onclick="finalizarNoWhats()" class="btn-send" style="width: auto; padding: 18px 60px; background: #25d366;">
-                    <i class="fab fa-whatsapp"></i> Conversar no whatsapp
-                </button>
-            </div>
-        </div>
-    </section>
-
-
-    <section id="instrutores" class="section-container">
+    
+    <!-- DEPOIMENTOS -->
+    <section id="depoimentos" class="section-container reveal alt-bg">
         <div class="section-title">
-            <p>Equipe CFC SG</p>
-            <h2>Nossos Instrutores</h2>
+            <p><i class="fas fa-star"></i> Histórias de Sucesso</p>
+            <h2>O que nossos alunos dizem</h2>
         </div>
-
-        <div class="instrutores-grid reveal">
-            <div class="instrutor-card">
-                <div class="instrutor-img">
-                    <i class="fas fa-motorcycle"></i>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"Passei de primeira na categoria B! O método de ensino e a paciência do instrutor fizeram toda a diferença na minha aprovação."</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">LA</div>
+                    <div>
+                        <strong>Lucas Almeida</strong>
+                        <span>Aprovado Categoria B</span>
+                    </div>
                 </div>
-                <h3>Instrutor Clesio</h3>
-                <span class="badge">Aulas Prática A</span>
-                <p>Instrutor de direção para categoria A de motos.</p>
-                <a href="https://wa.me/5534998432264?text=Olá Clésio, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Contato
-                </a>
             </div>
-					
-            <div class="instrutor-card">
-                <div class="instrutor-img">
-                    <i class="fas fa-car"></i>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p>"A plataforma de aulas teóricas é excelente. Consegui estudar à noite depois do trabalho e tirei 25 de 30 na prova da legislação!"</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">BR</div>
+                    <div>
+                        <strong>Beatriz Rezende</strong>
+                        <span>Aprovada Categoria A</span>
+                    </div>
                 </div>
-                <h3>Instrutora Zelia</h3>
-                <span class="badge">Prática B</span>
-                <p>Instrutora de direção para categoria B de carros.</p>
-                <a href="https://wa.me/5534999586373?text=Olá Zelia, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Contato
-                </a>
             </div>
-			
-
-            <div class="instrutor-card">
-                <div class="instrutor-img">
-                    <i class="fas fa-car"></i>
+            <div class="review-card">
+                <div class="stars">★★★★</div>
+                <p>"Atendimento bom tanto em São Gotardo quanto na filial de Guarda dos Ferreiros. Recomendo!"</p>
+                <div class="reviewer">
+                    <div class="reviewer-avatar">MS</div>
+                    <div>
+                        <strong>João Silva</strong>
+                        <span>Aprovado Categoria B</span>
+                    </div>
                 </div>
-                <h3>Instrutor Josiel</h3>
-                <span class="badge">Prática B</span>
-                <p>Instrutor de direção para categoria B de carros.</p>
-                <a href="https://wa.me/5534999448953?text=Olá Josiel, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Contato
-                </a>
             </div>
-
-            <div class="instrutor-card">
-                <div class="instrutor-img">
-                    <i class="fas fa-car"></i>
-                </div>
-                <h3>Instrutor Tony</h3>
-                <span class="badge">Prática B</span>
-                <p>Instrutor de direção para categoria B de carros.</p>
-                <a href="https://wa.me/5534997063579?text=Olá Tony, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Contato
-                </a>
-            </div>
-
-            <div class="instrutor-card">
-                <div class="instrutor-img">
-                    <i class="fas fa-bus"></i>
-                </div>
-                <h3>Instrutor Maninho</h3>
-                <span class="badge">Categoria D</span>
-                <p>Instrutor de direção para categoria D de ônibus.</p>
-                <a href="https://wa.me/5534997271719?text=Olá Maninho, gostaria de agendar uma aula prática de ônibus." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Contato
-                </a>
-            </div>
-
-			<div class="instrutor-card">
-                <div class="instrutor-img">
-                    <i class="fas fa-car"></i>
-                </div>
-                <h3>Instrutor Geraldo</h3>
-                <span class="badge">Prática B</span>
-                <p>Instrutor Unidade Guarda dos Ferreiros - Categoria B</p>
-                <a href="https://wa.me/5534988446439?text=Olá Geraldo, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Contato
-                </a>
-            </div>
-
-			<div class="instrutor-card">
-                <div class="instrutor-img">
-                    <i class="fas fa-car"></i>
-                </div>
-                <h3>Instrutor Paulinho</h3>
-                <span class="badge">Prática B</span>
-                <p>Instrutor Unidade Tiros e Matutina - Categoria B</p>
-                <a href="https://wa.me/5534988091910?text=Olá Paulinho, gostaria de agendar uma aula prática." class="btn-contato-instrutor" target="_blank">
-                    <i class="fab fa-whatsapp"></i> Contato
-                </a>
-            </div>
-			
         </div>
     </section>
 
-    <section id="localizacao" style="padding: 100px 5%; background: rgba(30, 41, 59, 0.2);">
-        <div class="section-title reveal">
-            <p>Onde estamos</p>
-            <h2>Nossas Unidades</h2>
+    <!-- FILIAIS E MAPA -->
+    <section id="filiais" class="section-container reveal">
+        <div class="section-title">
+            <p><i class="fas fa-building"></i> Nossas Unidades</p>
+            <h2>Encontre a Autoescola Mais Próxima</h2>
         </div>
-
         <div class="map-container-wrapper">
             <div class="map-box">
-                <iframe id="mapaInterativo" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470.6588057900485!2d-46.04364211166368!3d-19.31406735612511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b210aaa8d9466b%3A0x27861e49d6855bac!2sAutoescola%20S%C3%A3o%20Gotardo!5e0!3m2!1spt-BR!2sbr!4v1774557238722!5m2!1spt-BR!2sbr" width="100%" height="100%" style="border:0; border-radius: 0; display:block;" allowfullscreen="" loading="lazy"></iframe>
+                <!-- Mapa do Google Maps embutido -->
+                <iframe id="iframeMapa" src="https://www.google.com/maps/embed?pb=!4v1791460729607!6m8!1m7!1sBEc9bw6FzN6EJq6fOko5dg!2m2!1d-19.314141647572!2d-46.04337342164749!3f295.0320322433566!4f-1.7416844721607845!5f0.7820865974627469" allowfullscreen="" loading="lazy"></iframe>
             </div>
-
-			<div class="filiais-grid-mini reveal">
-				<div class="filial-card-small active-map" onclick="alterarMapa(this, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470.6588057900485!2d-46.04364211166368!3d-19.31406735612511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94b210aaa8d9466b%3A0x27861e49d6855bac!2sAutoescola%20S%C3%A3o%20Gotardo!5e0!3m2!1spt-BR!2sbr!4v1774557238722!5m2!1spt-BR!2sbr')">
-					<div class="filial-info">
-						<i class="fas fa-star"></i>
-						<div><h4>Matriz - São Gotardo</h4><p>Praça São Geraldo, 01</p></div>
-					</div>
-					<span class="indicator"><i class="fas fa-chevron-right"></i></span>
-				</div>
-
-				<div class="filial-card-small" onclick="alterarMapa(this, 'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d235.24650408534768!2d-46.13184913171031!3d-19.371574486144368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr!4v1774557190904!5m2!1spt-BR!2sbr')">
-					<div class="filial-info">
-						<i class="fas fa-map-marker-alt"></i>
-						<div><h4>Guarda dos Ferreiros</h4><p>Av. Hermenegildo, 900</p></div>
-					</div>
-                    <span class="indicator"><i class="fas fa-chevron-right"></i></span>
-                </div>
-
-                <div class="filial-card-small" onclick="alterarMapa(this, 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d494.7904160630599!2d-45.959878945455564!3d-19.006459547851772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94adf447c1e16e99%3A0x810975a73a31dce!2sR.%20Padre%20Jos%C3%A9%20Coelho%2C%20948%20-%20Tiros%2C%20MG%2C%2038880-000!5e0!3m2!1spt-BR!2sbr!4v1775135174349!5m2!1spt-BR!2sbr')">
-					<div class="filial-info">
-						<i class="fas fa-map-marker-alt"></i>
-						<div><h4>Tiros</h4><p>Rua Padre José Coelho, 948</p></div>
-					</div>
-                    <span class="indicator"><i class="fas fa-chevron-right"></i></span>
-                </div>
-
-                <div class="filial-card-small" onclick="alterarMapa(this, 'https://www.google.com/maps/embed?pb=!4v1777470721544!6m8!1m7!1sWTHEh6BFAebCr3e0UfgF3g!2m2!1d-19.22368477682529!2d-45.97138316601647!3f232.64437312940575!4f-8.231462695209174!5f0.4000000000000002')">
-					<div class="filial-info">
-						<i class="fas fa-map-marker-alt"></i>
-						<div><h4>Matutina</h4><p>Rua Padre Cirílo, 262</p></div>
-					</div>
-                    <span class="indicator"><i class="fas fa-chevron-right"></i></span>
-                </div>
-            </div>
+            <!-- Lista de filiais renderizada via JS -->
+            <div class="filiais-grid-mini" id="gridFiliais"></div>
         </div>
     </section>
 
-    <footer class="footer-info reveal">
+    <!-- RODAPÉ -->
+    <footer class="footer-info">
         <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; padding: 0 5%;">
-                       <div>
-                <h4 style="color: var(--primary); margin-bottom: 20px; font-size: 1.2rem;">AUTOESCOLA SÃO GOTARDO</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; line-height: 1.6;">
-                    Formando condutores com excelência, segurança e responsabilidade desde 2000
-                </p>
-                <div style="margin-top: 20px; display: flex; gap: 15px;">
-                    <a href="https://www.instagram.com/autoescolasg/" style="color: var(--text-dim); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://wa.me/553436712274?text=Olá, tenho duvidas" style="color: var(--text-dim); font-size: 1.5rem;"><i class="fab fa-whatsapp"></i></a>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span>AUTOESCOLA SÃO GOTARDO</span>
                 </div>
+                 <p>Referencia em habilitação desde 2000.</p>
             </div>
-            
             <div>
-                <h4 style="margin-bottom: 20px; font-size: 1.1rem;">Links Rápidos</h4>
-                <ul style="list-style: none; padding: 0; color: var(--text-dim); font-size: 0.9rem;">
-                    <li style="margin-bottom: 10px;"><a href="https://www.detran.mg.gov.br/" style="color: inherit; text-decoration: none;">Detran MG</a></li>
-                    <li style="margin-bottom: 10px;"><a href="#servicos" style="color: inherit; text-decoration: none;">Serviços</a></li>
-                    <li style="margin-bottom: 10px;"><a href="#orcamento" style="color: inherit; text-decoration: none;">Simulador</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 style="margin-bottom: 20px; font-size: 1.1rem;">Contato</h4>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 10px;">
-                    <i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"></i>
+                <i class="margin-bottom: 20px; font-size: 1.1rem;"></i>
+                <div class="footer-brand">
+                    <span>CONTATOS</span>
+                </div>
+                <p><i class="fas fa-phone" style="color: var(--primary); margin-right: 10px;"></i>
                     (34) 3671-2274
                 </p>
                 <p style="color: var(--text-dim); font-size: 0.9rem;">
                     <i class="fas fa-map-marker-alt" style="color: var(--primary); margin-right: 10px;"></i>
-                    Praça São Geraldo, 01 - Centro
+                    <span>Praça São Geraldo, 01 - Centro<span>
                 </p>
             </div>
         </div>
-
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px; padding-top: 20px; text-align: center;">
-            <p style="color: var(--text-dim); font-size: 0.8rem;">
-                &copy; 2026 Autoescola São Gotardo. Todos os direitos reservados.
-            </p>
-        </div>
+        <p></p>
+        <p class="footer-sub"><i class="fas fa-lock"></i> Conexão Segura SSL & Proteção de Dados LGPD Ativa.</p>
     </footer>
+    
+    <!-- ÁREA DE IMPRESSÃO (ESCONDIDA NA TELA, VISÍVEL APENAS NA IMPRESSORA/PDF) -->
+    <div id="printArea" class="print-only">
+        <div class="print-header">
+            <h2>AUTOESCOLA SÃO GOTARDO</h2>
+            <p>Simulação Oficial de Orçamento para Formação de Condutores</p>
+        </div>
+        <hr>
+        <div class="print-body">
+            <p><strong>Nome do Cliente:</strong> <span id="printNome">-</span></p>
+            <p><strong>Serviço / Categoria:</strong> <span id="printServico">-</span></p>
+            <p><strong>Módulo / Aulas Extras:</strong> <span id="printAula">-</span></p>
+            <p><strong>Data da Emissão:</strong> <span id="printData">-</span></p>
+            <h3 class="print-total"><strong>Valor Total Estimado:</strong> <span id="printValor">R$ 0,00</span></h3>
+        </div>
+    </div>
 
+    <!-- Conecta com o script principal do site -->
     <script src="script.js"></script>
 </body>
 </html>

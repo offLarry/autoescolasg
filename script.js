@@ -1,215 +1,378 @@
-// --- 1. CONFIGURAÇÕES E DADOS ---
-const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzVtKRAkHOo_n8MT1rbi0RFUbQqOhmHZdvIlYBrEA943lPdQ-z2W_MzzYqMMfqcCadG/exec';
+/* ==========================================================================
+   AUTOESCOLA SÃO GOTARDO - SCRIPT PRINCIPAL UNIFICADO
+   ========================================================================== */
 
-const CURSO_LEGISLACAO = [
-    { id: 'leg_1', title: '01. Introdução à Legislação', url: 'https://www.dropbox.com/scl/fi/q670pw9onlsoup0uwu9uh/01-Legisla-o-EDIT.mp4?rlkey=fgkfqvnpv2cbeb8ue2garx9j5&st=f4ke17tn&raw=1' },
-    { id: 'leg_2', title: '02. Legislação', url: 'https://www.dropbox.com/scl/fi/q2d25lqww46i62osqopdw/02-LEGISLA-O.mp4?rlkey=2lfmybi5ro6pa386s8vt98lbp&st=soyxz0mt&raw=1' },
-    { id: 'leg_3', title: '03. Legislação', url: 'https://www.dropbox.com/scl/fi/2v3a9lvtu0hma4ktojjlq/03-LEGISLA-O.mp4?rlkey=5giu774jbf1mmdf2x8v9paqkw&st=nwfle0xb&raw=1' },
-    { id: 'leg_4', title: '04. Legislação', url: 'https://www.dropbox.com/scl/fi/pc4c6x8cafki0bc8tikhm/04-LEGISLA-O.mp4?rlkey=mzs0ps4nyyb23qm1gqvqtwz78&st=xu6qxslh&raw=1' },
-
-    { id: 'leg_5', title: '05. Introdução à Sinalização', url: 'https://www.dropbox.com/scl/fi/k3w63lrirvstkoi0abfav/05-SINALIZA-O.mp4?rlkey=9yrqojpomtc7ti2wied7sk1wx&st=l7zgv1l9&raw=1' },
-    { id: 'leg_6', title: '06. Sinalização', url: 'https://www.dropbox.com/scl/fi/h5k0i6p3qld5s3mlpkq1s/06-SINALIZA-O.mp4?rlkey=tykepxntrqpxjtletnbwr68ra&st=x9g2nly6&raw=1' },
-    { id: 'leg_7', title: '07 Sinalização', url: 'https://www.dropbox.com/scl/fi/wdcw32037vhnd4no2koso/07-SINALIZA-O.mp4?rlkey=d3hvj93zwoq400lz2h7eqo7yx&st=t08ph9e1&raw=1' },
-    { id: 'leg_8', title: '08. Sinalização', url: 'https://www.dropbox.com/scl/fi/05cs21an3v96znuyxt1s1/08-SINALIZA-O.mp4?rlkey=jeqagbfl1uu38n0kqy160x8ss&st=nurxqroc&raw=1' },
-
-    { id: 'leg_9', title:  '09. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/t50k8f0hfj3aslb2vbdq5/09-INFRA-ES.mp4?rlkey=cnh8bx1vgab6nxv52guvqm876&st=rrhfjpdj&raw=1' },
-    { id: 'leg_10', title: '10. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/qbn5nzpcaztmit709s1xc/10-INFRA-ES.mp4?rlkey=wkuiu73lcn3lw30qhji51gh0j&st=yz501tj8&raw=1' },
-    { id: 'leg_11', title: '11. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/fjasegp1qr5ripw18tq13/11-INFRA-ES.mp4?rlkey=wghwksy0otf3i3e8mua3ozqkq&st=xisbvwe8&raw=1' },
-    { id: 'leg_12', title: '12. Infrações e Penalidades', url: 'https://www.dropbox.com/scl/fi/ywz1vllesjrlnbi9mh47o/12-INFRA-ES.mp4?rlkey=dlbhx8qchguspl0eut16c71fd&st=ehy5a1vp&raw=1' },
-
-    { id: 'leg_13', title: '13. Normas e Condutas', url: 'https://www.dropbox.com/scl/fi/uhagyy8h8skjb1asg8kng/13-NORMAS.mp4?rlkey=y6l4eqtby3ou7nql3ds095jtw&st=ta33la6d&raw=1' },
-    { id: 'leg_14', title: '14. Normas e Condutas', url: 'https://www.dropbox.com/scl/fi/pvgsqlqqniiefkdcw3lqz/14-NORMAS.mp4?rlkey=9x6nc1x0xur0hfjqq9wray905&st=o1na1fay&raw=1' },
-    { id: 'leg_15', title: '15. Normas e Condutas', url: 'https://www.dropbox.com/scl/fi/kyiukhe0gi14cvm8eszdw/15-NORMAS.mp4?rlkey=ak3me9abl9h7jc98ppe6rre3e&st=ze8h8lau&raw=1' },
-    { id: 'leg_16', title: '16. Normas e Condutas', url: 'https://www.dropbox.com/scl/fi/qwi1zrjjn1sh209jkmzlw/16-NORMAS.mp4?rlkey=f0ozn5z6dx5nmp8duffiv412k&st=ew0srpyq&raw=1' },
-    { id: 'leg_17', title: '17. Normas e Condutas', url: 'https://www.dropbox.com/scl/fi/dfxcalvctqn9pyy5rd569/17-NORMAS-QUEST-ES-cut.com.mp4?rlkey=73lpri4slwe24s2w0r4wesp1n&st=4ycp207b&raw=1' },
-
-    { id: 'leg_18', title: '18. Direção Defensiva', url: 'https://www.dropbox.com/scl/fi/9hp1nt9b08546gu1229p7/18-DIRE-O-DEFENSIVA.mp4?rlkey=p2p4gwpnbo3p4nygc12rw8trx&st=cm6lcuqe&raw=1' },
-    { id: 'leg_19', title: '19. Direção Defensiva', url: 'https://www.dropbox.com/scl/fi/9ch9zi0xd2w97ybvt9uaj/19-DIRE-O-DEFENSIVA.mp4?rlkey=3n1cjfxc1r0yz1y9i8lui81jh&st=smw9o5kz&raw=1' },
-    { id: 'leg_20', title: '20. Direção Defensiva', url: 'https://www.dropbox.com/scl/fi/1nkxoifxczy0cnqe1qths/20-DIRE-O-DEFENSIVA.mp4?rlkey=j43unqxy8brwo8othv05f9xox&st=j8vcyer2&raw=1' },
-    { id: 'leg_21', title: '21. Direção Defensiva', url: 'https://www.dropbox.com/scl/fi/wb1s6sdes8h0flnywgekc/21-DIRE-O-DEFENSIVA.mp4?rlkey=whyernmrz11l3h9e488pm39nq&st=zdx2hli2&raw=1' },
-
-    { id: 'leg_22', title: '22. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/tl2nmehycw2pno9wixar7/30-PRIMEIROS-SOCORROS.mp4?rlkey=fy12kfoa7uk1bwxnr099f1gjz&st=x3se4mg4&raw=1' },
-    { id: 'leg_23', title: '23. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/9l49s7w8tp1iuyb8m8vvn/31-PRIMEIROS-SOCORROS.mp4?rlkey=q68j339oxn8ggz72hvug4truh&st=0y3sbp6l&raw=1' },
-    { id: 'leg_24', title: '24. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/nrj88ol1dafw9ibe3bw18/32-PRIMEIROS-SOCORROS.mp4?rlkey=l6dx4tfignlpez5wz6lao32yt&st=7oxgg9y1&raw=1' },
-    { id: 'leg_25', title: '25. Primeiros Socorros', url: 'https://www.dropbox.com/scl/fi/qrpaxb1gs421b4xys47is/33-PRIMEIROS-SOCORROS-QUEST-ES.mp4?rlkey=tdqy7pdkt7kzdqr2uv7wfeaey&st=4200jd1c&raw=1' },
-
-    { id: 'leg_26', title: '26. Meio Ambiente', url: 'https://www.dropbox.com/scl/fi/qm2usit08vbn754reepf0/28-MEIO-AMBIENTE.mp4?rlkey=9cy1en3ljg2vaxcoqkzwunpj8&st=q36qwtlw&raw=1' },
-    { id: 'leg_27', title: '27. Meio Ambiente', url: 'https://www.dropbox.com/scl/fi/ze1oxs3ycax4suwnn1bum/29-MEIO-AMBIENTE.mp4?rlkey=ztuin39vu2if216tx52vqv4uz&st=29c5ji&raw=1' },
-
-    { id: 'leg_28', title: '28. Mecânica', url: 'https://www.dropbox.com/scl/fi/tkeuf9l70691ih6u0j7s7/30-MEC-NICA.mp4?rlkey=t0l7d2nnh8haaz3hvo64cxkqk&st=ll8itt8m&raw=1' },
-    { id: 'leg_29', title: '29. Mecânica', url: 'https://www.dropbox.com/scl/fi/oe6nr8sy506vcn722w5oo/31-MEC-NICA.mp4?rlkey=1vdi44d00368aw75afrfy37es&st=v1x7mfzo&raw=1' },
-    { id: 'leg_30', title: '30. Mecânica', url: 'https://www.dropbox.com/scl/fi/s44zst06jes84sjvfc9sd/32-MEC-NICA.mp4?rlkey=rgrtvn7v0zbijbscxav3xx922&st=qifdf215&raw=1' },
-    { id: 'leg_31', title: '31. Mecânica', url: 'https://www.dropbox.com/scl/fi/6121osnobovdbxbs9bx7q/33-MEC-NICA-QUEST-ES-cut.mp4?rlkey=ecr148b6dwz6dkxr2bmr0stsf&st=2c5at6xz&raw=1' },
-];
-
-const CURSO_DIRECAO = [
-    { id: 'def_1', title: '01. Conceitos de Direção Defensiva', url: 'URL_VIDEO_1' },
-    { id: 'def_2', title: '02. Elementos da Direção Defensiva', url: 'URL_VIDEO_2' },
-    { id: 'def_3', title: '03. Condições Adversas', url: 'URL_VIDEO_3' },
-];
+const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbz26Dssa2Oh6hEo8dnEXXywmIl6EBbCb9Qv3UVRfr_If8oRA3PjNcf1CYAIgToxqNwy/exec';
 
 
-function finalizarNoWhats() {
-    const tipo = document.getElementById('tipoProcesso').value;
-    const categoria = document.querySelector('input[name="cat"]:checked').value;
-    const valor = document.getElementById('valorTotal').innerText;
-    
-    // Texto formatado para o WhatsApp
-    const texto = `Olá! Fiz uma simulação no site da Autoescola São Gotardo:%0A%0A` +
-                  `*Processo:* ${tipo}%0A` +
-                  `*Categoria:* ${categoria}%0A` +
-                  `*Valor Estimado:* ${valor}%0A%0A` +
-                  `Gostaria de mais informações!`;
+// MATRIZ/ARRAY DE OBJETOS COM A GRADE DE VÍDEOS DE LEGISLAÇÃO
+window.CURSO_LEGISLACAO = [];
 
-    const fone = "553436712274";
-    window.open(`https://wa.me/${fone}?text=${texto}`, '_blank');
+async function carregarVideosDoBackend() {
+    try {
+        const response = await fetch(`${SHEET_API_URL}?acao=getVideos`);
+        if (!response.ok) throw new Error('Falha na resposta da rede');
+        const dados = await response.json();
+        
+        if (Array.isArray(dados)) {
+            window.CURSO_LEGISLACAO = dados;
+        }
+    } catch (erro) {
+        console.error("Erro ao carregar a lista de vídeos:", erro);
+    }
 }
 
-// --- 2. LÓGICA DE ANIMAÇÃO (REVEAL) - CORREÇÃO DO FOOTER ---
+// LISTA DE INSTRUTORES DA AUTOESCOLA (Você pode editar ou adicionar novos facilmente aqui)
+const INSTRUTORES = [
+    { nome: "Instrutor Clesio", categoria: "Cat. A", descricao: "Aulas práticas para categoria A.", contato: "5534998432264" },
+    { nome: "Instrutora Zelia", categoria: "Cat. B", descricao: "Aulas práticas para categoria B.", contato: "5534999586373" },
+    { nome: "Instrutor Josiel", categoria: "Cat. B e D", descricao: "Aulas práticas para categoria B e D.", contato: "5534999448953" },
+    { nome: "Instrutor Tony", categoria: "Cat. B", descricao: "Aulas práticas para categoria B.", contato: "5534997063579" },
+    { nome: "Instrutor Geraldo", categoria: "Cat. B", descricao: "Aulas práticas para categoria B em Guarda dos Ferreiros.", contato: "5534988446439" },
+    { nome: "Instrutor Paulinho", categoria: "Cat. B", descricao: "Aulas práticas para categoria B em Matutina/Tiros.", contato: "5534988091910" }
+
+];
+
+// UNIDADES/FILIAIS COM LINK DE MAPA
+const FILIAIS = [
+    { nome: "Matriz São Gotardo", endereco: "Praça Sao Geraldo, 01 - São Geraldo", fone: "(34) 3671-2274", mapUrl: "https://www.google.com/maps/embed?pb=!4v1791460729607!6m8!1m7!1sBEc9bw6FzN6EJq6fOko5dg!2m2!1d-19.314141647572!2d-46.04337342164749!3f295.0320322433566!4f-1.7416844721607845!5f0.7820865974627469" },
+    { nome: "Filial Guarda dos Ferreiros", endereco: "Av. Hermenegildo José, 900 - Guarda dos Ferreiros", fone: "(34) 3671-6784", mapUrl: "https://www.google.com/maps/embed?pb=!4v1791399749044!6m8!1m7!1sIH4ZjxsUHVXmAA5Ii-IV2Q!2m2!1d-19.3716344883223!2d-46.13171576097766!3f331.051714928214!4f-1.5223808425475767!5f1.9585681834944655" },
+    { nome: "Filial Tiros", endereco: "Rua Padre José Coelho, 948 - Tiros", fone: "(34) 3671-2274", mapUrl: "https://www.google.com/maps/embed?pb=!4v1791460993387!6m8!1m7!1sAbfAJSiWOuxM1Y3nPXrO7g!2m2!1d-19.00657879864913!2d-45.95985482029513!3f23.765212941384476!4f-4.04960012376192!5f1.0408644781871645" },   
+];
+
+
+// PREÇOS BASE DOS SERVIÇOS (Você pode alterar os valores dos cursos aqui)
+const PRECOS_BASE = {
+    'A': 811.86,       // Preço da Categoria A
+    'B': 811.86,       // Preço da Categoria B
+    'AB': 927.66,      // Preço do Combo
+    'ADC_A': 550.68,    // Adição de Moto
+    'ADC_B': 811.86,   // Adição de Carro
+    'REAB': 615.80    // Reciclagem 
+};
+
+// VALORES DAS AULAS PRÁTICAS EXTRAS
+// VALORES DAS AULAS PRÁTICAS EXTRAS POR CATEGORIA
+const VALORES_AULAS_EXTRAS = {
+    'A': {
+        '2': 380.00,   // Pacote 2 Aulas Moto
+        '5': 600.00,  // Pacote 5 aulas Moto
+        '10': 900.00,   // Pacote 10 aulas Moto
+        '20': 1600.00   // Pacote 20 aulas Moto
+    },
+    'B': {
+        '2': 390.00,   // Pacote 2 Aulas Carro
+        '5': 650.00,  // Pacote 5 aulas Carro
+        '10': 950.00,   // Pacote 10 aulas Carro
+        '20': 1700.00   // Pacote 20 aulas Carro
+    },
+    'AB': {
+        '2': 770.00,   // Pacote 2 Aulas Moto e Carro
+        '5': 1250.00,  // Pacote 5 aulas Moto e Carro
+        '10': 1850.00,   // Pacote 10 aulas Moto e Carro
+        '20': 3300.00,   // Pacote 20 aulas Moto e Carro
+    },
+    'REAB': {
+        '2': 0.0,
+        '5': 0.0,
+        '10': 0.0,
+        '20': 0.0
+    }
+};
+
+/**
+ * Função de Segurança (Sanitização)
+ * Impede injeção de códigos maliciosos caso um usuário digite tags HTML nos campos
+ */
+function escapeHTML(str) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/[&<>"']/g, function(match) {
+        const masks = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+        return masks[match];
+    });
+}
+
+/**
+ * Calcula o orçamento dinâmico combinando Serviço + Aulas Extras
+ */
+function calcularOrcamento() {
+    const selectProc = document.getElementById('tipoProcesso');
+    const selectAula = document.getElementById('selectNomeAula');
+    
+    if (!selectProc) return 0;
+    
+    const tipo = selectProc.value; // Exemplo: 'A', 'B', 'AB'
+    const codAula = selectAula ? selectAula.value : '0';
+    
+    // Procura o valor base do serviço
+    const valorBase = PRECOS_BASE[tipo] || 0.00;
+    
+    // Obtém o grupo de preços da categoria selecionada (se não existir, usa 'B' como padrão)
+    const tabelaAulasCategoria = VALORES_AULAS_EXTRAS[tipo] || VALORES_AULAS_EXTRAS['B'];
+    
+    // Procura o valor da aula extra na categoria específica
+    const valorAdicional = tabelaAulasCategoria[codAula] || 0.00;
+    
+    const total = valorBase + valorAdicional;
+
+    // Atualiza a exibição no ecrã
+    const display = document.getElementById('valorTotal');
+    if (display) {
+        display.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+    return total;
+}
+
+/**
+ * Atualiza a legenda sobre qual pacote de aula foi escolhido
+ */
+function atualizarDetalheAula() {
+    const selectAula = document.getElementById('selectNomeAula');
+    const txtInfo = document.getElementById('txtInfoAula');
+    
+    if (selectAula && txtInfo) {
+        const nomeAula = selectAula.options[selectAula.selectedIndex].text;
+        txtInfo.textContent = `Selecionado: ${nomeAula}`;
+    }
+    calcularOrcamento(); // Recalcula o valor total
+}
+
+/**
+ * Monta a mensagem formatada e redireciona para o WhatsApp da Autoescola
+ */
+function finalizarNoWhats() {
+    const selectProc = document.getElementById('tipoProcesso');
+    const selectAula = document.getElementById('selectNomeAula');
+    const nome = escapeHTML(document.getElementById('nomeCliente')?.value || 'Aluno');
+    
+    const servicoTexto = selectProc ? selectProc.options[selectProc.selectedIndex].text : '';
+    const aulaTexto = selectAula ? selectAula.options[selectAula.selectedIndex].text : '';
+    const valor = document.getElementById('valorTotal')?.innerText || '';
+
+    // Texto com formatação nativa do WhatsApp (*negrito*)
+    const texto = `Olá! Meu nome é ${nome}. Fiz uma simulação no site da Autoescola São Gotardo:%0A%0A` +
+                  `*Serviço:* ${encodeURIComponent(servicoTexto)}%0A` +
+                  `*Aulas:* ${encodeURIComponent(aulaTexto)}%0A` +
+                  `*Valor Estimado:* ${encodeURIComponent(valor)}%0A%0A` +
+                  `Gostaria de mais informações para dar início ao processo!`;
+
+    const fone = "553436712274"; // Número do WhatsApp
+    window.open(`https://wa.me/${fone}?text=${texto}`, '_blank'); // Abre em nova aba
+}
+
+/**
+ * Salva a simulação de orçamento na memória local do navegador (localStorage)
+ */
+function salvarOrcamento() {
+    const nomeInput = document.getElementById('nomeCliente');
+    const nome = escapeHTML(nomeInput?.value.trim() || '');
+    const selectProc = document.getElementById('tipoProcesso');
+    const selectAula = document.getElementById('selectNomeAula');
+    
+    const servicoTexto = selectProc ? selectProc.options[selectProc.selectedIndex].text : '';
+    const aulaTexto = selectAula ? selectAula.options[selectAula.selectedIndex].text : '';
+    const valor = calcularOrcamento();
+
+    if (!nome) {
+        alert('Por favor, informe seu nome para salvar o orçamento.');
+        nomeInput?.focus();
+        return;
+    }
+
+    const orcamentoObj = {
+        cliente: nome,
+        servico: servicoTexto,
+        aula: aulaTexto,
+        valorTotal: valor,
+        data: new Date().toLocaleDateString('pt-BR')
+    };
+
+    localStorage.setItem('ultimo_orcamento', JSON.stringify(orcamentoObj));
+    alert('✅ Orçamento salvo no navegador com sucesso!');
+}
+
+/**
+ * Prepara a área de impressão com os dados da simulação e abre o gerenciador de impressão/PDF
+ */
+function imprimirOrcamento() {
+    const nomeInput = document.getElementById('nomeCliente');
+    const nome = escapeHTML(nomeInput?.value.trim() || '');
+    const selectProc = document.getElementById('tipoProcesso');
+    const selectAula = document.getElementById('selectNomeAula');
+    
+    const servicoTexto = selectProc ? selectProc.options[selectProc.selectedIndex].text : '';
+    const aulaTexto = selectAula ? selectAula.options[selectAula.selectedIndex].text : '';
+    const valor = calcularOrcamento();
+
+    if (!nome) {
+        alert('Por favor, digite seu nome antes de imprimir.');
+        nomeInput?.focus();
+        return;
+    }
+
+    // Injeta os dados na div #printArea
+    document.getElementById('printNome').textContent = nome;
+    document.getElementById('printServico').textContent = servicoTexto;
+    document.getElementById('printAula').textContent = aulaTexto;
+    document.getElementById('printData').textContent = new Date().toLocaleDateString('pt-BR');
+    document.getElementById('printValor').textContent = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    window.print(); // Abre a tela de impressão do sistema operacional
+}
+
+/**
+ * Constrói os cartões de instrutores no HTML dinamicamente a partir da matriz INSTRUTORES
+ */
+function renderizarInstrutores() {
+    const grid = document.getElementById('gridInstrutores');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    INSTRUTORES.forEach(ins => {
+        const card = document.createElement('div');
+        card.className = 'instrutor-card';
+        card.innerHTML = `
+            <div>
+                <div class="instrutor-img"><i class="fas fa-user-tie"></i></div>
+                <h3>${escapeHTML(ins.nome)}</h3>
+                <span class="badge">${escapeHTML(ins.categoria)}</span>
+                <p>${escapeHTML(ins.descricao)}</p>
+            </div>
+            <a href="https://wa.me/${escapeHTML(ins.contato)}?text=Olá%20${encodeURIComponent(ins.nome)},%20gostaria%20de%20agendar%20uma%20aula" target="_blank" rel="noopener noreferrer" class="btn-contato-instrutor">
+                <i class="fab fa-whatsapp"></i> Falar com Instrutor
+            </a>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+/**
+ * Constrói os botões das filiais e permite alternar o iframe do Google Maps ao clicar
+ */
+function renderizarFiliais() {
+    const grid = document.getElementById('gridFiliais');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    FILIAIS.forEach((filial, idx) => {
+        const card = document.createElement('div');
+        card.className = `filial-card-small ${idx === 0 ? 'active-map' : ''}`;
+        card.innerHTML = `
+            <div class="filial-info">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <h4>${escapeHTML(filial.nome)}</h4>
+                    <p>${escapeHTML(filial.endereco)}</p>
+                    <p><strong>Tel:</strong> ${escapeHTML(filial.fone)}</p>
+                </div>
+            </div>
+            <i class="fas fa-chevron-right indicator"></i>
+        `;
+        // Ao clicar em uma filial, altera o mapa e o destaque do botão
+        card.onclick = () => {
+            document.querySelectorAll('.filial-card-small').forEach(c => c.classList.remove('active-map'));
+            card.classList.add('active-map');
+            const iframe = document.getElementById('iframeMapa');
+            if (iframe) iframe.src = filial.mapUrl;
+        };
+        grid.appendChild(card);
+    });
+}
+
+/**
+ * Revela seções com animação suave conforme o usuário rola a página
+ */
 function reveal() {
     const reveals = document.querySelectorAll(".reveal");
     reveals.forEach(el => {
         const windowHeight = window.innerHeight;
         const elementTop = el.getBoundingClientRect().top;
-        const elementVisible = 100;
-        if (elementTop < windowHeight - elementVisible) {
+        if (elementTop < windowHeight - 80) {
             el.classList.add("active");
         }
     });
 }
 
-// --- 3. SIMULADOR E MAPAS ---
-const PRECOS = {
-    primeira: { A: 1471, B: 1501, AB: 1977, D: 2630 },
-    adicao: { A: 910, B: 1082, AB: 0, D: 2630 },
-    mudanca: { A: 0, B: 0, AB: 0, D: 2630 }
-};
-
-function atualizarOrcamento() {
-    const tipo = document.getElementById('tipoProcesso')?.value;
-    const categoria = document.querySelector('input[name="cat"]:checked')?.value;
-    const display = document.getElementById('valorTotal');
-    if (tipo && categoria && display) {
-        const valor = PRECOS[tipo][categoria] || 0;
-        display.innerText = valor > 0 ? `R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}` : "0,00";
-    }
-}
-
-function alterarMapa(elemento, urlMapa) {
-    const mapa = document.getElementById('mapaInterativo');
-    if (mapa) mapa.src = urlMapa;
-    document.querySelectorAll('.filial-card-small').forEach(card => card.classList.remove('active-map'));
-    elemento.classList.add('active-map');
-}
-
-// --- 4. PROGRESSO GERAL ---
+/**
+ * Atualiza o progresso do aluno no Dashboard superior
+ */
 function atualizarInterfaceGeral() {
     const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
-    const totalAulas = CURSO_LEGISLACAO.length + CURSO_DIRECAO.length;
+    const totalAulas = CURSO_LEGISLACAO.length;
     
-    // --- LÓGICA PARA O BOTÃO "INICIAR" OU "CONTINUAR" ---
-    const btnContinue = document.querySelector('.btn-continue');
-    if (btnContinue) {
-        if (concluidas.length === 0) {
-            btnContinue.innerHTML = '<i class="fas fa-play"></i> Iniciar Aulas';
-        } else {
-            btnContinue.innerHTML = '<i class="fas fa-play"></i> Continuar Aulas';
-        }
-    }
-    // ----------------------------------------------------
-
-    // Porcentagem Total (Home)
+    // Porcentagem calculada: (aulas assistidas / total) * 100
     const porcGeral = totalAulas > 0 ? Math.round((concluidas.length / totalAulas) * 100) : 0;
+    
     const txtGeral = document.getElementById('home-porcentagem');
     const barGeral = document.getElementById('home-barra-fill');
     if (txtGeral) txtGeral.innerText = porcGeral + "%";
     if (barGeral) barGeral.style.width = porcGeral + "%";
+}
 
-    // Progresso Módulo 1
-    const aulasM1 = concluidas.filter(id => id.startsWith('leg_')).length;
-    const porcM1 = Math.round((aulasM1 / CURSO_LEGISLACAO.length) * 100);
-    if(document.getElementById('porcentagemTexto')) document.getElementById('porcentagemTexto').innerText = porcM1 + "%";
-    if(document.getElementById('barraProgresso')) document.getElementById('barraProgresso').style.width = porcM1 + "%";
+/**
+ * Função de deslogar o aluno
+ */
+function logout() {
+    localStorage.clear();               // Remove todas as informações gravadas
+    window.location.replace('index.html'); // Recarrega a página inicial
+}
 
-    // Bloqueio Módulo 2
-    const btnM2 = document.getElementById('btn-modulo-2');
-    if (btnM2 && porcM1 < 100) {
-        btnM2.innerHTML = '<i class="fas fa-lock"></i> Bloqueado';
-        btnM2.style.pointerEvents = "none";
-    } else if (btnM2) {
-        btnM2.innerHTML = 'Acessar Módulo';
-        btnM2.style.pointerEvents = "auto";
-        btnM2.closest('.course-card').classList.remove('opacity-50');
+/**
+ * Inicializa e verifica o tema salvo no navegador do usuário
+ */
+function initThemeIndex() {
+    // Lê o tema gravado no localStorage; se não houver, assume 'dark'
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    const btn = document.getElementById('themeToggleBtn');
+    if (btn) {
+        btn.addEventListener('click', () => {
+            // Alterna o tema
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme); // Grava a escolha no navegador
+            updateThemeIcon(newTheme);
+        });
     }
 }
 
-// --- 5. INICIALIZAÇÃO ---
+/**
+ * Atualiza o ícone (Sol ou Lua) conforme o tema
+ */
+function updateThemeIcon(theme) {
+    const icon = document.getElementById('themeIcon');
+    if (icon) {
+        icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+}
+
+// Ouve o evento de rolagem do mouse/touch para ativar as animações
 window.addEventListener("scroll", reveal);
 
+// Executado automaticamente ao terminar de carregar o HTML
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Força o reveal inicial
-    setTimeout(reveal, 500); 
+    setTimeout(reveal, 300);
 
-    // 2. Verifica se o aluno está logado e mostra o dashboard
     const logado = localStorage.getItem('usuario_logado') === 'true';
     const dashboard = document.getElementById('student-dashboard');
     const navAuth = document.getElementById('nav-auth-container');
 
+    // Se estiver logado, exibe o painel flutuante
     if (logado && dashboard) {
-        // Mostra o dashboard flutuante
         dashboard.classList.remove('student-dashboard-hidden');
-
-        // Preenche o nome do aluno
         const nome = localStorage.getItem('user_name') || 'Aluno';
         const elNome = document.getElementById('home-nome-aluno');
-        if (elNome) elNome.innerText = nome.split(' ')[0]; // Só o primeiro nome
-
-        // Esconde o botão "Área do Aluno" da navbar (já está logado)
-        if (navAuth) navAuth.style.display = 'none';
+        if (elNome) elNome.innerText = escapeHTML(nome.split(' ')[0]);
+        if (navAuth) navAuth.style.display = 'none'; // Oculta o botão "Área do Aluno" da navbar
     }
 
-    // 3. Atualiza progressos
+    calcularOrcamento();
+    renderizarInstrutores();
+    initThemeIndex();
+    renderizarFiliais();
     atualizarInterfaceGeral();
-
-    // 4. Configura Simulador
-    document.getElementById('tipoProcesso')?.addEventListener('change', atualizarOrcamento);
-    document.querySelectorAll('input[name="cat"]').forEach(input => {
-        input.addEventListener('change', atualizarOrcamento);
-    });
-    atualizarOrcamento();
-    
+    carregarVideosDoBackend();
 });
-
-function openNews(title, date, image, text) {
-    const modal = document.getElementById('newsModal');
-    const body = document.getElementById('modalBody');
-
-    // Monta o HTML interno da notícia
-    body.innerHTML = `
-        <img src="${image}" alt="${title}">
-        <span class="meta-info">${date}</span>
-        <h2>${title}</h2>
-        <div class="content">
-            ${text}
-        </div>
-    `;
-
-    modal.style.display = "block";
-    document.body.style.overflow = "hidden"; // Trava o scroll da página ao fundo
-}
-
-function closeNews() {
-    const modal = document.getElementById('newsModal');
-    modal.style.display = "none";
-    document.body.style.overflow = "auto"; // Libera o scroll
-}
-
-// Fecha o modal se clicar fora da caixa branca
-window.onclick = function(event) {
-    const modal = document.getElementById('newsModal');
-    if (event.target == modal) {
-        closeNews();
-    }
-}
-
-function logout() { localStorage.clear(); window.location.href = 'index.html'; }

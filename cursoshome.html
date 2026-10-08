@@ -5,67 +5,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Aluno | São Gotardo</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">
-            <img src="Logo.png" alt="Logo Autoescola São Gotardo" class="nav-logo">
-            <span></span>
-        </div>
+     <nav class="navbarc">
         <ul class="nav-linksc">
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="cursoshome.html" class="active">Cursos</a></li>
-			 <li><a href="simulado.html" >Simulados</a></li>
-            <li><a href="javascript:void(0)" onclick="logout()">Sair</a></li>
+            <li><a href="index.html"><i class="fas fa-arrow-left"></i> Voltar</a></li>
         </ul>
+        
+        <a href="cursoshome.html" class="logo">
+            <div class="logo">
+            <img src="Logo.png" alt="Autoescola São Gotardo" class="nav-logo">
+            </div>
+        </a>
+
+        <!-- CONTROLES ADICIONAIS NA NAVBAR -->
+        <div class="nav-controls">
+            <!-- Botão que aciona a troca de tema no JS -->
+            <button id="themeToggleBtn" class="btn-theme-toggle" title="Alternar Modo Claro/Escuro" aria-label="Alternar tema">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+            <button class="btn-menu-mobile" id="mobileMenuBtn" aria-label="Abrir Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </nav>
 
-	<main style="padding: 120px 5% 40px; max-width: 1200px; margin: 0 auto;">
-		<h1 class="gradient-text" style="font-size: 2.5rem;">Olá, <span id="displayNome">Aluno</span>!</h1>
-		<p style="color: var(--text-dim); margin-bottom: 40px;">Continue seus estudos de onde parou.</p>
+    <main class="painel-container">
+        <!-- Header do Aluno -->
+        <header class="painel-header">
+            <div>
+                <h1 class="gradient-text">Olá, <span id="displayNome">Aluno</span>!</h1>
+                <p class="painel-subtitle">Seja bem-vindo à sua plataforma teórica de habilitação.</p>
+            </div>
+            <div class="header-badge-status">
+                <i class="fas fa-user-check"></i>
+                <span>Aluno Ativo</span>
+            </div>
+        </header>
 
-		<div id="cursoLiberado" class="hidden">
-			<div class="course-card" style="max-width: 600px; margin: 0 auto;">
-				<div class="module-image" style="background-image: url('fundocurso.png'); height: 200px;">
-       				<div class="module-badge">Completo</div>
-					<div id="status-badge" class="module-badge">Em Progresso</div>
-   				</div>
-				<div style="padding: 25px;">
-					<h3 style="margin-bottom: 10px;">Curso de Legislação</h3>
-					
-					<div class="progress-container" style="margin-bottom: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; padding: 15px;">
-						<div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-							<span style="font-size: 0.85rem; color: var(--text-dim);">Seu Progresso Total</span>
-							<span id="texto-progresso-total" style="font-size: 0.85rem; font-weight: bold; color: var(--primary);">0%</span>
-						</div>
-						<div class="progress-bar" style="background: #334155; height: 10px; border-radius: 5px; overflow: hidden;">
-							<div id="barra-progresso-total" class="progress-fill" style="width: 0%; height: 100%; background: var(--primary); transition: width 0.5s ease;"></div>
-						</div>
-					</div>
+        <!-- Grade de Cursos Liberados -->
+        <div id="cursoLiberado" class="hidden">
+            <div class="grid-cursos">
+                <!-- Card do Módulo Teórico -->
+                <article class="course-card">
+                    <!-- Banner Profissional do Curso -->
+                    <div class="module-image" style="background-image: url('');">
+                        <div class="module-overlay"></div>
+                        <span id="status-badge" class="module-badge">▶ Em Progresso</span>
+                        <div class="module-image-title">
+                            <span class="module-category"><i class="fas fa-book-open"></i> Formação Teórica</span>
+                            <h2>Curso Completo de Legislação</h2>
+                        </div>
+                    </div>
 
-					<a href="cursos.html" class="btn-send" style="display: block; text-align: center; text-decoration: none;">
-						<i class="fas fa-play"></i> Continuar de onde parei
-					</a>
-				</div>
-			</div>
-		</div>
-		<div id="cursoBloqueado" class="course-card hidden" style="max-width: 500px; margin: 0 auto;">
-			<div style="padding: 40px; text-align: center;">
-				<i class="fas fa-lock" style="font-size: 3rem; color: var(--danger); margin-bottom: 20px;"></i>
-				<h3>Acesso Restrito</h3>
-				<p style="color: var(--text-dim);">O seu acesso geral ao curso ainda não foi liberado pela administração.</p>
-			</div>
-		</div>
-	</main>
+                    <div class="course-body">
+                        <p class="course-description">
+                            Aulas teóricas completas: Legislação de Trânsito, Direção Defensiva, Primeiros Socorros, Meio Ambiente e Mecânica Básica.
+                        </p>
+                        
+                        <div class="progress-card-container">
+                            <div class="progress-header-info">
+                                <span class="progress-label"><i class="fas fa-chart-line"></i> Progresso do Módulo</span>
+                                <span id="texto-progresso-total" class="progress-value">0%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div id="barra-progresso-total" class="progress-fill-bar"></div>
+                            </div>
+                        </div>
+
+                        <a href="cursos.html" class="btn-send" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
+                            <i class="fas fa-play"></i> Continuar de onde parou
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- Área de Acesso Bloqueado -->
+        <div id="cursoBloqueado" class="course-card course-card-blocked hidden">
+            <div class="blocked-icon-wrapper">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h3>Acesso Restrito</h3>
+            <p class="painel-subtitle">Seu acesso ao curso teórico ainda não foi liberado. Entre em contato com a secretaria da autoescola.</p>
+        </div>
+    </main>
+
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             // 1. Nome do aluno
             const nome = localStorage.getItem('user_name') || 'Aluno';
             const elNome = document.getElementById('displayNome');
             if (elNome) elNome.innerText = nome.split(' ')[0];
 
-            // 2. Bloqueio / Liberação
+            // 2. Liberação do Curso
             const permissao = localStorage.getItem('permissao_curso');
             const areaLiberada = document.getElementById('cursoLiberado');
             const areaBloqueada = document.getElementById('cursoBloqueado');
@@ -78,9 +113,14 @@
                 areaBloqueada.classList.remove('hidden');
             }
 
-            // 3. Barra de progresso
+            // 3. Carregar Lista de Aulas do Backend
+            if (typeof carregarVideosDoBackend === 'function') {
+                await carregarVideosDoBackend();
+            }
+
+            // 4. Progresso Geral
             const concluidas = JSON.parse(localStorage.getItem('aulas_concluidas')) || [];
-            const totalAulas = CURSO_LEGISLACAO.length + CURSO_DIRECAO.length;
+            const totalAulas = (window.CURSO_LEGISLACAO || []).length;
             const porc = totalAulas > 0 ? Math.round((concluidas.length / totalAulas) * 100) : 0;
 
             const textoPorc = document.getElementById('texto-progresso-total');
@@ -88,21 +128,21 @@
 
             if (textoPorc) textoPorc.innerText = porc + '%';
             if (barraPorc) {
-                // Pequeno delay para a animação de largura funcionar
                 setTimeout(() => { barraPorc.style.width = porc + '%'; }, 200);
             }
 
-            // 4. Badge de status
+            // 5. Badge Dinâmica
             const badge = document.getElementById('status-badge');
             if (badge) {
                 if (porc >= 100) {
-                    badge.innerText = '✅ Completo';
+                    badge.innerText = '✅ Concluído';
                     badge.style.background = '#10b981';
                 } else if (porc > 0) {
                     badge.innerText = '▶ Em Progresso';
+                    badge.style.background = '#a855f7';
                 } else {
-                    badge.innerText = '🔒 Não iniciado';
-                    badge.style.background = 'rgba(100,100,100,0.7)';
+                    badge.innerText = '🔒 Não Iniciado';
+                    badge.style.background = '#64748b';
                 }
             }
         });
