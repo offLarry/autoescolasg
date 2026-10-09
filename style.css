@@ -240,6 +240,7 @@ header {
 }
 
 header h1 {
+     color: var(--tex-secondary);
     font-size: clamp(2.2rem, 4.5vw, 3.8rem); /* Fonte responsiva: ajusta o tamanho conforme a tela */
     font-weight: 800;
     margin: 20px 0;
@@ -262,12 +263,7 @@ header p {
     max-width: 700px;                   /* Limita a largura do parágrafo para melhor leitura */
     margin: 0 auto 36px;
 }
-header p {
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-    max-width: 700px;                   /* Limita a largura do parágrafo para melhor leitura */
-    margin: 0 auto 36px;
-}
+
 
 .badge-traffic {
     background: var(--traffic-amber-glow);

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   AUTOESCOLA SÃO GOTARDO - SCRIPT PRINCIPAL UNIFICADO
+   AUTOESCOLA SÃO GOTARDO - SCRIPT PRINCIPAL
    ========================================================================== */
 
 const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbz26Dssa2Oh6hEo8dnEXXywmIl6EBbCb9Qv3UVRfr_If8oRA3PjNcf1CYAIgToxqNwy/exec';
@@ -22,7 +22,7 @@ async function carregarVideosDoBackend() {
     }
 }
 
-// LISTA DE INSTRUTORES DA AUTOESCOLA (Você pode editar ou adicionar novos facilmente aqui)
+// LISTA DE INSTRUTORES DA AUTOESCOLA
 const INSTRUTORES = [
     { nome: "Instrutor Clesio", categoria: "Cat. A", descricao: "Aulas práticas para categoria A.", contato: "5534998432264" },
     { nome: "Instrutora Zelia", categoria: "Cat. B", descricao: "Aulas práticas para categoria B.", contato: "5534999586373" },
@@ -41,36 +41,35 @@ const FILIAIS = [
 ];
 
 
-// PREÇOS BASE DOS SERVIÇOS (Você pode alterar os valores dos cursos aqui)
+// PREÇOS BASE DOS SERVIÇOS
 const PRECOS_BASE = {
-    'A': 811.86,       // Preço da Categoria A
-    'B': 811.86,       // Preço da Categoria B
-    'AB': 927.66,      // Preço do Combo
-    'ADC_A': 550.68,    // Adição de Moto
-    'ADC_B': 811.86,   // Adição de Carro
+    'A': 811.86,
+    'B': 811.86,
+    'AB': 927.66,
+    'ADC_A': 550.68,
+    'ADC_B': 811.86,
     'REAB': 615.80    // Reciclagem 
 };
 
-// VALORES DAS AULAS PRÁTICAS EXTRAS
-// VALORES DAS AULAS PRÁTICAS EXTRAS POR CATEGORIA
+// VALORES DAS AULAS PRÁTICAS
 const VALORES_AULAS_EXTRAS = {
     'A': {
-        '2': 380.00,   // Pacote 2 Aulas Moto
-        '5': 600.00,  // Pacote 5 aulas Moto
-        '10': 900.00,   // Pacote 10 aulas Moto
-        '20': 1600.00   // Pacote 20 aulas Moto
+        '2': 380.00,  
+        '5': 600.00,  
+        '10': 900.00,   
+        '20': 1600.00   
     },
     'B': {
-        '2': 390.00,   // Pacote 2 Aulas Carro
-        '5': 650.00,  // Pacote 5 aulas Carro
-        '10': 950.00,   // Pacote 10 aulas Carro
-        '20': 1700.00   // Pacote 20 aulas Carro
+        '2': 390.00,   
+        '5': 650.00,  
+        '10': 950.00,   
+        '20': 1700.00  
     },
     'AB': {
-        '2': 770.00,   // Pacote 2 Aulas Moto e Carro
-        '5': 1250.00,  // Pacote 5 aulas Moto e Carro
-        '10': 1850.00,   // Pacote 10 aulas Moto e Carro
-        '20': 3300.00,   // Pacote 20 aulas Moto e Carro
+        '2': 770.00,   
+        '5': 1250.00,  
+        '10': 1850.00,   
+        '20': 3300.00,   
     },
     'REAB': {
         '2': 0.0,
@@ -82,7 +81,6 @@ const VALORES_AULAS_EXTRAS = {
 
 /**
  * Função de Segurança (Sanitização)
- * Impede injeção de códigos maliciosos caso um usuário digite tags HTML nos campos
  */
 function escapeHTML(str) {
     if (typeof str !== 'string') return '';
@@ -92,9 +90,7 @@ function escapeHTML(str) {
     });
 }
 
-/**
- * Calcula o orçamento dinâmico combinando Serviço + Aulas Extras
- */
+
 function calcularOrcamento() {
     const selectProc = document.getElementById('tipoProcesso');
     const selectAula = document.getElementById('selectNomeAula');
@@ -103,19 +99,15 @@ function calcularOrcamento() {
     
     const tipo = selectProc.value; // Exemplo: 'A', 'B', 'AB'
     const codAula = selectAula ? selectAula.value : '0';
-    
-    // Procura o valor base do serviço
+
     const valorBase = PRECOS_BASE[tipo] || 0.00;
-    
-    // Obtém o grupo de preços da categoria selecionada (se não existir, usa 'B' como padrão)
+
     const tabelaAulasCategoria = VALORES_AULAS_EXTRAS[tipo] || VALORES_AULAS_EXTRAS['B'];
-    
-    // Procura o valor da aula extra na categoria específica
+
     const valorAdicional = tabelaAulasCategoria[codAula] || 0.00;
     
     const total = valorBase + valorAdicional;
 
-    // Atualiza a exibição no ecrã
     const display = document.getElementById('valorTotal');
     if (display) {
         display.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -134,7 +126,7 @@ function atualizarDetalheAula() {
         const nomeAula = selectAula.options[selectAula.selectedIndex].text;
         txtInfo.textContent = `Selecionado: ${nomeAula}`;
     }
-    calcularOrcamento(); // Recalcula o valor total
+    calcularOrcamento();
 }
 
 /**
@@ -149,20 +141,17 @@ function finalizarNoWhats() {
     const aulaTexto = selectAula ? selectAula.options[selectAula.selectedIndex].text : '';
     const valor = document.getElementById('valorTotal')?.innerText || '';
 
-    // Texto com formatação nativa do WhatsApp (*negrito*)
     const texto = `Olá! Meu nome é ${nome}. Fiz uma simulação no site da Autoescola São Gotardo:%0A%0A` +
                   `*Serviço:* ${encodeURIComponent(servicoTexto)}%0A` +
                   `*Aulas:* ${encodeURIComponent(aulaTexto)}%0A` +
                   `*Valor Estimado:* ${encodeURIComponent(valor)}%0A%0A` +
                   `Gostaria de mais informações para dar início ao processo!`;
 
-    const fone = "553436712274"; // Número do WhatsApp
-    window.open(`https://wa.me/${fone}?text=${texto}`, '_blank'); // Abre em nova aba
+    const fone = "553436712274";
+    window.open(`https://wa.me/${fone}?text=${texto}`, '_blank');
 }
 
-/**
- * Salva a simulação de orçamento na memória local do navegador (localStorage)
- */
+
 function salvarOrcamento() {
     const nomeInput = document.getElementById('nomeCliente');
     const nome = escapeHTML(nomeInput?.value.trim() || '');
@@ -191,9 +180,7 @@ function salvarOrcamento() {
     alert('✅ Orçamento salvo no navegador com sucesso!');
 }
 
-/**
- * Prepara a área de impressão com os dados da simulação e abre o gerenciador de impressão/PDF
- */
+
 function imprimirOrcamento() {
     const nomeInput = document.getElementById('nomeCliente');
     const nome = escapeHTML(nomeInput?.value.trim() || '');
@@ -218,6 +205,114 @@ function imprimirOrcamento() {
     document.getElementById('printValor').textContent = valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
     window.print(); // Abre a tela de impressão do sistema operacional
+}
+
+/**
+ * Gera um PDF A4 com 4 cópias do orçamento (2x2) para imprimir e recortar
+ */
+function baixarPDF4PorFolha() {
+    const nomeInput = document.getElementById('nomeCliente');
+    const nome = (nomeInput?.value.trim() || '');
+    const selectProc = document.getElementById('tipoProcesso');
+    const selectAula = document.getElementById('selectNomeAula');
+
+    if (!nome) {
+        alert('Por favor, informe seu nome para gerar o PDF.');
+        nomeInput?.focus();
+        return;
+    }
+    if (!window.jspdf) {
+        alert('Não foi possível carregar o gerador de PDF. Verifique sua conexão e tente novamente.');
+        return;
+    }
+
+    const servico = selectProc ? selectProc.options[selectProc.selectedIndex].text : '';
+    const aula = selectAula ? selectAula.options[selectAula.selectedIndex].text : '';
+    const valor = calcularOrcamento().toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const data = new Date().toLocaleDateString('pt-BR');
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+
+    const W = 210, H = 297;
+    const cw = W / 2, ch = H / 2;   // cada cupom ocupa 1/4 da folha
+    const pad = 9;
+
+    function desenharCupom(x, y) {
+        const ix = x + pad;            // início do texto
+        const iw = cw - pad * 2;       // largura útil
+        let cy = y + pad + 4;
+
+        // Cabeçalho
+        doc.setTextColor(0);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(13);
+        doc.text('AUTOESCOLA SÃO GOTARDO', x + cw / 2, cy, { align: 'center' });
+        cy += 5;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.text('Simulação de Orçamento para Formação de Condutores', x + cw / 2, cy, { align: 'center' });
+        cy += 4;
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.3);
+        doc.line(ix, cy, ix + iw, cy);
+        cy += 7;
+
+        // Campos
+        const campos = [
+            ['Cliente', nome],
+            ['Serviço', servico],
+            ['Aulas extras', aula],
+            ['Emissão', data]
+        ];
+        campos.forEach(([rotulo, texto]) => {
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9);
+            doc.text(rotulo + ':', ix, cy);
+            doc.setFont('helvetica', 'normal');
+            const linhas = doc.splitTextToSize(texto, iw);
+            doc.text(linhas, ix, cy + 4.5);
+            cy += 4.5 + linhas.length * 4 + 3;
+        });
+
+        // Total
+        cy += 2;
+        doc.setLineWidth(0.3);
+        doc.line(ix, cy, ix + iw, cy);
+        cy += 8;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.text('VALOR TOTAL ESTIMADO', x + cw / 2, cy, { align: 'center' });
+        cy += 9;
+        doc.setFontSize(18);
+        doc.text(valor, x + cw / 2, cy, { align: 'center' });
+        cy += 9;
+
+        // Rodapé
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7);
+        const nota = doc.splitTextToSize('Valores calculados com base nas taxas atuais. Condições sujeitas a consulta exata no balcão.', iw);
+        doc.text(nota, x + cw / 2, cy, { align: 'center' });
+        doc.text('Tel: (34) 3671-2274', x + cw / 2, y + ch - pad, { align: 'center' });
+    }
+
+    // 4 cupons (2 colunas x 2 linhas)
+    for (let r = 0; r < 2; r++) {
+        for (let c = 0; c < 2; c++) {
+            desenharCupom(c * cw, r * ch);
+        }
+    }
+
+    // Linhas de corte tracejadas
+    doc.setDrawColor(150);
+    doc.setLineWidth(0.2);
+    doc.setLineDashPattern([2, 2], 0);
+    doc.line(cw, 0, cw, H);
+    doc.line(0, ch, W, ch);
+    doc.setLineDashPattern([], 0);
+
+    const nomeArquivo = 'orcamento-' + nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') + '.pdf';
+    doc.save(nomeArquivo);
 }
 
 /**
@@ -376,3 +471,4 @@ document.addEventListener('DOMContentLoaded', () => {
     atualizarInterfaceGeral();
     carregarVideosDoBackend();
 });
+

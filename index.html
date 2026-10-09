@@ -1,16 +1,23 @@
-<!DOCTYPE html> <!-- Declara que o documento é HTML5 moderno -->
-<html lang="pt-BR" data-theme="dark"> <!-- Idioma e tema escuro inicial -->
+<!-- 
+          _    _ _______ ____  ______  _____  _____ ____  _                _____  _____ 
+     /\  | |  | |__   __/ __ \|  ____|/ ____|/ ____/ __ \| |        /\    / ____|/ ____|
+    /  \ | |  | |  | | | |  | | |__  | (___ | |   | |  | | |       /  \  | (___ | |  __ 
+   / /\ \| |  | |  | | | |  | |  __|  \___ \| |   | |  | | |      / /\ \  \___ \| | |_ |
+  / ____ \ |__| |  | | | |__| | |____ ____) | |___| |__| | |____ / ____ \ ____) | |__| |
+ /_/    \_\____/   |_|  \____/|______|_____/ \_____\____/|______/_/    \_\_____/ \_____|
+
+--> 
+
+ <!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
 <head>
     <link rel="icon" type="image/png" href="favicon.ico">
-    <meta charset="UTF-8"> <!-- Suporte a acentuação e caracteres em português -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajuste para telas de celulares -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autoescola São Gotardo | Formação de Condutores</title>
-    
-    <!-- Importação de fontes do Google (Plus Jakarta Sans) -->
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Importação da biblioteca de ícones FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Conecta o HTML com o seu arquivo CSS externo -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -30,13 +37,11 @@
             <li><a href="#diferenciais">Por Que Nós?</a></li>
             <li><a href="#instrutores">Instrutores</a></li>
             <li><a href="#filiais">Unidades</a></li>
-            <!-- O botão abaixo aponta para a tela de Login -->
             <li id="nav-auth-container"><a href="login.html" class="btn-nav"></i> Área do Aluno</a></li>
         </ul>
 
         <!-- CONTROLES ADICIONAIS NA NAVBAR -->
         <div class="nav-controls">
-            <!-- Botão que aciona a troca de tema no JS -->
             <button id="themeToggleBtn" class="btn-theme-toggle" title="Alternar Modo Claro/Escuro" aria-label="Alternar tema">
                 <i class="fas fa-moon" id="themeIcon"></i>
             </button>
@@ -53,7 +58,6 @@
                 <div class="user-stats">
                     <span class="status-badge"><i class="fas fa-check-circle"></i> Aluno Conectado</span>
                     <div class="welcome-text">
-                        <!-- O nome do aluno será inserido dinamicamente aqui pelo JS -->
                         <h3>Olá, <span id="home-nome-aluno">Aluno</span>!</h3>
                     </div>
                 </div>
@@ -63,13 +67,11 @@
                         <strong id="home-porcentagem">0%</strong>
                     </div>
                     <div class="progress-track">
-                        <!-- A barra é preenchida conforme as aulas assistidas -->
                         <div class="progress-fill" id="home-barra-fill"></div>
                     </div>
                 </div>
                 <div class="dashboard-actions">
                     <a href="cursos.html" class="btn-continue"><i class="fas fa-play-circle"></i> Continuar Aulas</a>
-                    <!-- Função logout() é chamada ao clicar no botão -->
                     <button class="btn-logout-icon" onclick="logout()" title="Sair da Conta"><i class="fas fa-sign-out-alt"></i></button>
                 </div>
             </div>
@@ -180,7 +182,6 @@
             <h2>Simulador de Orçamento Interativo</h2>
         </div>
         <div class="orcamento-card">
-            <!-- Form com desativação do recarregamento padrão (event.preventDefault()) -->
             <form id="formOrcamento" onsubmit="event.preventDefault();">
                 <div class="form-group">
                     <label for="nomeCliente"><i class="fas fa-user"></i> Seu Nome Completo:</label>
@@ -190,7 +191,6 @@
                 <div class="form-grid-2">
                     <div class="form-group">
                         <label for="tipoProcesso"><i class="fas fa-id-card"></i> Serviço Desejado:</label>
-                        <!-- O evento onchange chama o recalculo automático do orçamento -->
                         <select id="tipoProcesso" onchange="calcularOrcamento()">
                             <option value="A">1ª Habilitação - Categoria A (Moto)</option>
                             <option value="B" selected>1ª Habilitação - Categoria B (Carro)</option>
@@ -219,7 +219,6 @@
                 <div class="orcamento-resultado">
                     <div class="valor-box">
                         <span>Valor Total Estimado:</span>
-                        <!-- ID alterado dinamicamente via JS -->
                         <h3 id="valorTotal">R$ 811.86,00</h3>
                     </div>
                     <p class="orcamento-nota"><i class="fas fa-shield-check"></i> Valores calculados com base nas taxas atuais. Condições sujeitas a consulta exata no balcão.</p>
@@ -232,6 +231,9 @@
                     <button type="button" class="btn-outline-action" onclick="imprimirOrcamento()">
                         <i class="fas fa-print"></i> Gerar PDF / Imprimir
                     </button>
+                    <button type="button" class="btn-outline-action" onclick="baixarPDF4PorFolha()">
+                        <i class="fas fa-file-pdf"></i> Baixar PDF (4 por folha)
+                    </button>
                 </div>
             </form>
         </div>
@@ -243,52 +245,7 @@
             <p><i class="fas fa-chalkboard-teacher"></i> Equipe Especializada</p>
             <h2>Nossos Instrutores Credenciados</h2>
         </div>
-        <!-- Esta div é preenchida dinamicamente pela função renderizarInstrutores() no script.js -->
         <div class="instrutores-grid" id="gridInstrutores"></div>
-    </section>
-
-    
-    <!-- DEPOIMENTOS -->
-    <section id="depoimentos" class="section-container reveal alt-bg">
-        <div class="section-title">
-            <p><i class="fas fa-star"></i> Histórias de Sucesso</p>
-            <h2>O que nossos alunos dizem</h2>
-        </div>
-        <div class="reviews-grid">
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p>"Passei de primeira na categoria B! O método de ensino e a paciência do instrutor fizeram toda a diferença na minha aprovação."</p>
-                <div class="reviewer">
-                    <div class="reviewer-avatar">LA</div>
-                    <div>
-                        <strong>Lucas Almeida</strong>
-                        <span>Aprovado Categoria B</span>
-                    </div>
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="stars">★★★★★</div>
-                <p>"A plataforma de aulas teóricas é excelente. Consegui estudar à noite depois do trabalho e tirei 25 de 30 na prova da legislação!"</p>
-                <div class="reviewer">
-                    <div class="reviewer-avatar">BR</div>
-                    <div>
-                        <strong>Beatriz Rezende</strong>
-                        <span>Aprovada Categoria A</span>
-                    </div>
-                </div>
-            </div>
-            <div class="review-card">
-                <div class="stars">★★★★</div>
-                <p>"Atendimento bom tanto em São Gotardo quanto na filial de Guarda dos Ferreiros. Recomendo!"</p>
-                <div class="reviewer">
-                    <div class="reviewer-avatar">MS</div>
-                    <div>
-                        <strong>João Silva</strong>
-                        <span>Aprovado Categoria B</span>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- FILIAIS E MAPA -->
@@ -299,10 +256,8 @@
         </div>
         <div class="map-container-wrapper">
             <div class="map-box">
-                <!-- Mapa do Google Maps embutido -->
                 <iframe id="iframeMapa" src="https://www.google.com/maps/embed?pb=!4v1791460729607!6m8!1m7!1sBEc9bw6FzN6EJq6fOko5dg!2m2!1d-19.314141647572!2d-46.04337342164749!3f295.0320322433566!4f-1.7416844721607845!5f0.7820865974627469" allowfullscreen="" loading="lazy"></iframe>
             </div>
-            <!-- Lista de filiais renderizada via JS -->
             <div class="filiais-grid-mini" id="gridFiliais"></div>
         </div>
     </section>
@@ -350,7 +305,8 @@
         </div>
     </div>
 
-    <!-- Conecta com o script principal do site -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
